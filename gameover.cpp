@@ -17,4 +17,3 @@ void GameOver::on_pushButton_clicked()
 {
     this->hide();
 }
-
