@@ -409,3 +409,4 @@ void ChessBoard::set_restrict_level(int level) {
     restrict_level = level;
 }
 
+
