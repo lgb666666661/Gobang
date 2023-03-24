@@ -28,3 +28,4 @@ private slots:
 };
 
 #endif // CHESSBOARD_LOCAL_PVP_H
+
