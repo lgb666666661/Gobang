@@ -86,3 +86,4 @@ protected:
 };
 
 #endif // CHESSBOARD_H
+
