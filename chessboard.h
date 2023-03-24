@@ -51,7 +51,8 @@ protected:
     int STARTY = 70;
     int GRIDSIZE = 60;
     int CHESSR = GRIDSIZE / 2 * 0.9; // 棋子半径
-    int HINTR = GRIDSIZE / 6; // 落点提示半径
+    int HINTR = GRIDSIZE / 8; // 落点提示半径
+    int HINTR2 = GRIDSIZE / 9; // 新的落子的提示半径
     // 下棋控制
     vector<vector<int>> chessboard; // 当前棋盘状态
     int game_mode; // 0表示无禁手 1表示有禁手
@@ -79,6 +80,7 @@ protected:
 
     // 鼠标移动和落子控制
     int nearx = -1, neary = -1;
+    int nowx = -1, nowy = -1;
 
     // 对局控制
     int turn = BLACK; // BLACK:1, WHITE: -1

@@ -46,10 +46,12 @@ void ChessBoard::chess(const Point& p, int color) { // 在p点位置下黑棋/�
     record.push_back({p.x, p.y, color});
     _checkStatus();
     nearx = -1, neary = -1;
+    nowx = p.x, nowy = p.y;
     update();
 }
 
 Chess ChessBoard::cancel() { // 悔棋
+    nowx = -1, nowy = -1;
     if(record.empty()) return {-1, -1, 0};
     auto laststep = record.back();
     record.pop_back();
@@ -62,6 +64,7 @@ Chess ChessBoard::cancel() { // 悔棋
 }
 
 void ChessBoard::clear() { // 清空
+    nowx = -1, nowy = -1;
     record.clear();
     for(int i = 0; i < 15; i++) {
         for(int j = 0; j < 15; j++) {
@@ -332,6 +335,7 @@ int ChessBoard::__getCnt(int x, int y, const Point& dir, int depth){
 // 刷新
 void ChessBoard::paintEvent(QPaintEvent *) {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
     for(int i = 0; i < 15; i++) {
         painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
                          STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
@@ -358,14 +362,24 @@ void ChessBoard::paintEvent(QPaintEvent *) {
                             HINTR, HINTR);
     }
 
+    if(nowx >= 0 && nowy >= 0) {
+        auto pen = QPen(Qt::NoPen);
+        painter.setPen(pen);
+        painter.setBrush(Qt::red);
+        painter.drawEllipse({STARTX + nowx * GRIDSIZE, STARTY + nowy * GRIDSIZE - int(GRIDSIZE* 0.3)},
+                            HINTR2, HINTR2);
+    }
+
     if(value > 0) {
         int x = record.back().x, y = record.back().y;
-        painter.setPen(Qt::red);
+        auto pen = QPen(Qt::red);
+        pen.setWidth(3);
+        painter.setPen(pen);
         painter.drawLine(STARTX + x * GRIDSIZE - GRIDSIZE / 6,
                          STARTY + y * GRIDSIZE - GRIDSIZE / 6,
                          STARTX + x * GRIDSIZE + GRIDSIZE / 6,
                          STARTY + y * GRIDSIZE + GRIDSIZE / 6);
-        painter.setPen(Qt::red);
+        painter.setPen(pen);
         painter.drawLine(STARTX + x * GRIDSIZE + GRIDSIZE / 6,
                          STARTY + y * GRIDSIZE - GRIDSIZE / 6,
                          STARTX + x * GRIDSIZE - GRIDSIZE / 6,
