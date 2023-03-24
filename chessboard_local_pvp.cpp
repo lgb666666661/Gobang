@@ -13,7 +13,6 @@ Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent) :
     this->setMouseTracking(true);
 }
 
-
 Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent, int new_game_mode) :
     ChessBoard(parent, new_game_mode),
     ui(new Ui::Chessboard_Local_PVP)
