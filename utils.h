@@ -18,4 +18,3 @@ struct Point {
 struct Chess {
     int x, y, color;
 };
-
