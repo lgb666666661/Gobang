@@ -17,6 +17,9 @@
 *.qm
 .#*
 *.*#
+cmake-build-debug
+cmake-build-release
+
 core
 !core/
 tags
