@@ -10,9 +10,7 @@
 
 using namespace std;
 
-#define BLACK_WINS 1
-#define WHITE_WINS -1
-#define NOBODY_WINS 0
+
 
 namespace Ui {
 class ChessBoard;
@@ -71,10 +69,12 @@ protected:
     bool __is_5(int x, int y, const Point& dir, int depth);
     // 检查以(x, y)为中心的dir方向上是否恰好有五个黑子
     // 且这五个黑子必须包含record的最后depth个点
+    bool __is_5_push_3(int x, int y, const Point& dir, int depth);
+    // 这个函数为了检查出同一条直线上的两个冲四
     bool __is_live4(int x, int y, const Point& dir, int depth);
     // 检查以(x, y)为中心的dir方向上是否是黑子活四
-    bool __is_sleep4(int x, int y, const Point& dir, int depth);
-    // 检查以(x, y)为中心的dir方向上是否是黑子冲四
+    int __is_sleep4(int x, int y, const Point& dir, int depth);
+    // 检查以(x, y)为中心的dir方向上有几个黑子冲四
     bool __is_live3(int x, int y, const Point& dir);
     // 检查以(x, y)为中心的dir方向上是否是黑子活三
 

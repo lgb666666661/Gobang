@@ -2,6 +2,11 @@
 #include "ui_chessboard.h"
 #include "ui_gameover.h"
 
+/**
+ * @brief 无参构造函数。
+ * 一般不使用，应该使用带new_game_mode的构造函数指定对局类型
+ * @param parent
+ */
 ChessBoard::ChessBoard(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChessBoard)
@@ -19,6 +24,11 @@ ChessBoard::ChessBoard(QWidget *parent) :
     update();
 }
 
+/**
+ * @brief 有参构造函数 用new_game_mode指定对局类型
+ * @param parent
+ * @param new_game_mode: 对局的类型
+ */
 ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     QMainWindow(parent),
     ui(new Ui::ChessBoard)
@@ -41,6 +51,12 @@ ChessBoard::~ChessBoard()
     delete ui;
 }
 
+/**
+ * @brief ChessBoard::chess 落子并更新棋盘。落子后可以通过game_status
+ * @param p const Point& 描述
+ * @param color
+ * @return 改变game_status
+ */
 void ChessBoard::chess(const Point& p, int color) { // 在p点位置下黑棋/白棋
     chessboard[p.x][p.y] = color;
     record.push_back({p.x, p.y, color});
@@ -120,14 +136,21 @@ void ChessBoard::__checkStatus2() {
         if(cnt == 5 * BLACK) {
             game_status = BLACK_WINS; value = 0; return;
         }
-        else if(cnt > 5 * BLACK) {
-            game_status = WHITE_WINS; value = 1; return; // 长连禁手
-        }
         else if(cnt <= 5 * WHITE) {
             game_status = WHITE_WINS; value = 0; return;
         }
     }
+
     // 没有胜出的情况下检查黑棋禁手
+    // 长连禁手
+    for(auto dir : dirs) {
+        int x = record.back().x;
+        int y = record.back().y;
+        int cnt = __getCnt(x, y, dir, 0);
+        if(cnt > 5 * BLACK) {
+            game_status = WHITE_WINS; value = 1; return; // 长连禁手
+        }
+    }
     // 四四禁手
     int live4_cnt = 0;
     for(auto dir : dirs) {
@@ -137,10 +160,14 @@ void ChessBoard::__checkStatus2() {
     }
     int sleep4_cnt = 0;
     for(auto dir : dirs) {
-        if(__is_sleep4(record.back().x, record.back().y, dir, 0)) {
-            sleep4_cnt++;
-        }
+        sleep4_cnt += __is_sleep4(record.back().x, record.back().y, dir, 0);
     }
+//    for(auto dir : dirs) {
+//        dir = {-dir.x, -dir.y};
+//        if(__is_sleep4(record.back().x, record.back().y, dir, 0)) {
+//            sleep4_cnt++;
+//        }
+//    }
 
     qDebug() << "live4_cnt = " << live4_cnt;
     qDebug() << "sleep4_cnt = " << sleep4_cnt;
@@ -162,11 +189,64 @@ void ChessBoard::__checkStatus2() {
 }
 
 bool ChessBoard::__is_5(int x, int y, const Point& dir, int depth)
-// 检查以(x, y)为中心的dir方向上是否恰好有五个黑子 且这五个黑子必须包含tx,ty
+// 检查以(x, y)为中心的dir双向方向上是否恰好有五个黑子 且这五个黑子必须包含tx,ty
 {
     if(chessboard[x][y] != BLACK) return false;
 
     return __getCnt(x, y, dir, depth) == 5 * BLACK;
+}
+
+bool ChessBoard::__is_5_push_3(int x, int y, const Point& dir, int depth) {
+// 检查是否有以x,y为中心包含depth的连五，
+// 若有，将连五上除了x,y和record最后一个点的其余三个点加入进record
+    if(chessboard[x][y] != BLACK) return false;
+
+    vector<int> flags(depth, 0);
+    int flag = 1;
+    vector<Chess> tmp(record.end() - depth, record.end());
+    for(int i = 0; i < depth; i++) {
+        flags[i] = (x == tmp[i].x && y == tmp[i].y);
+    }
+
+    int cnt = 1;
+    int curx = x + dir.x, cury = y + dir.y;
+    vector<Chess> memo;
+    while(isLegal(curx, cury)) {
+        if(chessboard[curx][cury] == BLACK) cnt += BLACK;
+        else break;
+        for(int i = 0; i < depth; i++) {
+            if(curx == tmp[i].x && cury == tmp[i].y) flags[i] = 1;
+        }
+        if(!(curx == record.back().x && cury == record.back().y))
+            memo.push_back({curx, cury, BLACK});
+        curx += dir.x, cury += dir.y;
+    }
+
+    curx = x - dir.x, cury = y - dir.y;
+    while(isLegal(curx, cury)) {
+        if(chessboard[curx][cury] == BLACK) cnt += BLACK;
+        else break;
+        for(int i = 0; i < depth; i++) {
+            if(curx == tmp[i].x && cury == tmp[i].y) flags[i] = 1;
+        }
+        if(!(curx == record.back().x && cury == record.back().y))
+            memo.push_back({curx, cury, BLACK});
+        curx -= dir.x, cury -= dir.y;
+    }
+
+    for(int i = 0; i < depth; i++) {
+        if(flags[i] == 0) {
+            flag = 0; break;
+        }
+    }
+
+    if(cnt == 5 * BLACK && flag) {
+        for(auto v : memo) {
+            record.push_back(v);
+        }
+        return true;
+    }
+    return false;
 }
 
 bool ChessBoard::__is_live4(int x, int y, const Point& dir, int depth)
@@ -213,38 +293,82 @@ bool ChessBoard::__is_live4(int x, int y, const Point& dir, int depth)
     return cnt == 2;
 }
 
-bool ChessBoard::__is_sleep4(int x, int y, const Point& dir, int depth)
-// 检查以(x, y)为中心的dir方向上是否是黑子冲四
+int ChessBoard::__is_sleep4(int x, int y, const Point& dir, int depth)
+// 检查以(x, y)为中心的dir方向上有几个黑子冲四
+// 个数可能为0/1/2
 {
     if(chessboard[x][y] != BLACK) return false;
 
     // 在(x, y)点的黑子的dir方向上，距离<=4的点落黑子，判断能不能连五
-    // 若有且只有一个点，落黑子后能形成以(x, y)为中心的连五，则是活四
-
+    // 若有且只有一个点，落黑子后能形成以(x, y)为中心的连五，则是冲四
+    int flag = 0;
     int cnt = 0;
     for(int step = 1; step <= 4; step++) {
         int curx = x + step * dir.x, cury = y + step * dir.y;
         if(!isLegal(curx, cury)) continue;
         if(chessboard[curx][cury] != EMPTY) continue;
-        chessboard[curx][cury] = BLACK;
-        record.push_back({curx, cury, BLACK});
-        cnt += __is_5(x, y, dir, depth + 1);
-        chessboard[curx][cury] = EMPTY;
-        record.pop_back();
+        if(cnt == 0) {
+            chessboard[curx][cury] = BLACK;
+            record.push_back({curx, cury, BLACK});
+            bool is_5 = __is_5_push_3(x, y, dir, depth + 1);
+            cnt += is_5;
+            chessboard[curx][cury] = EMPTY;
+            if(is_5) {
+                record.erase(record.end() - 4);
+            }
+            else {
+                record.pop_back();
+            }
+
+        }
+        else {
+            chessboard[curx][cury] = BLACK;
+            record.push_back({curx, cury, BLACK});
+            bool is_5_same_3 = __is_5(x, y, dir, depth + 4);
+            bool is_5 = __is_5(x, y, dir, depth + 1);
+
+            if(is_5 && !is_5_same_3) flag = 1;
+            cnt += is_5_same_3;
+            chessboard[curx][cury] = EMPTY;
+            record.pop_back();
+        }
     }
 
     for(int step = 1; step <= 4; step++) {
         int curx = x - step * dir.x, cury = y - step * dir.y;
         if(!isLegal(curx, cury)) continue;
         if(chessboard[curx][cury] != EMPTY) continue;
-        chessboard[curx][cury] = BLACK;
-        record.push_back({curx, cury, BLACK});
-        cnt += __is_5(x, y, dir, depth + 1);
-        chessboard[curx][cury] = EMPTY;
-        record.pop_back();
+        if(cnt == 0) {
+            chessboard[curx][cury] = BLACK;
+            record.push_back({curx, cury, BLACK});
+            bool is_5 = __is_5_push_3(x, y, dir, depth + 1);
+            cnt += is_5;
+            chessboard[curx][cury] = EMPTY;
+            if(is_5) {
+                record.erase(record.end() - 4);
+            }
+            else {
+                record.pop_back();
+            }
+        }
+        else {
+            chessboard[curx][cury] = BLACK;
+            record.push_back({curx, cury, BLACK});
+            bool is_5_same_3 = __is_5(x, y, dir, depth + 4);
+            bool is_5 = __is_5(x, y, dir, depth + 1);
+
+            if(is_5 && !is_5_same_3) flag = 1;
+            cnt += is_5_same_3;
+            chessboard[curx][cury] = EMPTY;
+            record.pop_back();
+        }
     }
-//    qDebug() << "cnt = " << cnt;
-    return cnt == 1;
+
+    if(cnt >= 1) {
+        for(int i = 0; i < 3; i++) record.pop_back();
+    }
+//    qDebug() << "cnt = " <<  cnt << "flag = " << flag;
+    return (cnt==1) + flag;
 }
 
 bool ChessBoard::__is_live3(int x, int y, const Point& dir)
@@ -262,10 +386,8 @@ bool ChessBoard::__is_live3(int x, int y, const Point& dir)
         if(chessboard[curx][cury] != EMPTY) continue;
         chessboard[curx][cury] = BLACK;
         record.push_back({curx, cury, BLACK});
+
         cnt += __is_live4(x, y, dir, 1);
-//        if(__is_live4(x, y, dir, 1))
-//            qDebug() << "live4 " << x << " " << y
-//                     << " " << curx << " " << cury;
         chessboard[curx][cury] = EMPTY;
         record.pop_back();
     }
@@ -276,10 +398,8 @@ bool ChessBoard::__is_live3(int x, int y, const Point& dir)
         if(chessboard[curx][cury] != EMPTY) continue;
         chessboard[curx][cury] = BLACK;
         record.push_back({curx, cury, BLACK});
+
         cnt += __is_live4(x, y, dir, 1);
-//        if(__is_live4(x, y, dir, 1))
-//            qDebug() << "live4 " << x << " " << y
-//                     << " " << curx << " " << cury;
         chessboard[curx][cury] = EMPTY;
         record.pop_back();
     }
@@ -288,7 +408,7 @@ bool ChessBoard::__is_live3(int x, int y, const Point& dir)
 }
 
 int ChessBoard::__getCnt(int x, int y, const Point& dir, int depth){
-// 检查以(x, y)为中心的dir方向上连成的长度 且必须包含record的最后depth个点
+// 检查以(x, y)为中心的dir方向（双向）上连成的长度 且必须包含record的最后depth个点
 // 当depth = 0时，单纯检查以(x, y)为中心的dir方向上连成的长度
     int color = chessboard[x][y];
     int cnt = color;
