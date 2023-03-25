@@ -21,6 +21,9 @@ set(PROJECT_SOURCES
         gameover.h gameover.cpp gameover.ui
         chessboard_local_pvp.h chessboard_local_pvp.cpp chessboard_local_pvp.ui
         utils.h
+        netwindow.h netwindow.cpp netwindow.ui
+        openhousedialog.h openhousedialog.cpp openhousedialog.ui
+        chessboard_remote_pvp.h chessboard_remote_pvp.cpp chessboard_remote_pvp.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
