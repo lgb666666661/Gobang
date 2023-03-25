@@ -17,7 +17,10 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        chessboardstatuscontroler.h chessboardstatuscontroler.cpp
+        chessboard.h chessboard.cpp chessboard.ui
+        gameover.h gameover.cpp gameover.ui
+        chessboard_local_pvp.h chessboard_local_pvp.cpp chessboard_local_pvp.ui
+        utils.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
