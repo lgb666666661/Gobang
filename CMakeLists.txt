@@ -23,8 +23,7 @@ set(PROJECT_SOURCES
         utils.h
         netwindow.h netwindow.cpp netwindow.ui
         openhousedialog.h openhousedialog.cpp openhousedialog.ui
-        chessboard_remote_pvp.h chessboard_remote_pvp.cpp chessboard_remote_pvp.ui
-)
+        chessboard_remote_pvp.cpp chessboard_remote_pvp.h chessboard_remote_pvp.ui TcpServer.cpp TcpServer.h TcpClient.cpp TcpClient.h TcpAbstract.h)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(GoBang

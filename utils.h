@@ -10,7 +10,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#endif // UTILS_H
+
 // 颜色宏
 //#define BLACK 1
 //#define WHITE -1
@@ -43,3 +43,4 @@ struct Point {
 struct Chess {
     int x, y, color;
 };
+#endif // UTILS_H

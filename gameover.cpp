@@ -17,3 +17,8 @@ void GameOver::on_pushButton_clicked()
 {
     this->hide();
 }
+
+void GameOver::setLabel(const QString& s)  {
+    ui->label->setText(s);
+    this->update();
+}
