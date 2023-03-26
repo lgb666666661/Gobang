@@ -18,7 +18,7 @@ class ChessBoard;
 
 /**
  * @brief 棋盘基类
- * @details 继承时先正常新建Qt设计师界面类，再手动添加继承关系。\n
+ * @details 继承时先正常新建一个QMainWindow类，再手动添加继承关系。\n
  * 没有注释的函数或变量不需要考虑！
  */
 class ChessBoard : public QMainWindow

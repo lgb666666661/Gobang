@@ -1,16 +1,11 @@
 /**
- * @file  main.c
- * @brief       项目主函数文件
- * @details  主要包含协议应用栈程序框架，main函数入口
- * @author      wanghuan  any question please send mail to 371463817@qq.com
- * @date        2018-8-17
- * @version     V1.0
- * @copyright    Copyright (c) 2018-2020  江苏亨通光网科技有限公司
+ * @file  utils.h
+ * @brief       定义了一些类和宏。
  */
 #ifndef UTILS_H
 #define UTILS_H
 
-#endif // UTILS_H
+
 
 /**
  * @brief 颜色宏
@@ -60,3 +55,5 @@ struct Chess {
     int y; ///< @brief y值
     int color; ///< @brief 棋子颜色，见 @ref Chess_color
 };
+
+#endif  //UTILS_H
