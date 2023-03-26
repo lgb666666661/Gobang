@@ -1,45 +1,62 @@
 /**
- * @file 文件名
- * @brief 简介
- * @details 细节
- * @author 作者
- * @version 版本号
- * @date 年-月-日
- * @copyright 版权
+ * @file  main.c
+ * @brief       项目主函数文件
+ * @details  主要包含协议应用栈程序框架，main函数入口
+ * @author      wanghuan  any question please send mail to 371463817@qq.com
+ * @date        2018-8-17
+ * @version     V1.0
+ * @copyright    Copyright (c) 2018-2020  江苏亨通光网科技有限公司
  */
 #ifndef UTILS_H
 #define UTILS_H
 
 #endif // UTILS_H
-// 颜色宏
-//#define BLACK 1
-//#define WHITE -1
-//#define EMPTY 0
-enum  Chess_color {BLACK=1, WHITE=-1, EMPTY=0};
-// 对局类型宏
-//#define LOCAL_PVP 0
-//#define LOCAL_PVE 1
-//#define REMOTE_PVP 2
-enum  Game_type {LOCAL_PVP=0, LOCAL_PVE=1, REMOTE_PVP=2};
-// 对局状态宏
-//#define BLACK_WINS 1
-//#define WHITE_WINS -1
-//#define NOBODY_WINS 0
 
-enum  Game_status {BLACK_WINS=1, WHITE_WINS=-1, NOBODY_WINS=0};
-
-
-//typedef enum
-//{
-//    BLACK_WINS=1, /*!< 黑棋赢*/
-//    WHITE_WINS=-1,
-//    NOBODY_WINS=0
-//} game_status;
-
-struct Point {
-    int x, y;
+/**
+ * @brief 颜色宏
+ */
+enum  Chess_color
+{
+    BLACK=1, ///< @brief 黑色
+    WHITE=-1, ///< @brief 白色
+    EMPTY=0 ///< @brief 空
 };
 
+/**
+ * @brief 对局类型宏
+ * @details 主菜单中选择对局类型（本地双人、人机、联机对战）时用
+ */
+enum  Game_type
+{
+    LOCAL_PVP=0, ///< @brief 本地PVP
+    LOCAL_PVE=1, ///< @brief 本地PVE
+    REMOTE_PVP=2 ///< @brief 联机PVP
+};
+
+/**
+ * @brief 对局状态宏
+ */
+enum  Game_status
+{
+    BLACK_WINS=1, ///< @brief 黑棋赢
+    WHITE_WINS=-1, ///< @brief 白棋赢
+    NOBODY_WINS=0 ///< @brief 未产生胜负
+};
+
+/**
+ * @brief 点结构体
+ */
+struct Point {
+    int x;
+    int y;
+};
+
+/**
+ * @brief 棋子结构体
+ * @details 记录棋子的位置和颜色
+ */
 struct Chess {
-    int x, y, color;
+    int x; ///< @brief x值
+    int y; ///< @brief y值
+    int color; ///< @brief 棋子颜色，见 @ref Chess_color
 };

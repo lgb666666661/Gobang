@@ -1,12 +1,16 @@
+/**
+ * @file  main.c
+ * @brief       项目主函数文件
+ * @details  主要包含协议应用栈程序框架，main函数入口
+ * @author      wanghuan  any question please send mail to 371463817@qq.com
+ * @date        2018-8-17
+ * @version     V1.0
+ * @copyright    Copyright (c) 2018-2020  江苏亨通光网科技有限公司
+ */
 #include "chessboard.h"
 #include "ui_chessboard.h"
 #include "ui_gameover.h"
 
-/**
- * @brief 无参构造函数。
- * 一般不使用，应该使用带new_game_mode的构造函数指定对局类型
- * @param parent
- */
 ChessBoard::ChessBoard(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChessBoard)
@@ -24,11 +28,6 @@ ChessBoard::ChessBoard(QWidget *parent) :
     update();
 }
 
-/**
- * @brief 有参构造函数 用new_game_mode指定对局类型
- * @param parent
- * @param new_game_mode: 对局的类型
- */
 ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     QMainWindow(parent),
     ui(new Ui::ChessBoard)
@@ -51,12 +50,6 @@ ChessBoard::~ChessBoard()
     delete ui;
 }
 
-/**
- * @brief ChessBoard::chess 落子并更新棋盘。落子后可以通过game_status
- * @param p const Point& 描述
- * @param color
- * @return 改变game_status
- */
 void ChessBoard::chess(const Point& p, int color) { // 在p点位置下黑棋/白棋
     chessboard[p.x][p.y] = color;
     record.push_back({p.x, p.y, color});

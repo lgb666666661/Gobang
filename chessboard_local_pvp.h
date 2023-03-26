@@ -8,17 +8,35 @@ namespace Ui {
 class Chessboard_Local_PVP;
 }
 
+/**
+ * @brief 本地双人对战的棋盘类
+ */
 class Chessboard_Local_PVP : public ChessBoard
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief 无参构造函数。
+     * 一般不使用，应该使用带new_game_mode的构造函数指定对局类型。
+     */
     explicit Chessboard_Local_PVP(QWidget *parent = nullptr);
+    /**
+     * @brief 可以指定有无禁手的构造函数。
+     * @param parent
+     * @param new_game_mode int\n
+     * 0: 无禁手\n
+     * 1: 有禁手\n
+     * 见 @ref game_mode
+     * @return 构造一个 @ref game_mode = new_game_mode的新对象
+     */
     explicit Chessboard_Local_PVP(QWidget *parent = nullptr,
                                   int new_game_mode = 0);
     ~Chessboard_Local_PVP();
 
-    // 落子
+    /**
+     * @brief 本地PVP对局中的鼠标点击事件。
+     */
     void mousePressEvent(QMouseEvent *event);
 
     Ui::Chessboard_Local_PVP *ui;
