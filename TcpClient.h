@@ -14,6 +14,8 @@ private:
 public:
     TcpClient(const QHostAddress &address, int port);
 
+    void stop() override;
+
     bool send(const QString &s) override;
 };
 

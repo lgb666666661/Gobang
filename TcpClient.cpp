@@ -15,8 +15,7 @@ TcpClient::TcpClient(const QHostAddress &address, int port): socketPort(port) {
             handleMessage(buf);
         });
     });
-    connect(&socket,&QTcpSocket::errorOccurred,[this](){
-        std::cout<<"pppp"<<std::endl;
+    connect(&socket,&QTcpSocket::disconnected,[this](){
         setConnected(false);
     });
     socket.connectToHost(address,port);
@@ -29,4 +28,8 @@ bool TcpClient::send(const QString &s) {
         return true;
     }
     return false;
+}
+
+void TcpClient::stop() {
+    socket.close();
 }

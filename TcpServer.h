@@ -20,6 +20,8 @@ private:
 public:
     TcpServer();
 
+    void stop() override;
+
     int getPort() const;
 
     bool send(const QString &s) override;

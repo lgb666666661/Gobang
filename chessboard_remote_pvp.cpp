@@ -46,7 +46,7 @@ Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode, QWidg
             systemDo(object);
         });
         connect(server,&TcpAbstract::userDo,this,[this](const QJsonObject& object){
-            //todo: 用户收到消息
+            peerMessage(object.value("message").toString());
         });
     }else{
         client=new TcpClient(QHostAddress(hostAddress),port);
@@ -62,10 +62,12 @@ Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode, QWidg
             systemDo(object);
         });
         connect(client,&TcpAbstract::userDo,this,[this](const QJsonObject& object){
-            //todo: 用户收到消息
+            peerMessage(object.value("message").toString());
         });
     }
-
+    connect(ui->sendButton,&QPushButton::clicked,this,[this](){
+        sendMessage();
+    });
 
 }
 
@@ -121,10 +123,13 @@ int Chessboard_Remote_PVP::getPort() {
 
 void Chessboard_Remote_PVP::start() {
     //todo:开启计时器,开始对局
+    isDisconnected= false;
 }
 
 void Chessboard_Remote_PVP::pause() {
     //todo:连接失败等待重连
+    restrict_level=STOP;
+    isDisconnected=true;
 }
 
 void Chessboard_Remote_PVP::systemDo(const QJsonObject& order) {
@@ -151,5 +156,33 @@ void Chessboard_Remote_PVP::win(const QString &info) {
     GameOver dialog;
     dialog.setLabel(info);
     dialog.exec();
+}
+
+void Chessboard_Remote_PVP::closeEvent(QCloseEvent *event) {
+    if(chessMode==SERVER){
+        server->stop();
+    }else{
+        client->stop();
+    }
+}
+
+void Chessboard_Remote_PVP::sendMessage() {
+    if(isDisconnected){
+        systemMessage("已断开连接,无法发送");
+        return;
+    }
+    QJsonObject object;
+    object.insert("type","user");
+    object.insert("message",ui->textEdit->toPlainText());
+    myMessage(ui->textEdit->toPlainText());
+    send(QString(QJsonDocument(object).toJson()));
+}
+
+void Chessboard_Remote_PVP::myMessage(const QString &s) {
+    ui->logEdit->append("我:"+s);
+}
+
+void Chessboard_Remote_PVP::peerMessage(const QString &s) {
+    ui->logEdit->append("对方:"+s);
 }
 

@@ -31,9 +31,9 @@ TcpServer::TcpServer() {
                 handleMessage(s);
             });
 
-            connect(socket, &QTcpSocket::errorOccurred, [this, socket]() {
-                std::cout<<"121232312"<<std::endl;
-                //todo: 写入日志
+            connect(socket, &QTcpSocket::disconnected, [this, socket]() {
+                //todo 写入日志
+                setConnected(false);
             });
         }
     });
@@ -50,4 +50,8 @@ bool TcpServer::send(const QString& s) {
 
 int TcpServer::getPort() const {
     return port;
+}
+
+void TcpServer::stop() {
+    sendSocket->close();
 }

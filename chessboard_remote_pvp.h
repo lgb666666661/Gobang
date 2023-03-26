@@ -31,6 +31,8 @@ public:
 
     ~Chessboard_Remote_PVP() override;
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 protected:
 
@@ -43,15 +45,19 @@ private:
         STOP=2
     };
     void systemMessage(const QString &s);
+    void myMessage(const QString &s);
+    void peerMessage(const QString &s);
     Mode chessMode;
     TcpServer *server= nullptr;
     TcpClient *client= nullptr;
+    bool isDisconnected= true;
     int getPort();
     void start();
     void pause();
     void systemDo(const QJsonObject& order);
     void send(const QString &s);
     void win(const QString &info);
+    void sendMessage();
 };
 
 
