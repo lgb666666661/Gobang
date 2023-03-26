@@ -24,7 +24,7 @@ public:
     explicit ChessBoard(QWidget *parent = nullptr);
     explicit ChessBoard(QWidget *parent = nullptr, int new_game_mode=0);
     // 选择有无禁手的构造函数 0表示无禁手 1表示有禁手
-    ~ChessBoard();
+    ~ChessBoard() override;
     // 下棋控制
     void chess(const Point& p, int color); // 在p点位置下黑棋/白棋
     Chess cancel(); // 悔棋。返回最后一步棋的位置和颜色
@@ -35,19 +35,21 @@ public:
                                         // level=1只能预选位置不能落子
                                         // level=2不能进行任何操作
     // 刷新
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *) override;
     // 鼠标移动
-    void mouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event) override;
     // 落子
-    virtual void mousePressEvent(QMouseEvent *event)=0;
+    void mousePressEvent(QMouseEvent *event) override =0;
 
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 
 protected:
     Ui::ChessBoard *ui;
     // 超参数
-    int STARTX = 100;
-    int STARTY = 70;
-    int GRIDSIZE = 60;
+    int STARTX = this->height()/16;
+    int STARTY = this->height()/16;
+    int GRIDSIZE = this->height()/16;
     int CHESSR = GRIDSIZE / 2 * 0.9; // 棋子半径
     int HINTR = GRIDSIZE / 8; // 落点提示半径
     int HINTR2 = GRIDSIZE / 9; // 新的落子的提示半径

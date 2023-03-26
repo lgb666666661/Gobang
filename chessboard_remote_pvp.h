@@ -13,7 +13,11 @@ class Chessboard_Remote_PVP : public ChessBoard
 
 public:
     explicit Chessboard_Remote_PVP(QWidget *parent = nullptr);
-    ~Chessboard_Remote_PVP();
+    explicit Chessboard_Remote_PVP(QWidget *parent = nullptr,
+    int new_game_mode = 0);
+    ~Chessboard_Remote_PVP() override;
+
+    void mousePressEvent(QMouseEvent *event) override;
 
 private:
     Ui::Chessboard_Remote_PVP *ui;
