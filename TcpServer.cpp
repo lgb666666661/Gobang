@@ -31,7 +31,7 @@ TcpServer::TcpServer() {
                 handleMessage(s);
             });
 
-            connect(socket, &QTcpSocket::disconnected, [this, socket]() {
+            connect(socket,&QTcpSocket::errorOccurred,[this,socket](){
                 //todo 写入日志
                 setConnected(false);
             });

@@ -4,9 +4,11 @@
 
 #ifndef GOBANG_TCPCLIENT_H
 #define GOBANG_TCPCLIENT_H
+
 #include <QTcpSocket>
 #include "TcpAbstract.h"
-class TcpClient: public TcpAbstract{
+
+class TcpClient : public TcpAbstract {
 
 private:
     QTcpSocket socket;

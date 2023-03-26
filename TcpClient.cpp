@@ -15,7 +15,7 @@ TcpClient::TcpClient(const QHostAddress &address, int port): socketPort(port) {
             handleMessage(buf);
         });
     });
-    connect(&socket,&QTcpSocket::disconnected,[this](){
+    connect(&socket,&QTcpSocket::errorOccurred,[this](){
         setConnected(false);
     });
     socket.connectToHost(address,port);
