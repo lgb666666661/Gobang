@@ -10,6 +10,8 @@
 #include "utils.h"
 #include "TcpServer.h"
 #include "TcpClient.h"
+#include <QLabel>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Chessboard_Remote_PVP; }
@@ -31,6 +33,8 @@ public:
 
     void mousePressEvent(QMouseEvent *event) override;
 
+    void set_restrict_level(int level) override;
+
     ~Chessboard_Remote_PVP() override;
 
 protected:
@@ -40,12 +44,22 @@ private:
     enum CanChess {
         CAN = 0,
         CANNOT = 1,
-        STOP=2
+        STOP = 2
     };
     enum State {
         PAUSE,
         RUNNING,
         TERMINATE
+    };
+    struct Time{
+        int time=0;
+        QString prefix;
+        QLabel timeLabel;
+        Time& operator++(){
+            time++;
+            timeLabel.setText(prefix+QString::number(time/60)+"分"+QString::number(time%60)+"秒");
+            return *this;
+        }
     };
 
     Ui::Chessboard_Remote_PVP *ui{};
@@ -55,6 +69,13 @@ private:
     TcpClient *client = nullptr;
     bool isDisconnected = true;
     State state = PAUSE;
+    QTimer repentTimer;
+    QTimer timer;
+
+    QLabel stepTime;
+    QLabel localTime;
+    QLabel time;
+
 
     void systemMessage(const QString &s);
 

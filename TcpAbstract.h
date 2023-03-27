@@ -57,8 +57,6 @@ protected:
     }
 
     void checkHeartbeat() {
-        static int i=0;
-        std::cout<<"check"<<haveHeartbeat<<" "<<i++<<std::endl;
         if (haveHeartbeat) {
             haveHeartbeat=false;
         }else{

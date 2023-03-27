@@ -31,7 +31,7 @@ public:
     void clear(); // 清空
     int get_game_status() {return game_status;} // 得到对局输赢状态
     void change_turn(); // 改变当前黑白状态，返回新的状态
-    void set_restrict_level(int level); // level=0可以正常预选并落子
+    virtual void set_restrict_level(int level); // level=0可以正常预选并落子
                                         // level=1只能预选位置不能落子
                                         // level=2不能进行任何操作
     // 刷新
