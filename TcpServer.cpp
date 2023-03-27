@@ -10,6 +10,13 @@ TcpServer::TcpServer() {
         port++;
     };
 
+    connect(&heartbeatSendTimer,&QTimer::timeout,this,[this](){
+        sendHeartbeat();
+    });
+    connect(&heartbeatCheckTimer,&QTimer::timeout,[this](){
+        checkHeartbeat();
+    });
+
     //有新连接时
     connect(&server, &QTcpServer::newConnection, this, [this]() {
         QTcpSocket *socket = server.nextPendingConnection();
@@ -24,6 +31,9 @@ TcpServer::TcpServer() {
             setConnected(true);
             sendSocket=socket;
             peerAddress=new QHostAddress(socket->peerAddress());
+            heartbeatSendTimer.start(500);
+            heartbeatCheckTimer.start(1000);
+
 
 
             connect(socket, &QTcpSocket::readyRead, [this, socket]() {
@@ -53,5 +63,9 @@ int TcpServer::getPort() const {
 }
 
 void TcpServer::stop() {
+    QJsonObject object;
+    object.insert("type","system");
+    object.insert("do","terminate");
+    send(QString(QJsonDocument(object).toJson()));
     sendSocket->close();
 }

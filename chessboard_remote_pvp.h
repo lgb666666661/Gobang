@@ -19,13 +19,15 @@ class Chessboard_Remote_PVP : public ChessBoard {
 Q_OBJECT
 
 public:
-    enum Mode{
+    enum Mode {
         SERVER,
         CLIENT
     };
+
     explicit Chessboard_Remote_PVP(QWidget *parent = nullptr) = delete;
 
-    explicit Chessboard_Remote_PVP(Chess_color color, Mode mode, QWidget *parent = nullptr, int new_game_mode = 0,const QString& hostAddress="",int port=0);
+    explicit Chessboard_Remote_PVP(Chess_color color, Mode mode, QWidget *parent = nullptr, int new_game_mode = 0,
+                                   const QString &hostAddress = "", int port = 0);
 
     void mousePressEvent(QMouseEvent *event) override;
 
@@ -34,30 +36,49 @@ public:
 protected:
     void closeEvent(QCloseEvent *event) override;
 
-protected:
-
 private:
-    Ui::Chessboard_Remote_PVP *ui{};
-    Chess_color myChessColor;
     enum CanChess {
         CAN = 0,
         CANNOT = 1,
         STOP=2
     };
-    void systemMessage(const QString &s);
-    void myMessage(const QString &s);
-    void peerMessage(const QString &s);
+    enum State {
+        PAUSE,
+        RUNNING,
+        TERMINATE
+    };
+
+    Ui::Chessboard_Remote_PVP *ui{};
     Mode chessMode;
-    TcpServer *server= nullptr;
-    TcpClient *client= nullptr;
-    bool isDisconnected= true;
+    Chess_color myChessColor;
+    TcpServer *server = nullptr;
+    TcpClient *client = nullptr;
+    bool isDisconnected = true;
+    State state = PAUSE;
+
+    void systemMessage(const QString &s);
+
+    void myMessage(const QString &s);
+
+    void peerMessage(const QString &s);
+
     int getPort();
+
     void start();
+
     void pause();
-    void systemDo(const QJsonObject& order);
+
+    void systemDo(const QJsonObject &order);
+
     void send(const QString &s);
+
     void win(const QString &info);
+
     void sendMessage();
+
+    void setState(State newState);
+
+
 };
 
 

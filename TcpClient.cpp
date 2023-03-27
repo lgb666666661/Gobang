@@ -10,13 +10,21 @@ TcpClient::TcpClient(const QHostAddress &address, int port): socketPort(port) {
         //设置连接成功
         setConnected(true);
         peerAddress=new QHostAddress(socket.peerAddress());
-        connect(&socket,&QTcpSocket::readyRead,[this](){
-            QByteArray buf = socket.readAll();
-            handleMessage(buf);
-        });
+        heartbeatSendTimer.start(500);
+        heartbeatCheckTimer.start(1000);
+    });
+    connect(&socket,&QTcpSocket::readyRead,[this](){
+        QByteArray buf = socket.readAll();
+        handleMessage(buf);
     });
     connect(&socket,&QTcpSocket::errorOccurred,[this](){
         setConnected(false);
+    });
+    connect(&heartbeatSendTimer,&QTimer::timeout,this,[this](){
+        sendHeartbeat();
+    });
+    connect(&heartbeatCheckTimer,&QTimer::timeout,[this](){
+        checkHeartbeat();
     });
     socket.connectToHost(address,port);
 
@@ -31,5 +39,9 @@ bool TcpClient::send(const QString &s) {
 }
 
 void TcpClient::stop() {
+    QJsonObject object;
+    object.insert("type","system");
+    object.insert("do","terminate");
+    send(QString(QJsonDocument(object).toJson()));
     socket.close();
 }
