@@ -13,10 +13,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-
 void MainWindow::on_netButton_clicked()
 {
-
+    NetWindow* netwindow=new NetWindow();
+    this->close();
+    netwindow->show();
 }
+
+
 

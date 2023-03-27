@@ -10,7 +10,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#endif // UTILS_H
+
 // 颜色宏
 //#define BLACK 1
 //#define WHITE -1
@@ -36,6 +36,20 @@ enum  Game_status {BLACK_WINS=1, WHITE_WINS=-1, NOBODY_WINS=0};
 //    NOBODY_WINS=0
 //} game_status;
 
+struct UdpData
+{
+    UdpData();
+    UdpData(QString name,QString gamemodel,QString chesscolor,QString israndom){
+        this->name=name;
+        this->chesscolor=chesscolor;
+        this->israndom=israndom;
+        this->gamemodel=gamemodel;
+    }
+    QString name;
+    QString gamemodel;
+    QString  chesscolor;
+    QString israndom;
+};
 struct Point {
     int x, y;
 };
@@ -43,3 +57,5 @@ struct Point {
 struct Chess {
     int x, y, color;
 };
+
+#endif// UTILS_H
