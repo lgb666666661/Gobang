@@ -12,6 +12,7 @@
 #include "TcpClient.h"
 #include <QLabel>
 #include <QTimer>
+#include <functional>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Chessboard_Remote_PVP; }
@@ -51,14 +52,31 @@ private:
         RUNNING,
         TERMINATE
     };
-    struct Time{
-        int time=0;
+
+    struct Time {
+        int time = 0;
         QString prefix;
-        QLabel timeLabel;
-        Time& operator++(){
+        QLabel *timeLabel = nullptr;
+        int restrictTime=-1;
+        std::function<void()> f;
+        std::function<void()> f2;
+        Time &operator++() {
             time++;
-            timeLabel.setText(prefix+QString::number(time/60)+"分"+QString::number(time%60)+"秒");
+            if(restrictTime!=-1&&time>restrictTime){
+                f();
+            }
+            if(restrictTime!=-1&&time>restrictTime*0.8){
+                f2();
+            }
+            if (timeLabel != nullptr)
+                timeLabel->setText(prefix + QString::number(time / 60) + "分" + QString::number(time % 60) + "秒");
             return *this;
+        }
+
+        void clear() {
+            time = 0;
+            if (timeLabel != nullptr)
+                timeLabel->setText(prefix + "0分" + "0秒");
         }
     };
 
@@ -72,9 +90,12 @@ private:
     QTimer repentTimer;
     QTimer timer;
 
-    QLabel stepTime;
-    QLabel localTime;
-    QLabel time;
+
+    Time *myLocalTime = nullptr;
+    Time *peerLocalTime = nullptr;
+    Time *myStepTime = nullptr;
+    Time *peerStepTime = nullptr;
+    Time *time = nullptr;
 
 
     void systemMessage(const QString &s);
@@ -99,6 +120,9 @@ private:
 
     void setState(State newState);
 
+    void timeUp();
+
+    void gameOver();
 
 };
 

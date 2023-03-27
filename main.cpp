@@ -4,6 +4,8 @@
 #include "chessboard_remote_pvp.h"
 #include "chessboard_local_pvp.h"
 
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

@@ -80,16 +80,16 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="myLocalTimeLabl">
+                    <widget class="QLabel" name="myLocalTimeLabel">
                      <property name="text">
-                      <string>你的总局时:</string>
+                      <string>你的总局时:0分0秒</string>
                      </property>
                     </widget>
                    </item>
                    <item>
                     <widget class="QLabel" name="peerLocalTimeLabel">
                      <property name="text">
-                      <string>对方的总局时:</string>
+                      <string>对方的总局时:0分0秒</string>
                      </property>
                     </widget>
                    </item>
@@ -123,14 +123,14 @@
                    <item>
                     <widget class="QLabel" name="myStepTimeLabel">
                      <property name="text">
-                      <string>你的本轮步时:</string>
+                      <string>你的本轮步时:0分0秒</string>
                      </property>
                     </widget>
                    </item>
                    <item>
                     <widget class="QLabel" name="peerStepTimeLabel">
                      <property name="text">
-                      <string>对方的本轮步时:</string>
+                      <string>对方的本轮步时:0分0秒</string>
                      </property>
                     </widget>
                    </item>
@@ -186,9 +186,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_11">
+        <widget class="QLabel" name="timeLabel">
          <property name="text">
-          <string>总时长</string>
+          <string>总时长:0分0秒</string>
          </property>
         </widget>
        </item>
