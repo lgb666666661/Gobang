@@ -9,15 +9,15 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    MainWindow mainWindow;
-//    mainWindow.show();
+    MainWindow mainWindow;
+    mainWindow.show();
 //    Chessboard_Local_PVP w(0, 1); // 第二个参数：0表示无禁手 1表示禁手
 //    // ChessBoard w;
 //     w.show();
 //    Chessboard_Remote_PVP rPVP(BLACK, Chessboard_Remote_PVP::SERVER,nullptr, 0);
 //    rPVP.show();
-    Chessboard_Remote_PVP rPVP2(WHITE, Chessboard_Remote_PVP::CLIENT,nullptr, 0,"192.168.43.9",10086);
-    rPVP2.show();
+//    Chessboard_Remote_PVP rPVP2(WHITE, Chessboard_Remote_PVP::CLIENT,nullptr, 0,"192.168.43.9",10086);
+//    rPVP2.show();
     return a.exec();
 }
 
