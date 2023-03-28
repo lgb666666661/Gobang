@@ -13,7 +13,6 @@ class TcpClient : public TcpAbstract {
 private:
     QTcpSocket socket;
     int socketPort{};
-    QTimer reconnectTimer;
 protected:
     void handleDisconnect() override;
 

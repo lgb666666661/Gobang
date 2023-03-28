@@ -35,10 +35,6 @@ TcpServer::TcpServer() {
                 return;
             }
 
-
-
-            //设置连接成功
-            setConnected(true);
             sendSocket = socket;
             peerAddress = new QHostAddress(socket->peerAddress());
             heartbeatSendTimer.start(500);
@@ -53,6 +49,8 @@ TcpServer::TcpServer() {
                 // todo 写入日志
                 setConnected(false);
             });
+            //设置连接成功
+            setConnected(true);
         }
     });
 }
