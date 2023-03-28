@@ -13,6 +13,7 @@ TcpClient::TcpClient(const QHostAddress &address, int port) : socketPort(port) {
         peerAddress = new QHostAddress(socket.peerAddress());
         heartbeatSendTimer.start(500);
         heartbeatCheckTimer.start(1000);
+        reconnectTimer.stop();
     });
     connect(&socket, &QTcpSocket::readyRead, [this]() {
         QByteArray buf = socket.readAll();
@@ -25,6 +26,10 @@ TcpClient::TcpClient(const QHostAddress &address, int port) : socketPort(port) {
     connect(&heartbeatCheckTimer, &QTimer::timeout,
             [this]() { checkHeartbeat(); });
     socket.connectToHost(address, port);
+
+    connect(&reconnectTimer, &QTimer::timeout, this, [this]() {
+        socket.connectToHost(*peerAddress, socketPort);
+    });
 }
 
 bool TcpClient::send(const QString &s) {
@@ -45,5 +50,5 @@ void TcpClient::stop() {
 
 void TcpClient::handleDisconnect() {
     socket.close();
-//    socket.connectToHost();
+    reconnectTimer.start(2000);
 }

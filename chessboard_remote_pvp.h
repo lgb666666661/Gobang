@@ -88,10 +88,10 @@ private:
     Chess_color myChessColor;
     TcpServer *server = nullptr;
     TcpClient *client = nullptr;
-    bool isDisconnected = true;
     State state = PAUSE;
     QTimer repentTimer;
     QTimer timer;
+    bool isReconnected=false;///< 指示是否为重连的棋局
 
 
     Time *myLocalTime = nullptr;
@@ -127,6 +127,7 @@ private:
 
     void gameOver();
 
+    void setActiveExit();
 };
 
 

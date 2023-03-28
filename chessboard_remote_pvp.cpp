@@ -59,7 +59,7 @@ Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode,
             }};
     peerLocalTime = new Time{0, "对方的总局时", ui->peerLocalTimeLabel};
     myStepTime = new Time{
-            0, "你的本轮步时", ui->myStepTimeLabel, 20, [this]() {
+            0, "你的本轮步时", ui->myStepTimeLabel, 120, [this]() {
                 QJsonObject object;
                 object.insert("type", "system");
                 object.insert("do", "userTimeout");
@@ -202,10 +202,25 @@ int Chessboard_Remote_PVP::getPort() {
 }
 
 void Chessboard_Remote_PVP::start() {
+
     //开启计时器,开始对局
-    systemMessage(chessMode == SERVER ? "XXX已进入房间,游戏开始"
-                                      : "连接成功,游戏开始");
+    if (!isReconnected) {
+        systemMessage(chessMode == SERVER ? "XXX已进入房间,游戏开始"
+                                          : "连接成功,游戏开始");
+    } else {
+        systemMessage("对局重连成功,游戏继续");
+    }
+
+
+    isReconnected = true;//棋局开始后,后面的连接都是重连的
+
     setState(RUNNING);
+    //发送棋盘同步信息
+    QJsonObject object;
+    object.insert("type", "system");
+    object.insert("do", "reconnect");
+    object.insert("record", int(record.size()));
+    send(QString(QJsonDocument(object).toJson(QJsonDocument::Compact)));
     timer.start(1000);
 }
 
@@ -217,7 +232,9 @@ void Chessboard_Remote_PVP::pause() {
 }
 
 void Chessboard_Remote_PVP::systemDo(const QJsonObject &order) {
-    if (order.value("do").toString() == "chess") {
+
+    QString willDo = order.value("do").toString();
+    if (willDo == "chess") {
         chess({order.value("x").toInt(), order.value("y").toInt()},
               (order.value("color").toString() == "black") ? BLACK : WHITE);
         set_restrict_level(CAN);  //可以下
@@ -226,14 +243,15 @@ void Chessboard_Remote_PVP::systemDo(const QJsonObject &order) {
             win(order.value("winInfo").toString());
             systemMessage(order.value("winInfo").toString());
         }
-    } else if (order.value("do").toString() == "userTimeout") {
+    } else if (willDo == "userTimeout") {
         gameOver();
         win(order.value("winInfo").toString());
         systemMessage(order.value("winInfo").toString());
-    } else if (order.value("do").toString() == "terminate") {
+    } else if (willDo == "terminate") {
         systemMessage("对方断开连接,游戏终止");
+        setActiveExit();
         gameOver();
-    } else if (order.value("do").toString() == "requestRepent") {
+    } else if (willDo == "requestRepent") {
         auto questionDialog = new QMessageBox(
                 QMessageBox::Question, "悔棋", "对方向你发起一个悔棋操作,是否同意?",
                 QMessageBox::NoButton, this);
@@ -263,16 +281,31 @@ void Chessboard_Remote_PVP::systemDo(const QJsonObject &order) {
                     }
                 });
 
-    } else if (order.value("do").toString() == "agreeRepent") {
+    } else if (willDo == "agreeRepent") {
         cancel();
         set_restrict_level(CAN);
         systemMessage("对方同意了你的悔棋请求");
         repentTimer.stop();
-    } else if (order.value("do").toString() == "disagreeRepent") {
+    } else if (willDo == "disagreeRepent") {
         systemMessage("对方拒绝了你的悔棋请求");
         repentTimer.stop();
-    } else if (order.value("do").toString() == "refuse") {
+    } else if (willDo == "refuse") {
         emit refuseLink();
+    } else if (willDo == "reconnect") {
+        int peerRecordSize = order.value("record").toInt();
+        if (int(record.size()) < peerRecordSize) {//如果我比对方的小,我不用动,等待对方撤回一个子
+            return;
+        } else if (int(record.size()) == peerRecordSize) {//如果我和对方一样,为了防止悔棋的同意信号没有被发出,重新设置先后手
+            //重新设置先后手
+            if (myChessColor == BLACK) {
+                set_restrict_level(CAN);
+            } else {
+                set_restrict_level(CANNOT);
+            }
+        } else { //如果我比对方大
+            cancel();
+            set_restrict_level(CAN);
+        }
     }
 }
 
@@ -290,17 +323,23 @@ void Chessboard_Remote_PVP::win(const QString &info) {
     } else {
         ui->resultLabel->setText(QString("对局结果:") + "白棋胜");
     }
-    GameOver dialog;
-    dialog.setLabel(info);
-    dialog.exec();
+
+    auto questionDialog = new QMessageBox(
+            QMessageBox::Information, "游戏结束", info + "           ",
+            QMessageBox::NoButton, this);
+
+    questionDialog->show();
 }
 
 void Chessboard_Remote_PVP::closeEvent(QCloseEvent *event) {
+    setActiveExit();
     if (chessMode == SERVER) {
         server->stop();
     } else {
         client->stop();
     }
+
+
 }
 
 void Chessboard_Remote_PVP::sendMessage() {
@@ -345,11 +384,16 @@ void Chessboard_Remote_PVP::set_restrict_level(int level) {
     }
 
     ChessBoard::set_restrict_level(level);
-    if (level == CAN || level == STOP) {
+    if (record.empty()) {//当前记录为空时不能悔棋
         ui->repentButton->setDisabled(true);
     } else {
-        ui->repentButton->setDisabled(false);
+        if (level == CAN || level == STOP) {
+            ui->repentButton->setDisabled(true);
+        } else {
+            ui->repentButton->setDisabled(false);
+        }
     }
+
     if (level == STOP) {
         ui->currentColorLabel->setText("本轮落子:");
         return;
@@ -380,4 +424,12 @@ void Chessboard_Remote_PVP::timeUp() {
 void Chessboard_Remote_PVP::gameOver() {
     setState(TERMINATE);
     timer.stop();
+}
+
+void Chessboard_Remote_PVP::setActiveExit() {
+    if (chessMode == SERVER) {
+        server->setActiveExit();
+    } else {
+        client->setActiveExit();
+    }
 }

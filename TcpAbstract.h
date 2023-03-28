@@ -21,6 +21,7 @@ class TcpAbstract : public QObject {
     bool haveHeartbeat = false;
     QTimer heartbeatSendTimer;
     QTimer heartbeatCheckTimer;
+    bool isActiveExit=false;///< 指示用户是否主动终止了游戏,用户终止游戏时不会再尝试重连
 
     void setConnected(bool b) {
         if (b) {
@@ -29,8 +30,13 @@ class TcpAbstract : public QObject {
         } else {
             isConnected = false;
             emit disconnected();
+            //停止心跳包
             heartbeatCheckTimer.stop();
             heartbeatSendTimer.stop();
+
+            if(!isActiveExit){ //不是用户主动结束的游戏,尝试重连
+                handleDisconnect();
+            }
         }
     };
 
@@ -76,6 +82,10 @@ class TcpAbstract : public QObject {
     virtual bool send(const QString &s) = 0;
 
     virtual void stop() = 0;
+
+    void setActiveExit(){//设置是自己主动结束的,不用重连
+        isActiveExit=true;
+    }
 
     ~TcpAbstract() override { delete peerAddress; };
    signals:

@@ -10,7 +10,7 @@ TcpServer::TcpServer() {
     //启动服务器
     while (!server.listen(QHostAddress::Any, port)) {
         port++;
-    };
+    }
 
     connect(&heartbeatSendTimer, &QTimer::timeout, this,
             [this]() { sendHeartbeat(); });
@@ -49,7 +49,7 @@ TcpServer::TcpServer() {
                 handleMessage(s);
             });
 
-            connect(socket, &QTcpSocket::errorOccurred, [this, socket]() {
+            connect(socket, &QTcpSocket::errorOccurred, [this]() {
                 // todo 写入日志
                 setConnected(false);
             });
