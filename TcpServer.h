@@ -15,7 +15,8 @@ private:
     QTcpServer server;
     int port = 10086;
     QTcpSocket *sendSocket = nullptr;
-
+protected:
+    void handleDisconnect() override;
 
 public:
     TcpServer();
@@ -25,6 +26,7 @@ public:
     int getPort() const;
 
     bool send(const QString &s) override;
+
 
 };
 

@@ -112,7 +112,7 @@ Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode,
         server = new TcpServer();
         connect(server, &TcpAbstract::connected, this, [this]() { start(); });
         connect(server, &TcpAbstract::disconnected, this, [this]() {
-            if (state != TERMINATE) {
+            if (state != TERMINATE && state != PAUSE) {
                 pause();
             }
         });
@@ -126,7 +126,7 @@ Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode,
         client = new TcpClient(QHostAddress(hostAddress), port);
         connect(client, &TcpServer::connected, this, [this]() { start(); });
         connect(client, &TcpAbstract::disconnected, this, [this]() {
-            if (state != TERMINATE) {
+            if (state != TERMINATE && state != PAUSE) {
                 pause();
             }
         });
@@ -271,6 +271,8 @@ void Chessboard_Remote_PVP::systemDo(const QJsonObject &order) {
     } else if (order.value("do").toString() == "disagreeRepent") {
         systemMessage("对方拒绝了你的悔棋请求");
         repentTimer.stop();
+    } else if (order.value("do").toString() == "refuse") {
+        emit refuseLink();
     }
 }
 

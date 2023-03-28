@@ -13,6 +13,9 @@ class TcpClient : public TcpAbstract {
 private:
     QTcpSocket socket;
     int socketPort{};
+protected:
+    void handleDisconnect() override;
+
 public:
     TcpClient(const QHostAddress &address, int port);
 

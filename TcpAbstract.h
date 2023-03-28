@@ -34,6 +34,8 @@ class TcpAbstract : public QObject {
         }
     };
 
+    virtual void handleDisconnect()=0;
+
     void handleMessage(const QString &s) {
         //!!!处理粘包问题
         QRegularExpression re(R"({.*?})");

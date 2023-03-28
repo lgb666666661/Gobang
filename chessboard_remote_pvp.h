@@ -38,6 +38,9 @@ public:
 
     ~Chessboard_Remote_PVP() override;
 
+signals:
+    void refuseLink();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -57,15 +60,15 @@ private:
         int time = 0;
         QString prefix;
         QLabel *timeLabel = nullptr;
-        int restrictTime=-1;
-        std::function<void()> f;
-        std::function<void()> f2;
+        int restrictTime = -1;
+        std::function<void()> f; ///<超时函数
+        std::function<void()> f2; ///<快要超时调用的函数
         Time &operator++() {
             time++;
-            if(restrictTime!=-1&&time>restrictTime){
+            if (restrictTime != -1 && time > restrictTime) {
                 f();
             }
-            if(restrictTime!=-1&&time>restrictTime*0.8){
+            if (restrictTime != -1 && time > restrictTime * 0.8) {
                 f2();
             }
             if (timeLabel != nullptr)

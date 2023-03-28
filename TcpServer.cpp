@@ -19,14 +19,23 @@ TcpServer::TcpServer() {
 
     //有新连接时
     connect(&server, &QTcpServer::newConnection, this, [this]() {
-        QTcpSocket* socket = server.nextPendingConnection();
+        QTcpSocket *socket = server.nextPendingConnection();
         if (socket != nullptr) {
             //如果有新的连接,但却不是对手的ip地址,拒绝他
             if (peerAddress != nullptr &&
                 (*peerAddress) != socket->peerAddress()) {
-                // todo:拒绝新连接
+                //拒绝新连接
+                QJsonObject object;
+                object.insert("type", "system");
+                object.insert("do", "refuse");
+
+                socket->write(QJsonDocument(object).toJson(
+                        QJsonDocument::Compact));
+                socket->close();
                 return;
             }
+
+
 
             //设置连接成功
             setConnected(true);
@@ -48,7 +57,7 @@ TcpServer::TcpServer() {
     });
 }
 
-bool TcpServer::send(const QString& s) {
+bool TcpServer::send(const QString &s) {
     if (sendSocket && isConnected) {
         sendSocket->write(s.toUtf8());
         return true;
@@ -63,5 +72,9 @@ void TcpServer::stop() {
     object.insert("type", "system");
     object.insert("do", "terminate");
     send(QString(QJsonDocument(object).toJson(QJsonDocument::Compact)));
+    sendSocket->close();
+}
+
+void TcpServer::handleDisconnect() {
     sendSocket->close();
 }

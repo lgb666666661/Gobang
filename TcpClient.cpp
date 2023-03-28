@@ -42,3 +42,8 @@ void TcpClient::stop() {
     send(QString(QJsonDocument(object).toJson(QJsonDocument::Compact)));
     socket.close();
 }
+
+void TcpClient::handleDisconnect() {
+    socket.close();
+//    socket.connectToHost();
+}
