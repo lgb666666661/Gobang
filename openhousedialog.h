@@ -21,11 +21,16 @@ public:
     explicit OpenHouseDialog(QWidget *parent = nullptr,QString name ="");
     QList<QString> getIpListOfComputer();
     void sendBroadcast();
+    void closeEvent(QCloseEvent* e);
     ~OpenHouseDialog();
-
+signals:
+    void back();
+    void cancel();
 private slots:
     void on_okButton_clicked();
     void upsenddata();
+
+    void on_cancelButton_clicked();
 
 private:
     QTimer *time;

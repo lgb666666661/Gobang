@@ -12,6 +12,8 @@
 #include"openhousedialog.h"
 #include"utils.h"
 #include<iostream>
+#include<QCloseEvent>
+#include<QMessageBox>
 namespace Ui { class NetWindow;
 }
 
@@ -23,12 +25,17 @@ public:
     explicit NetWindow(QWidget *parent = nullptr);
     void receiveBroadcast();
     void showIpAddress();
+    void filterAddress();
+    void closeEvent(QCloseEvent* e);
     ~NetWindow();
-
+signals:
+    void backToMain();
 private slots:
+    void filterSlot();
     void on_openHouseButton_clicked();
     void updataIp();
-
+    void backSlot();
+    void cancelSlot();
 private:
     Ui::NetWindow *ui;
     QTimer* time;
@@ -36,6 +43,7 @@ private:
     QList<UdpData> udpdatalist;
     QList<QNetworkDatagram> datagramlist;
     QUdpSocket listenSocket;
+    OpenHouseDialog* openhousedialog;
 
 };
 

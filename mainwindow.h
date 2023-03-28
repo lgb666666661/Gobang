@@ -17,8 +17,10 @@ public:
 
 private slots:
     void on_netButton_clicked();
+    void backSlot();
 
 private:
+    NetWindow* netwindow;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

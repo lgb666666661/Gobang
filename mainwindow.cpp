@@ -15,10 +15,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_netButton_clicked()
 {
-    NetWindow* netwindow=new NetWindow();
+    netwindow=new NetWindow();
+    connect(netwindow,&NetWindow::backToMain,this,&MainWindow::backSlot);
     this->close();
     netwindow->show();
 }
-
+void MainWindow::backSlot(){
+    netwindow->hide();
+    delete(netwindow);
+    this->show();
+}
 
 

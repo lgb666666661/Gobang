@@ -39,16 +39,18 @@ enum  Game_status {BLACK_WINS=1, WHITE_WINS=-1, NOBODY_WINS=0};
 struct UdpData
 {
     UdpData();
-    UdpData(QString name,QString gamemodel,QString chesscolor,QString israndom){
+    UdpData(QString name,QString gamemodel,QString chesscolor,QString israndom,QString port){
         this->name=name;
         this->chesscolor=chesscolor;
         this->israndom=israndom;
         this->gamemodel=gamemodel;
+        this->port=port;
     }
     QString name;
     QString gamemodel;
     QString  chesscolor;
     QString israndom;
+    QString port;
 };
 struct Point {
     int x, y;
