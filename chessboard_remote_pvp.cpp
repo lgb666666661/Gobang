@@ -12,10 +12,8 @@
 
 #include "ui_Chessboard_Remote_PVP.h"
 
-Chessboard_Remote_PVP::~Chessboard_Remote_PVP() {
+Chessboard_Remote_PVP_Abstract::~Chessboard_Remote_PVP_Abstract() {
     delete ui;
-    delete server;
-    delete client;
     delete myLocalTime;
     delete peerLocalTime;
     delete myStepTime;
@@ -23,14 +21,11 @@ Chessboard_Remote_PVP::~Chessboard_Remote_PVP() {
     delete time;
 }
 
-Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode,
-                                             QWidget *parent, int new_game_mode,
-                                             const QString &hostAddress,
-                                             int port)
+Chessboard_Remote_PVP_Abstract::Chessboard_Remote_PVP_Abstract(Chess_color color,
+                                                               QWidget *parent, int new_game_mode)
         : ChessBoard(parent, new_game_mode),
-          ui(new Ui::Chessboard_Remote_PVP),
-          myChessColor(color),
-          chessMode(mode) {
+          ui(new Ui::Chessboard_Remote_PVP_Abstract),
+          myChessColor(color) {
     ui->setupUi(this);
 
     this->centralWidget()->setMouseTracking(true);
@@ -107,37 +102,6 @@ Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode,
     //设置ui中显示本轮落子
     ui->currentColorLabel->setText(QString("本轮落子:黑棋"));
 
-    //设置网络连接
-    if (chessMode == SERVER) {
-        server = new TcpServer();
-        connect(server, &TcpAbstract::connected, this, [this]() { start(); });
-        connect(server, &TcpAbstract::disconnected, this, [this]() {
-            if (state != TERMINATE && state != PAUSE) {
-                pause();
-            }
-        });
-        connect(server, &TcpAbstract::systemDo, this,
-                [this](const QJsonObject &object) { systemDo(object); });
-        connect(server, &TcpAbstract::userDo, this,
-                [this](const QJsonObject &object) {
-                    peerMessage(object.value("message").toString());
-                });
-    } else {
-        client = new TcpClient(QHostAddress(hostAddress), port);
-        connect(client, &TcpServer::connected, this, [this]() { start(); });
-        connect(client, &TcpAbstract::disconnected, this, [this]() {
-            if (state != TERMINATE && state != PAUSE) {
-                pause();
-            }
-        });
-        connect(client, &TcpAbstract::systemDo, this,
-                [this](const QJsonObject &object) { systemDo(object); });
-        connect(client, &TcpAbstract::userDo, this,
-                [this](const QJsonObject &object) {
-                    peerMessage(object.value("message").toString());
-                });
-    }
-
     //连接ui
     connect(ui->sendButton, &QPushButton::clicked, this,
             [this]() { sendMessage(); });
@@ -151,7 +115,7 @@ Chessboard_Remote_PVP::Chessboard_Remote_PVP(Chess_color color, Mode mode,
     });
 }
 
-void Chessboard_Remote_PVP::mousePressEvent(QMouseEvent *event) {
+void Chessboard_Remote_PVP_Abstract::mousePressEvent(QMouseEvent *event) {
     if (state == TERMINATE || state == PAUSE) {
         return;
     }
@@ -192,26 +156,18 @@ void Chessboard_Remote_PVP::mousePressEvent(QMouseEvent *event) {
     }
 }
 
-void Chessboard_Remote_PVP::systemMessage(const QString &s) {
+void Chessboard_Remote_PVP_Abstract::systemMessage(const QString &s) {
     ui->logEdit->append("系统:" + s);
 }
 
-int Chessboard_Remote_PVP::getPort() {
-    assert(chessMode == SERVER);
-    return server->getPort();
-}
+void Chessboard_Remote_PVP_Abstract::start() {
 
-void Chessboard_Remote_PVP::start() {
-
-    //开启计时器,开始对局
+    //如果不是重连的，发送游戏信号，使UDP停止广播
     if (!isReconnected) {
-        systemMessage(chessMode == SERVER ? "XXX已进入房间,游戏开始"
-                                          : "连接成功,游戏开始");
-    } else {
-        systemMessage("对局重连成功,游戏继续");
+        emit gameStart();
     }
-
-
+    //打印开始信息
+    startMessage();
     isReconnected = true;//棋局开始后,后面的连接都是重连的
 
     setState(RUNNING);
@@ -224,16 +180,17 @@ void Chessboard_Remote_PVP::start() {
     timer.start(1000);
 }
 
-void Chessboard_Remote_PVP::pause() {
-    // todo:连接失败等待重连
+void Chessboard_Remote_PVP_Abstract::pause() {//连接失败等待重连
     systemMessage("网络波动,对方断开连接,游戏暂停");
     setState(PAUSE);
     timer.stop();
 }
 
-void Chessboard_Remote_PVP::systemDo(const QJsonObject &order) {
+void Chessboard_Remote_PVP_Abstract::systemDo(const QJsonObject &order) {
 
     QString willDo = order.value("do").toString();
+
+    //判断命令，进行相应动作
     if (willDo == "chess") {
         chess({order.value("x").toInt(), order.value("y").toInt()},
               (order.value("color").toString() == "black") ? BLACK : WHITE);
@@ -259,7 +216,6 @@ void Chessboard_Remote_PVP::systemDo(const QJsonObject &order) {
         auto disagree =
                 questionDialog->addButton("拒绝", QMessageBox::RejectRole);
         questionDialog->show();
-
         connect(questionDialog, &QMessageBox::buttonClicked, this,
                 [this, agree, disagree](QAbstractButton *button) {
                     if (button == (QAbstractButton *) agree) {
@@ -309,15 +265,7 @@ void Chessboard_Remote_PVP::systemDo(const QJsonObject &order) {
     }
 }
 
-void Chessboard_Remote_PVP::send(const QString &s) {
-    if (chessMode == SERVER) {
-        server->send(s);
-    } else {
-        client->send(s);
-    }
-}
-
-void Chessboard_Remote_PVP::win(const QString &info) {
+void Chessboard_Remote_PVP_Abstract::win(const QString &info) {
     if (info.contains("黑棋")) {
         ui->resultLabel->setText(QString("对局结果:") + "黑棋胜");
     } else {
@@ -331,18 +279,16 @@ void Chessboard_Remote_PVP::win(const QString &info) {
     questionDialog->show();
 }
 
-void Chessboard_Remote_PVP::closeEvent(QCloseEvent *event) {
+void Chessboard_Remote_PVP_Abstract::closeEvent(QCloseEvent *event) {
     setActiveExit();
-    if (chessMode == SERVER&&state!=TERMINATE) {
-        server->stop();
-    } else {
-        client->stop();
+    if (state == TERMINATE || state == PAUSE) {
+        return;
     }
-
-
+    exit();
+    emit cancel();
 }
 
-void Chessboard_Remote_PVP::sendMessage() {
+void Chessboard_Remote_PVP_Abstract::sendMessage() {
     if (state == PAUSE || state == TERMINATE) {
         systemMessage("已断开连接,无法发送");
         return;
@@ -354,15 +300,15 @@ void Chessboard_Remote_PVP::sendMessage() {
     send(QString(QJsonDocument(object).toJson(QJsonDocument::Compact)));
 }
 
-void Chessboard_Remote_PVP::myMessage(const QString &s) {
+void Chessboard_Remote_PVP_Abstract::myMessage(const QString &s) {
     ui->logEdit->append("我:" + s);
 }
 
-void Chessboard_Remote_PVP::peerMessage(const QString &s) {
+void Chessboard_Remote_PVP_Abstract::peerMessage(const QString &s) {
     ui->logEdit->append("对方:" + s);
 }
 
-void Chessboard_Remote_PVP::setState(State newState) {
+void Chessboard_Remote_PVP_Abstract::setState(State newState) {
     if (newState == TERMINATE || newState == PAUSE) {
         set_restrict_level(STOP);
     }
@@ -375,7 +321,7 @@ void Chessboard_Remote_PVP::setState(State newState) {
     state = newState;
 }
 
-void Chessboard_Remote_PVP::set_restrict_level(int level) {
+void Chessboard_Remote_PVP_Abstract::set_restrict_level(int level) {
     if (restrict_level == CAN && level == CANNOT) {
         myStepTime->clear();
     }
@@ -404,7 +350,7 @@ void Chessboard_Remote_PVP::set_restrict_level(int level) {
                                     : (level == CAN ? "白棋" : "黑棋")));
 }
 
-void Chessboard_Remote_PVP::timeUp() {
+void Chessboard_Remote_PVP_Abstract::timeUp() {
     if (state == PAUSE || state == TERMINATE) {
         return;
     }
@@ -421,15 +367,126 @@ void Chessboard_Remote_PVP::timeUp() {
     }
 }
 
-void Chessboard_Remote_PVP::gameOver() {
+void Chessboard_Remote_PVP_Abstract::gameOver() {
     setState(TERMINATE);
     timer.stop();
 }
 
-void Chessboard_Remote_PVP::setActiveExit() {
-    if (chessMode == SERVER) {
-        server->setActiveExit();
+
+Chessboard_Remote_PVP_Abstract::Time &Chessboard_Remote_PVP_Abstract::Time::operator++() {
+    time++;
+    if (restrictTime != -1 && time > restrictTime) {
+        f();
+    }
+    if (restrictTime != -1 && time > restrictTime * 0.8) {
+        f2();
+    }
+    if (timeLabel != nullptr)
+        timeLabel->setText(prefix + QString::number(time / 60) + "分" + QString::number(time % 60) + "秒");
+    return *this;
+}
+
+void Chessboard_Remote_PVP_Abstract::Time::clear() {
+    time = 0;
+    if (timeLabel != nullptr)
+        timeLabel->setText(prefix + "0分" + "0秒");
+}
+
+////////////////////////以下是两个实体类/////////////////////////////////////////////////////////////////////
+
+
+void Chessboard_Remote_PVP_Server::initNetWork() {
+    server = new TcpServer();
+    connect(server, &TcpAbstract::connected, this, [this]() { start(); });
+    connect(server, &TcpAbstract::disconnected, this, [this]() {
+        if (state != TERMINATE && state != PAUSE) {
+            pause();
+        }
+    });
+    connect(server, &TcpAbstract::systemDo, this,
+            [this](const QJsonObject &object) { systemDo(object); });
+    connect(server, &TcpAbstract::userDo, this,
+            [this](const QJsonObject &object) {
+                peerMessage(object.value("message").toString());
+            });
+}
+
+Chessboard_Remote_PVP_Server::~Chessboard_Remote_PVP_Server() {
+    delete server;
+}
+
+Chessboard_Remote_PVP_Server::Chessboard_Remote_PVP_Server(Chess_color color, QWidget *parent, int new_game_mode)
+        : Chessboard_Remote_PVP_Abstract(color, parent, new_game_mode) {
+    initNetWork();
+}
+
+int Chessboard_Remote_PVP_Server::getPort() {
+    return server->getPort();
+}
+
+void Chessboard_Remote_PVP_Server::startMessage() {
+    if (!isReconnected) {
+        systemMessage("XXX已进入房间,游戏开始");
     } else {
-        client->setActiveExit();
+        systemMessage("对局重连成功,游戏继续");
     }
 }
+
+void Chessboard_Remote_PVP_Server::send(const QString &s) {
+    server->send(s);
+}
+
+void Chessboard_Remote_PVP_Server::exit() {
+    server->stop();
+}
+
+void Chessboard_Remote_PVP_Server::setActiveExit() {
+    server->setActiveExit();
+}
+
+void Chessboard_Remote_PVP_Client::initNetWork() {
+    client = new TcpClient(QHostAddress(hostAddress), port);
+    connect(client, &TcpServer::connected, this, [this]() { start(); });
+    connect(client, &TcpAbstract::disconnected, this, [this]() {
+        if (state != TERMINATE && state != PAUSE) {
+            pause();
+        }
+    });
+    connect(client, &TcpAbstract::systemDo, this,
+            [this](const QJsonObject &object) { systemDo(object); });
+    connect(client, &TcpAbstract::userDo, this,
+            [this](const QJsonObject &object) {
+                peerMessage(object.value("message").toString());
+            });
+}
+
+Chessboard_Remote_PVP_Client::~Chessboard_Remote_PVP_Client() {
+    delete client;
+}
+
+Chessboard_Remote_PVP_Client::Chessboard_Remote_PVP_Client(Chess_color color, const QHostAddress &serverAddress,
+                                                           int serverPort, QWidget *parent, int new_game_mode) :
+        Chessboard_Remote_PVP_Abstract(color, parent, new_game_mode), hostAddress(serverAddress), port(serverPort) {
+    initNetWork();
+}
+
+void Chessboard_Remote_PVP_Client::startMessage() {
+    if (!isReconnected) {
+        systemMessage("连接成功,游戏开始");
+    } else {
+        systemMessage("对局重连成功,游戏继续");
+    }
+}
+
+void Chessboard_Remote_PVP_Client::send(const QString &s) {
+    client->send(s);
+}
+
+void Chessboard_Remote_PVP_Client::exit() {
+    client->stop();
+}
+
+void Chessboard_Remote_PVP_Client::setActiveExit() {
+    client->setActiveExit();
+}
+

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Chessboard_Remote_PVP</class>
- <widget class="QMainWindow" name="Chessboard_Remote_PVP">
+ <class>Chessboard_Remote_PVP_Abstract</class>
+ <widget class="QMainWindow" name="Chessboard_Remote_PVP_Abstract">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Chessboard_Remote_PVP</string>
+   <string>Chessboard_Remote_PVP_Abstract</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="10,4,1">

@@ -9,17 +9,29 @@ OpenHouseDialog::OpenHouseDialog(QWidget *parent,QString name) :
     ui->setupUi(this);
     time=new QTimer();
     connect(time,&QTimer::timeout,this,&OpenHouseDialog::upsenddata);
+    connect(rPVP,&Chessboard_Remote_PVP_Server::gameStart,this,&OpenHouseDialog::showGame);
+    connect(rPVP,&Chessboard_Remote_PVP_Server::cancel,this,&OpenHouseDialog::cancelSlot);
 }
 
 OpenHouseDialog::~OpenHouseDialog()
 {
     delete ui;
 }
-
+void OpenHouseDialog::showGame(){
+   time->stop();
+   this->hide();
+   rPVP->show();
+}
 void OpenHouseDialog::closeEvent(QCloseEvent *e){
-
+   this->hide();
    emit cancel();
 }
+void OpenHouseDialog::cancelSlot(){
+    delete rPVP;
+    this->hide();
+    emit cancel();
+}
+
 void OpenHouseDialog::sendBroadcast(){
     QList<QString> ips = getIpListOfComputer();
        for (auto &ip: ips) {
@@ -52,12 +64,11 @@ void OpenHouseDialog::sendBroadcast(){
            jsonobject.insert("chesscolor",s);
            jsonobject.insert("israndom",b);
            if(s=="黑棋"){
-               rPVP=new Chessboard_Remote_PVP (WHITE, Chessboard_Remote_PVP::SERVER,nullptr, 0);
+               rPVP=new Chessboard_Remote_PVP_Server (WHITE,nullptr, 0);
             }else{
-               rPVP=new Chessboard_Remote_PVP (BLACK, Chessboard_Remote_PVP::SERVER,nullptr, 0);
+               rPVP=new Chessboard_Remote_PVP_Server (BLACK,nullptr, 0);
            }
            QString port=QString::number(rPVP->getPort());
-           rPVP->show();
            jsonobject.insert("port",port);
            QJsonDocument jsondocument;
            jsondocument.setObject(jsonobject);
@@ -95,7 +106,6 @@ void OpenHouseDialog::upsenddata(){
     sendSockets.clear();
     sendBroadcast();
 }
-
 
 void OpenHouseDialog::on_cancelButton_clicked()
 {

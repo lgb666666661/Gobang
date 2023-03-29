@@ -12,11 +12,24 @@ NetWindow::NetWindow(QWidget *parent) :
     time=new QTimer(this);
     connect(time,&QTimer::timeout,this,&NetWindow::updataIp);
     connect(ui->addressListWidget,&QListWidget::doubleClicked,this,&NetWindow::beginGame);
+    connect(rPVP2,&Chessboard_Remote_PVP_Client::refuseLink,this,&NetWindow::refuseLink);
+    connect(rPVP2,&Chessboard_Remote_PVP_Client::gameStart,this,&NetWindow::showGame);
+    connect(rPVP2,&Chessboard_Remote_PVP_Client::cancel,this,&NetWindow::cancelSlot);
     time->start(10000);
 }
 NetWindow::~NetWindow()
 {
     delete ui;
+}
+void NetWindow::showGame(){
+    time->stop();
+    this->hide();
+    rPVP2->show();
+}
+void NetWindow::refuseLink(){
+    delete rPVP2;
+    QMessageBox::information(this,"提示框","连接已过期！",QMessageBox::Ok);
+    updataIp();
 }
 void NetWindow::showIpAddress(){
     for(auto i:datagramlist){
@@ -90,7 +103,7 @@ void NetWindow::backSlot(){
     this->show();
 }
 void NetWindow::cancelSlot(){
-    openhousedialog->hide();
+    delete rPVP2;
     delete openhousedialog;
     emit backToMain();
 }
@@ -121,10 +134,10 @@ void NetWindow::beginGame(){
    }
    delete rPVP2;
    if(d1.chesscolor=="白棋"){
-       rPVP2=new Chessboard_Remote_PVP(WHITE, Chessboard_Remote_PVP::CLIENT,nullptr,
-                                   model,h.toString(),p);
+       rPVP2=new Chessboard_Remote_PVP_Client(WHITE, h,p,nullptr,
+                                   model);
    }else{
-       rPVP2=new  Chessboard_Remote_PVP(BLACK, Chessboard_Remote_PVP::CLIENT,nullptr,
-                                   model,h.toString(),p);
+       rPVP2=new Chessboard_Remote_PVP_Client(BLACK, h,p,nullptr,
+                                   model);
    }
 }

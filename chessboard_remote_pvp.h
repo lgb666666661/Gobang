@@ -15,22 +15,17 @@
 #include <functional>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class Chessboard_Remote_PVP; }
+namespace Ui { class Chessboard_Remote_PVP_Abstract; }
 QT_END_NAMESPACE
 
-class Chessboard_Remote_PVP : public ChessBoard {
+class Chessboard_Remote_PVP_Abstract : public ChessBoard {
 Q_OBJECT
 
 public:
-    enum Mode {
-        SERVER,
-        CLIENT
-    };
 
-    explicit Chessboard_Remote_PVP(QWidget *parent = nullptr) = delete;
+    explicit Chessboard_Remote_PVP_Abstract(QWidget *parent = nullptr) = delete;
 
-    explicit Chessboard_Remote_PVP(Chess_color color, Mode mode, QWidget *parent = nullptr, int new_game_mode = 0,
-                                   const QString &hostAddress = "", int port = 0);
+    explicit Chessboard_Remote_PVP_Abstract(Chess_color color, QWidget *parent = nullptr, int new_game_mode = 0);
 
     void mousePressEvent(QMouseEvent *event) override;
 
@@ -38,74 +33,26 @@ public:
 
     int getPort();
 
-    ~Chessboard_Remote_PVP() override;
+    ~Chessboard_Remote_PVP_Abstract() override;
 
 signals:
+    void cancel();
+
     void refuseLink();
 
-protected:
-    void closeEvent(QCloseEvent *event) override;
+    void gameStart();
 
-private:
-    enum CanChess {
-        CAN = 0,
-        CANNOT = 1,
-        STOP = 2
-    };
+protected:
     enum State {
         PAUSE,
         RUNNING,
         TERMINATE
     };
-
-    struct Time {
-        int time = 0;
-        QString prefix;
-        QLabel *timeLabel = nullptr;
-        int restrictTime = -1;
-        std::function<void()> f; ///<超时函数
-        std::function<void()> f2; ///<快要超时调用的函数
-        Time &operator++() {
-            time++;
-            if (restrictTime != -1 && time > restrictTime) {
-                f();
-            }
-            if (restrictTime != -1 && time > restrictTime * 0.8) {
-                f2();
-            }
-            if (timeLabel != nullptr)
-                timeLabel->setText(prefix + QString::number(time / 60) + "分" + QString::number(time % 60) + "秒");
-            return *this;
-        }
-
-        void clear() {
-            time = 0;
-            if (timeLabel != nullptr)
-                timeLabel->setText(prefix + "0分" + "0秒");
-        }
-    };
-
-    Ui::Chessboard_Remote_PVP *ui{};
-    Mode chessMode;
-    Chess_color myChessColor;
-    TcpServer *server = nullptr;
-    TcpClient *client = nullptr;
     State state = PAUSE;
-    QTimer repentTimer;
-    QTimer timer;
-    bool isReconnected=false;///< 指示是否为重连的棋局
+    bool isReconnected = false;///< 指示是否为重连的棋局
 
 
-    Time *myLocalTime = nullptr;
-    Time *peerLocalTime = nullptr;
-    Time *myStepTime = nullptr;
-    Time *peerStepTime = nullptr;
-    Time *time = nullptr;
-
-
-    void systemMessage(const QString &s);
-
-    void myMessage(const QString &s);
+    void closeEvent(QCloseEvent *event) override;
 
     void peerMessage(const QString &s);
 
@@ -115,19 +62,110 @@ private:
 
     void systemDo(const QJsonObject &order);
 
-    void send(const QString &s);
+    void systemMessage(const QString &s);
+
+    void myMessage(const QString &s);
+
+    void setState(State newState);
+
+private:
+    enum CanChess {
+        CAN = 0,
+        CANNOT = 1,
+        STOP = 2
+    };
+
+
+    struct Time {
+        int time = 0;
+        QString prefix;
+        QLabel *timeLabel = nullptr;
+        int restrictTime = -1;
+        std::function<void()> f; ///<超时函数
+        std::function<void()> f2; ///<快要超时调用的函数
+        Time &operator++();
+        void clear();
+    };
+
+    Ui::Chessboard_Remote_PVP_Abstract *ui{};
+    Chess_color myChessColor;
+
+
+    QTimer repentTimer;
+    QTimer timer;
+
+
+    Time *myLocalTime = nullptr;
+    Time *peerLocalTime = nullptr;
+    Time *myStepTime = nullptr;
+    Time *peerStepTime = nullptr;
+    Time *time = nullptr;
+
+
+    virtual void send(const QString &s) = 0;
 
     void win(const QString &info);
 
     void sendMessage();
 
-    void setState(State newState);
-
     void timeUp();
 
     void gameOver();
 
-    void setActiveExit();
+    virtual void setActiveExit() = 0;
+
+    virtual void startMessage() = 0;
+
+    virtual void exit() = 0;
+};
+
+class Chessboard_Remote_PVP_Server : public Chessboard_Remote_PVP_Abstract {
+protected:
+
+private:
+    TcpServer *server = nullptr;
+
+    void initNetWork();
+
+    void startMessage() override;
+
+    void send(const QString &s) override;
+
+    void exit() override;
+
+    void setActiveExit() override;
+
+public:
+    ~Chessboard_Remote_PVP_Server() override;
+
+    explicit Chessboard_Remote_PVP_Server(Chess_color color, QWidget *parent = nullptr, int new_game_mode = 0);
+
+    int getPort();
+};
+
+class Chessboard_Remote_PVP_Client : public Chessboard_Remote_PVP_Abstract {
+protected:
+
+private:
+    TcpClient *client = nullptr;
+    QHostAddress hostAddress;
+    int port;
+
+    void initNetWork();
+
+    void startMessage() override;
+
+    void send(const QString &s) override;
+
+    void exit() override;
+
+    void setActiveExit() override;
+
+public:
+    Chessboard_Remote_PVP_Client(Chess_color color, const QHostAddress &serverAddress, int serverPort,
+                                 QWidget *parent = nullptr, int new_game_mode = 0);
+
+    ~Chessboard_Remote_PVP_Client() override;
 };
 
 

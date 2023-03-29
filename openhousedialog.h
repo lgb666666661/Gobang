@@ -30,11 +30,12 @@ signals:
 private slots:
     void on_okButton_clicked();
     void upsenddata();
-
+    void showGame();
+    void cancelSlot();
     void on_cancelButton_clicked();
 
 private:
-    Chessboard_Remote_PVP *rPVP=nullptr;
+    Chessboard_Remote_PVP_Server *rPVP=nullptr;
     QTimer *time;
     QString name;
     Ui::OpenHouseDialog *ui;

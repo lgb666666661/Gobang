@@ -14,6 +14,7 @@ private:
     QTcpSocket socket;
     int socketPort{};
 protected:
+    ///@brief 断开上一份连接
     void handleDisconnect() override;
 
 public:
