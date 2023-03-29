@@ -38,7 +38,7 @@ public:
     void mousePressEvent(QMouseEvent *event) override;
 
     ///@brief 设置棋盘是否能落子,如果在能落或不能落的状态之间切换成功,会更新步时和局时的计数器以及悔棋按钮的可触发性,以及更新本轮落子的Label
-    ///@param level @see
+    ///@param level @see restrict_level
     void set_restrict_level(int level) override;
 
     ~Chessboard_Remote_PVP_Abstract() override;
@@ -51,67 +51,72 @@ signals:
     void gameStart();
 
 protected:
-    enum State {
-        PAUSE,
-        RUNNING,
-        TERMINATE
+    ///@brief 网络连接状态
+    enum LinkState {
+        PAUSE, ///<暂停态,可被重连
+        RUNNING,///<运行态
+        TERMINATE///<终止态,不可被重连
     };
-    State state = PAUSE;
+
+    LinkState linkState = PAUSE;///<指示棋盘网络连接状态
     bool isReconnected = false;///< 指示是否为重连的棋局
 
-
+    ///@brief 关闭事件,会调用@ref setActiveExit来指示当前为主动关闭,不用重连,也会使用 @ref exit给棋局对方发一个终止信息
     void closeEvent(QCloseEvent *event) override;
-
+    ///@brief 在界面显示对方的聊天信息
     void peerMessage(const QString &s);
-
+    ///@brief 开始棋局的函数,会向对方发送一个重连信息,保证两边的棋盘一致
     void start();
-
+    ///@brief 暂停棋局
     void pause();
-
+    ///@brief 解析对方发来的系统信息,进行相应动作
     void systemDo(const QJsonObject &order);
-
+    ///@brief 向界面打印系统信息
     void systemMessage(const QString &s);
-
+    ///@brief 向界面打印自己的聊天信息
     void myMessage(const QString &s);
-
-    void setState(State newState);
+    ///@brief 设置连接状态,更新连接状态的label
+    void setState(LinkState newState);
 
 private:
+    ///@brief 能否下棋 @see restrict_level
     enum CanChess {
-        CAN = 0,
-        CANNOT = 1,
-        STOP = 2
+        CAN = 0,///<能
+        CANNOT = 1,///<不能,但是能预选
+        STOP = 2///<不能预选
     };
 
-
+    ///@class Time
+    ///@brief 绑定一个标签的时间类,时间增加的时候会更新标签,时间要到限制的时候调用回调函数
     struct Time {
-        int time = 0;
-        QString prefix;
-        QLabel *timeLabel = nullptr;
-        int restrictTime = -1;
-        std::function<void()> f; ///<超时函数
-        std::function<void()> f2; ///<快要超时调用的函数
+        int time = 0;///<时间秒数
+        QString prefix;///<标签字符串的前缀
+        QLabel *timeLabel = nullptr;///<绑定的标签
+        int restrictTime = -1;///< 时间限制,为-1时表示无限制
+        std::function<void()> f; ///<回调函数,超时函数
+        std::function<void()> f2; ///<回调函数 快要超时调用的函数
         Time &operator++();
-        void clear();
+        void clear();///<清空时间
     };
 
     Ui::Chessboard_Remote_PVP_Abstract *ui{};
-    Chess_color myChessColor;
+
+    Chess_color myChessColor;///< 当前棋局自己这方的颜色,@ref Chess_color
 
 
-    QTimer repentTimer;
-    QTimer timer;
+    QTimer repentTimer;///< 悔棋计时器,当悔棋无响应超过一定时间,会产生一个提示
+    QTimer timer;///< 棋局计时器
 
 
-    Time *myLocalTime = nullptr;
-    Time *peerLocalTime = nullptr;
-    Time *myStepTime = nullptr;
-    Time *peerStepTime = nullptr;
-    Time *time = nullptr;
+    Time *myLocalTime = nullptr;///< 本方局时
+    Time *peerLocalTime = nullptr;///<对方局时
+    Time *myStepTime = nullptr;///< 本方步时
+    Time *peerStepTime = nullptr;///< 对方步时
+    Time *time = nullptr;///< 总时长
 
-
+    ///@brief 发送信息的函数
     virtual void send(const QString &s) = 0;
-
+    ///@brief 产生一个赢棋的窗口
     void win(const QString &info);
 
     void sendMessage();

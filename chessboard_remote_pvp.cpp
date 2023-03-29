@@ -116,7 +116,7 @@ Chessboard_Remote_PVP_Abstract::Chessboard_Remote_PVP_Abstract(Chess_color color
 }
 
 void Chessboard_Remote_PVP_Abstract::mousePressEvent(QMouseEvent *event) {
-    if (state == TERMINATE || state == PAUSE) {
+    if (linkState == TERMINATE || linkState == PAUSE) {
         return;
     }
     if (nearx >= 0 && neary >= 0) {
@@ -281,14 +281,14 @@ void Chessboard_Remote_PVP_Abstract::win(const QString &info) {
 
 void Chessboard_Remote_PVP_Abstract::closeEvent(QCloseEvent *event) {
     setActiveExit();
-    if (state == TERMINATE || state == PAUSE) {
+    if (linkState == TERMINATE || linkState == PAUSE) {
         return;
     }
     exit();
 }
 
 void Chessboard_Remote_PVP_Abstract::sendMessage() {
-    if (state == PAUSE || state == TERMINATE) {
+    if (linkState == PAUSE || linkState == TERMINATE) {
         systemMessage("已断开连接,无法发送");
         return;
     }
@@ -307,7 +307,7 @@ void Chessboard_Remote_PVP_Abstract::peerMessage(const QString &s) {
     ui->logEdit->append("对方:" + s);
 }
 
-void Chessboard_Remote_PVP_Abstract::setState(State newState) {
+void Chessboard_Remote_PVP_Abstract::setState(LinkState newState) {
     if (newState == TERMINATE || newState == PAUSE) {
         set_restrict_level(STOP);
     }
@@ -317,7 +317,7 @@ void Chessboard_Remote_PVP_Abstract::setState(State newState) {
             ((newState == TERMINATE)
              ? "连接结束"
              : (newState == PAUSE ? "连接中断" : "连接正常")));
-    state = newState;
+    linkState = newState;
 }
 
 void Chessboard_Remote_PVP_Abstract::set_restrict_level(int level) {
@@ -350,7 +350,7 @@ void Chessboard_Remote_PVP_Abstract::set_restrict_level(int level) {
 }
 
 void Chessboard_Remote_PVP_Abstract::timeUp() {
-    if (state == PAUSE || state == TERMINATE) {
+    if (linkState == PAUSE || linkState == TERMINATE) {
         return;
     }
 
@@ -398,7 +398,7 @@ void Chessboard_Remote_PVP_Server::initNetWork() {
     server = new TcpServer();
     connect(server, &TcpAbstract::connected, this, [this]() { start(); });
     connect(server, &TcpAbstract::disconnected, this, [this]() {
-        if (state != TERMINATE && state != PAUSE) {
+        if (linkState != TERMINATE && linkState != PAUSE) {
             pause();
         }
     });
@@ -447,7 +447,7 @@ void Chessboard_Remote_PVP_Client::initNetWork() {
     client = new TcpClient(QHostAddress(hostAddress), port);
     connect(client, &TcpServer::connected, this, [this]() { start(); });
     connect(client, &TcpAbstract::disconnected, this, [this]() {
-        if (state != TERMINATE && state != PAUSE) {
+        if (linkState != TERMINATE && linkState != PAUSE) {
             pause();
         }
     });
