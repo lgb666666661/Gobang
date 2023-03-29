@@ -32,14 +32,14 @@ Chessboard_Local_PVP::~Chessboard_Local_PVP()
 
 // 落子
 void Chessboard_Local_PVP::mousePressEvent(QMouseEvent *event) {
-    if(restrict_level >= 1) return;
+    if(restrict_level >= 1) return; /// 若不能落子，退出
 
-    if(nearx >= 0 && neary >= 0) {
-        chess({nearx, neary}, turn);
+    if(nearx >= 0 && neary >= 0) {  /// 若预选落点没有在棋盘内，退出
+        chess({nearx, neary}, turn); /// 落子
 
 //        qDebug() << game_status;
-        change_turn();
-        if (game_status != NOBODY_WINS)
+        change_turn();          /// 交换棋权
+        if (game_status != NOBODY_WINS) /// 判断对局状态，若产生胜负则禁止继续下棋并显示提示信息
         {
             set_restrict_level(2);
             auto dialog = new GameOver();
