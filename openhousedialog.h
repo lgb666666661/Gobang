@@ -9,6 +9,7 @@
 #include<QRandomGenerator>
 #include<QJsonDocument>
 #include<QTimer>
+#include"chessboard_remote_pvp.h"
 namespace Ui {
 class OpenHouseDialog;
 }
@@ -33,6 +34,7 @@ private slots:
     void on_cancelButton_clicked();
 
 private:
+    Chessboard_Remote_PVP *rPVP=nullptr;
     QTimer *time;
     QString name;
     Ui::OpenHouseDialog *ui;

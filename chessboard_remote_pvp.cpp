@@ -333,7 +333,7 @@ void Chessboard_Remote_PVP::win(const QString &info) {
 
 void Chessboard_Remote_PVP::closeEvent(QCloseEvent *event) {
     setActiveExit();
-    if (chessMode == SERVER) {
+    if (chessMode == SERVER&&state!=TERMINATE) {
         server->stop();
     } else {
         client->stop();

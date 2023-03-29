@@ -36,6 +36,8 @@ public:
 
     void set_restrict_level(int level) override;
 
+    int getPort();
+
     ~Chessboard_Remote_PVP() override;
 
 signals:
@@ -106,8 +108,6 @@ private:
     void myMessage(const QString &s);
 
     void peerMessage(const QString &s);
-
-    int getPort();
 
     void start();
 

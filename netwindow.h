@@ -36,12 +36,15 @@ private slots:
     void updataIp();
     void backSlot();
     void cancelSlot();
+    void beginGame();
 private:
     Ui::NetWindow *ui;
+    Chessboard_Remote_PVP* rPVP2=nullptr;
     QTimer* time;
     quint16 port;
     QList<UdpData> udpdatalist;
     QList<QNetworkDatagram> datagramlist;
+    QList<QNetworkDatagram> currentDatagramlist;
     QUdpSocket listenSocket;
     OpenHouseDialog* openhousedialog;
 
