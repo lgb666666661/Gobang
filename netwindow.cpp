@@ -10,7 +10,7 @@ NetWindow::NetWindow(QWidget *parent) :
     connect(&listenSocket, &QUdpSocket::readyRead, [this]() {
         do {
            QNetworkDatagram datagram=listenSocket.receiveDatagram();
-           if(datagramlist.empty()||!(datagramlist.contains(datagram)))
+           if((datagramlist.empty()||!(datagramlist.contains(datagram)))&&datagram.senderAddress()!=QHostAddress::LocalHost)
             {
                qDebug()<<QString(datagram.data());
                datagramlist.push_back(datagram);
@@ -146,6 +146,6 @@ void NetWindow::beginGame(){
    }
    connect(rPVP2,&Chessboard_Remote_PVP_Client::refuseLink,this,&NetWindow::refuseLink);
    connect(rPVP2,&Chessboard_Remote_PVP_Client::gameStart,this,&NetWindow::showGame);
-   connect(rPVP2,&Chessboard_Remote_PVP_Client::cancel,this,&NetWindow::cancelSlot);
+   connect(rPVP2,&Chessboard_Remote_PVP_Client::cancelToMain,this,&NetWindow::cancelSlot);
    qDebug()<<h<<p;
 }

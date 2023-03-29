@@ -16,7 +16,7 @@ OpenHouseDialog::~OpenHouseDialog()
     delete ui;
 }
 void OpenHouseDialog::showGame(){
-
+   qDebug()<<"开始游戏";
    time->stop();
    this->hide();
    rPVP->show();
@@ -31,7 +31,7 @@ void OpenHouseDialog::cancelSlot(){
     emit cancel();
 }
 
-void OpenHouseDialog::sendBroadcast(){
+void OpenHouseDialog::sendBroadcast(double rand){
     QList<QString> ips = getIpListOfComputer();
        for (auto &ip: ips) {
            auto *s = new QUdpSocket(this);
@@ -46,11 +46,13 @@ void OpenHouseDialog::sendBroadcast(){
            QString b;
            if(s=="白棋"){
                b="0";
+               s="黑棋";
            }else if(s=="黑棋"){
                b="0";
+               s="白棋";
            }else{
-               b="1";
-                double rand =QRandomGenerator::global()->bounded(1.0);	//生成一个0和1.0之间的浮点数
+               b="1";        
+                    //生成一个0和1.0之间的浮点数
                 //产生十以内的随机数(0-9)
                 if(rand>=0.5){
                     s="白棋";
@@ -68,7 +70,7 @@ void OpenHouseDialog::sendBroadcast(){
                rPVP=new Chessboard_Remote_PVP_Server (BLACK,nullptr, 0);
            }
            connect(rPVP,&Chessboard_Remote_PVP_Server::gameStart,this,&OpenHouseDialog::showGame);
-           connect(rPVP,&Chessboard_Remote_PVP_Server::cancel,this,&OpenHouseDialog::cancelSlot);
+           connect(rPVP,&Chessboard_Remote_PVP_Server::cancelToMain,this,&OpenHouseDialog::cancelSlot);
            QString port=QString::number(rPVP->getPort());
            jsonobject.insert("port",port);
            QJsonDocument jsondocument;
@@ -98,13 +100,13 @@ QList<QString> OpenHouseDialog::getIpListOfComputer() {
     return ret_list;
 }
 void OpenHouseDialog::on_okButton_clicked()
-{
-    sendBroadcast();
+{   rand=QRandomGenerator::global()->bounded(1.0);
+    sendBroadcast(rand);
     time->start(1000);
 }
 void OpenHouseDialog::upsenddata(){
     sendSockets.clear();
-    sendBroadcast();
+    sendBroadcast(rand);
 }
 
 void OpenHouseDialog::on_cancelButton_clicked()

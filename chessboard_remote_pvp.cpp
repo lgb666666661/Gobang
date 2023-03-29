@@ -285,7 +285,7 @@ void Chessboard_Remote_PVP_Abstract::closeEvent(QCloseEvent *event) {
         return;
     }
     exit();
-    emit cancel();
+    emit cancelToMain();
 }
 
 void Chessboard_Remote_PVP_Abstract::sendMessage() {

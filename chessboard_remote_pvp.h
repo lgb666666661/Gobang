@@ -36,7 +36,7 @@ public:
     ~Chessboard_Remote_PVP_Abstract() override;
 
 signals:
-    void cancel();
+    void cancelToMain();
 
     void refuseLink();
 

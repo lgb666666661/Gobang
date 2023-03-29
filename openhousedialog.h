@@ -21,7 +21,7 @@ class OpenHouseDialog : public QDialog
 public:
     explicit OpenHouseDialog(QWidget *parent = nullptr,QString name ="");
     QList<QString> getIpListOfComputer();
-    void sendBroadcast();
+    void sendBroadcast(double rand);
     void closeEvent(QCloseEvent* e);
     ~OpenHouseDialog();
 signals:
@@ -35,6 +35,7 @@ private slots:
     void on_cancelButton_clicked();
 
 private:
+    double rand;
     Chessboard_Remote_PVP_Server *rPVP=nullptr;
     QTimer *time;
     QString name;
