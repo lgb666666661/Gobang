@@ -7,14 +7,23 @@ NetWindow::NetWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     receiveBroadcast();
+    connect(&listenSocket, &QUdpSocket::readyRead, [this]() {
+        do {
+           QNetworkDatagram datagram=listenSocket.receiveDatagram();
+           if(datagramlist.empty()||!(datagramlist.contains(datagram)))
+            {
+               qDebug()<<QString(datagram.data());
+               datagramlist.push_back(datagram);
+               showIpAddress();
+            }
+           std::cout<<datagramlist.size();
+        } while (listenSocket.hasPendingDatagrams());
+    });
     connect(ui->forbiddenCombolBox,&QComboBox::currentTextChanged,this,&NetWindow::filterSlot);
     connect(ui->colorCombolBox,&QComboBox::currentTextChanged,this,&NetWindow::filterSlot);
     time=new QTimer(this);
     connect(time,&QTimer::timeout,this,&NetWindow::updataIp);
     connect(ui->addressListWidget,&QListWidget::doubleClicked,this,&NetWindow::beginGame);
-    connect(rPVP2,&Chessboard_Remote_PVP_Client::refuseLink,this,&NetWindow::refuseLink);
-    connect(rPVP2,&Chessboard_Remote_PVP_Client::gameStart,this,&NetWindow::showGame);
-    connect(rPVP2,&Chessboard_Remote_PVP_Client::cancel,this,&NetWindow::cancelSlot);
     time->start(10000);
 }
 NetWindow::~NetWindow()
@@ -22,6 +31,7 @@ NetWindow::~NetWindow()
     delete ui;
 }
 void NetWindow::showGame(){
+    qDebug()<<"hjkl";
     time->stop();
     this->hide();
     rPVP2->show();
@@ -32,35 +42,37 @@ void NetWindow::refuseLink(){
     updataIp();
 }
 void NetWindow::showIpAddress(){
+    udpdatalist.clear();
     for(auto i:datagramlist){
         QJsonParseError* jsonerror=new QJsonParseError();;
         QJsonDocument* jsonDoc=new QJsonDocument();
         *jsonDoc=(QJsonDocument::fromJson(i.data(), jsonerror));
         if(jsonerror->error != QJsonParseError::NoError){
+            qDebug()<<jsonerror->errorString();
             QMessageBox::critical(this,"消息提示框","包解析错误！");
             return;
         }
         QJsonObject rootObj = jsonDoc->object();
         QStringList keys = rootObj.keys();
-
-        UdpData u(rootObj.value(keys.at(0)).toString(),rootObj.value(keys.at(1)).toString(),
-                  rootObj.value(keys.at(2)).toString(),rootObj.value(keys.at(3)).toString(),rootObj.value(keys.at(4)).toString());
+        UdpData u(rootObj.value(keys.at(3)).toString(),rootObj.value(keys.at(1)).toString(),
+                  rootObj.value(keys.at(0)).toString(),rootObj.value(keys.at(2)).toString(),rootObj.value(keys.at(4)).toString());
         udpdatalist.push_back(u);
         delete jsonDoc;
         delete jsonerror;
     }
     filterAddress();
-    udpdatalist.clear();
-
 }
 void NetWindow::filterSlot(){
     filterAddress();
 }
 void NetWindow::filterAddress(){
     ui->addressListWidget->clear();
+    qDebug()<<udpdatalist.size();
     for(auto data:udpdatalist){
-        if(data.gamemodel==ui->forbiddenCombolBox->currentData())
-            if(data.chesscolor==ui->colorCombolBox->currentData()||(data.israndom=="1"&&ui->colorCombolBox->currentData()=="随机"))
+        qDebug()<<data.gamemodel;
+        qDebug()<<ui->forbiddenCombolBox->currentText();
+        if(data.gamemodel==ui->forbiddenCombolBox->currentText())
+            if(data.chesscolor==ui->colorCombolBox->currentText()||(data.israndom=="1"&&ui->colorCombolBox->currentText()=="随机"))
                 ui->addressListWidget->addItem(data.name+"("+data.gamemodel+data.chesscolor+data.israndom+")");
     }
 }
@@ -71,18 +83,7 @@ void NetWindow::receiveBroadcast(){
      };
     qDebug()<<"绑定成功！"<<port;
      //收到和出现错误时
-     connect(&listenSocket, &QUdpSocket::readyRead, [this]() {
-         do {
-            QNetworkDatagram datagram=listenSocket.receiveDatagram();
-            if(datagramlist.empty()||!(datagramlist.contains(datagram)))
-             {
-                std::cout<<datagram.data().toStdString();
-                datagramlist.push_back(datagram);
-                showIpAddress();
-             }
-            std::cout<<datagramlist.size();
-         } while (listenSocket.hasPendingDatagrams());
-     });
+
 }
 void NetWindow::on_openHouseButton_clicked()
 {
@@ -124,6 +125,9 @@ void NetWindow::updataIp(){
 }
 void NetWindow::beginGame(){
    int index=ui->addressListWidget->currentRow();
+   qDebug()<<index;
+   qDebug()<<datagramlist.size();
+   qDebug()<<udpdatalist.size();
    QNetworkDatagram d=datagramlist.at(index);
    QHostAddress h=d.senderAddress();
    UdpData d1=udpdatalist.at(index);
@@ -138,6 +142,10 @@ void NetWindow::beginGame(){
                                    model);
    }else{
        rPVP2=new Chessboard_Remote_PVP_Client(BLACK, h,p,nullptr,
-                                   model);
+                                 model);
    }
+   connect(rPVP2,&Chessboard_Remote_PVP_Client::refuseLink,this,&NetWindow::refuseLink);
+   connect(rPVP2,&Chessboard_Remote_PVP_Client::gameStart,this,&NetWindow::showGame);
+   connect(rPVP2,&Chessboard_Remote_PVP_Client::cancel,this,&NetWindow::cancelSlot);
+   qDebug()<<h<<p;
 }

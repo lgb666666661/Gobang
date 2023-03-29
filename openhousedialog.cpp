@@ -9,8 +9,6 @@ OpenHouseDialog::OpenHouseDialog(QWidget *parent,QString name) :
     ui->setupUi(this);
     time=new QTimer();
     connect(time,&QTimer::timeout,this,&OpenHouseDialog::upsenddata);
-    connect(rPVP,&Chessboard_Remote_PVP_Server::gameStart,this,&OpenHouseDialog::showGame);
-    connect(rPVP,&Chessboard_Remote_PVP_Server::cancel,this,&OpenHouseDialog::cancelSlot);
 }
 
 OpenHouseDialog::~OpenHouseDialog()
@@ -18,6 +16,7 @@ OpenHouseDialog::~OpenHouseDialog()
     delete ui;
 }
 void OpenHouseDialog::showGame(){
+
    time->stop();
    this->hide();
    rPVP->show();
@@ -51,7 +50,7 @@ void OpenHouseDialog::sendBroadcast(){
                b="0";
            }else{
                b="1";
-                int rand =QRandomGenerator::global()->bounded(1.0);	//生成一个0和1.0之间的浮点数
+                double rand =QRandomGenerator::global()->bounded(1.0);	//生成一个0和1.0之间的浮点数
                 //产生十以内的随机数(0-9)
                 if(rand>=0.5){
                     s="白棋";
@@ -68,12 +67,14 @@ void OpenHouseDialog::sendBroadcast(){
             }else{
                rPVP=new Chessboard_Remote_PVP_Server (BLACK,nullptr, 0);
            }
+           connect(rPVP,&Chessboard_Remote_PVP_Server::gameStart,this,&OpenHouseDialog::showGame);
+           connect(rPVP,&Chessboard_Remote_PVP_Server::cancel,this,&OpenHouseDialog::cancelSlot);
            QString port=QString::number(rPVP->getPort());
            jsonobject.insert("port",port);
            QJsonDocument jsondocument;
            jsondocument.setObject(jsonobject);
            QByteArray dataarray=jsondocument.toJson();
-           i->writeDatagram(dataarray,QHostAddress::Broadcast,10123);
+           i->writeDatagram(dataarray,QHostAddress::Broadcast,10125);
        }
 }
 QList<QString> OpenHouseDialog::getIpListOfComputer() {
@@ -99,8 +100,7 @@ QList<QString> OpenHouseDialog::getIpListOfComputer() {
 void OpenHouseDialog::on_okButton_clicked()
 {
     sendBroadcast();
-    time->start(10000);
-    this->hide();
+    time->start(1000);
 }
 void OpenHouseDialog::upsenddata(){
     sendSockets.clear();
