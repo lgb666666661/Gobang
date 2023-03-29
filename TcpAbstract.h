@@ -27,8 +27,8 @@ class TcpAbstract : public QObject {
     bool isActiveExit=false;///< 指示用户是否主动终止了游戏,用户终止游戏时不会再尝试重连
 
 
-     /// @brief 设置isConnected是否连接,连接发送connected 信号，不连接发送disconnected 信号
-     /// @param b 是否连接 b为false时，停止发送心跳包，在isActiveExit为false时调用handleDisconnect尝试重连
+     /// @brief 设置isConnected是否连接,连接发送@ref connected 信号，不连接发送@ref disconnected 信号
+     /// @param b 是否连接 b为false时，停止发送心跳包，在@ref isActiveExit为false时调用@ref handleDisconnect尝试重连
     void setConnected(bool b) {
         if (b) {
             isConnected = true;
