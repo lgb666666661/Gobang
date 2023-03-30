@@ -39,7 +39,9 @@ enum  Game_status
 };
 
 
-
+/**
+ * @brief udp发送的JOSN数据类
+ */
 struct UdpData
 {
     UdpData();
