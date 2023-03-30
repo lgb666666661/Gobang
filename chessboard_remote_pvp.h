@@ -44,6 +44,8 @@ public:
     ~Chessboard_Remote_PVP_Abstract() override;
 
 signals:
+
+    ///@brief 当用户点击左上角关闭按钮触发这个信号,用于返回主菜单
     void cancelToMain();
     ///@brief 当客户端想要连接服务器,但是服务器已经和另一个客户端建立连接了,会触发这个信号,表示拒绝连接
     void refuseLink();
@@ -88,13 +90,14 @@ private:
     };
 
     ///@class Time
-    ///@brief 绑定一个标签的时间类,时间增加的时候会更新标签,时间要到限制的时候调用回调函数
+    ///@brief 绑定一个标签的时间类
+    ///@note 时间增加的时候会更新标签,时间要到限制的时候调用回调函数
     struct Time {
         int time = 0;///<时间秒数
         QString prefix;///<标签字符串的前缀
         QLabel *timeLabel = nullptr;///<绑定的标签
         int restrictTime = -1;///< 时间限制,为-1时表示无限制
-        std::function<void()> f; ///<回调函数,超时函数
+        std::function<void()> f; ///<回调函数,超时调用的函数
         std::function<void()> f2; ///<回调函数 快要超时调用的函数
         Time &operator++();
         void clear();///<清空时间
@@ -119,63 +122,77 @@ private:
     virtual void send(const QString &s) = 0;
     ///@brief 产生一个赢棋的窗口
     void win(const QString &info);
-
+    ///@brief 发送用户聊天记录
+    ///@note 连接断开时会提示无法发送
     void sendMessage();
-
+    ///@brief 计时器调用的函数,用来更新对局时间,更新和时间相关的label
     void timeUp();
-
+    ///@brief 设置棋局终止,停止计时器
     void gameOver();
-
+    ///@brief 调用@ref TcpAbstract::setActiveExit()
     virtual void setActiveExit() = 0;
-
+    ///@brief 打印开局信息
     virtual void startMessage() = 0;
-
+    ///@brief 调用@ref TcpAbstract::stop()
     virtual void exit() = 0;
 };
 
+///@class Chessboard_Remote_PVP_Server
+/// @brief 远程对局棋盘的服务端类
 class Chessboard_Remote_PVP_Server : public Chessboard_Remote_PVP_Abstract {
 protected:
 
 private:
-    TcpServer *server = nullptr;
-
+    TcpServer *server = nullptr;///< Tcp服务器
+    ///@brief 初始化服务器与棋盘类的信号连接
     void initNetWork();
-
+    ///@brief 打印开局信息 @see Chessboard_Remote_PVP_Abstract::startMessage()
     void startMessage() override;
-
+    ///@brief 发送信息的函数 @see Chessboard_Remote_PVP_Abstract::send()
     void send(const QString &s) override;
-
+    ///@brief 调用@ref TcpAbstract::stop() @see Chessboard_Remote_PVP_Abstract::exit()
     void exit() override;
-
+    ///@brief 调用@ref TcpAbstract::setActiveExit() @see Chessboard_Remote_PVP_Abstract::setActiveExit()
     void setActiveExit() override;
 
 public:
     ~Chessboard_Remote_PVP_Server() override;
-
+    ///@brief 构造函数
+    ///@param color 本方的棋子颜色 见@ref Chess_color
+    ///@param parent 要绑定的父对象的指针
+    ///@param new_game_mode 有无禁手 见@ref game_mode
     explicit Chessboard_Remote_PVP_Server(Chess_color color, QWidget *parent = nullptr, int new_game_mode = 0);
-
+    ///@brief 得到Tcp服务器建立的端口信息
     int getPort();
 };
 
+///@class Chessboard_Remote_PVP_Client
+/// @brief 远程对局棋盘的客户端类
 class Chessboard_Remote_PVP_Client : public Chessboard_Remote_PVP_Abstract {
 protected:
 
 private:
-    TcpClient *client = nullptr;
-    QHostAddress hostAddress;
-    int port;
-
+    TcpClient *client = nullptr;///< Tcp客户端
+    QHostAddress hostAddress; ///< Tcp服务器的ip地址
+    int port;///< Tcp服务器的端口号
+    ///@brief 初始化服务器与棋盘类的信号连接
     void initNetWork();
-
+    ///@brief 打印开局信息 @see Chessboard_Remote_PVP_Abstract::startMessage()
     void startMessage() override;
-
+    ///@brief 发送信息的函数 @see Chessboard_Remote_PVP_Abstract::send()
     void send(const QString &s) override;
-
+    ///@brief 调用@ref TcpAbstract::stop() @see Chessboard_Remote_PVP_Abstract::exit()
     void exit() override;
-
+    ///@brief 调用@ref TcpAbstract::setActiveExit() @see Chessboard_Remote_PVP_Abstract::setActiveExit()
     void setActiveExit() override;
 
 public:
+    ///@brief 构造函数
+    ///@param color 本方的棋子颜色 见@ref Chess_color
+    ///@param serverAddress 服务器的ip地址
+    ///@param serverPort 服务器的端口号
+    ///@param parent 要绑定的父对象的指针
+    ///@param new_game_mode 有无禁手 见@ref game_mode
     Chessboard_Remote_PVP_Client(Chess_color color, const QHostAddress &serverAddress, int serverPort,
                                  QWidget *parent = nullptr, int new_game_mode = 0);
 
