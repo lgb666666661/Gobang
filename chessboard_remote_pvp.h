@@ -51,7 +51,6 @@ protected:
     State state = PAUSE;
     bool isReconnected = false;///< 指示是否为重连的棋局
 
-
     void closeEvent(QCloseEvent *event) override;
 
     void peerMessage(const QString &s);

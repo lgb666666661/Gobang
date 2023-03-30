@@ -282,6 +282,7 @@ void Chessboard_Remote_PVP_Abstract::win(const QString &info) {
 void Chessboard_Remote_PVP_Abstract::closeEvent(QCloseEvent *event) {
     setActiveExit();
     if (state == TERMINATE || state == PAUSE) {
+        emit cancelToMain();
         return;
     }
     exit();
@@ -339,7 +340,6 @@ void Chessboard_Remote_PVP_Abstract::set_restrict_level(int level) {
             ui->repentButton->setDisabled(false);
         }
     }
-
     if (level == STOP) {
         ui->currentColorLabel->setText("本轮落子:");
         return;
@@ -397,8 +397,8 @@ void Chessboard_Remote_PVP_Abstract::Time::clear() {
 
 void Chessboard_Remote_PVP_Server::initNetWork() {
     server = new TcpServer();
-    connect(server, &TcpAbstract::connected, this, [this]() { start(); });
-    connect(server, &TcpAbstract::disconnected, this, [this]() {
+    connect(server, &TcpServer::connected, this, [this]() { start(); });
+    connect(server, &TcpServer::disconnected, this, [this]() {
         if (state != TERMINATE && state != PAUSE) {
             pause();
         }
@@ -446,8 +446,8 @@ void Chessboard_Remote_PVP_Server::setActiveExit() {
 
 void Chessboard_Remote_PVP_Client::initNetWork() {
     client = new TcpClient(QHostAddress(hostAddress), port);
-    connect(client, &TcpServer::connected, this, [this]() { start(); });
-    connect(client, &TcpAbstract::disconnected, this, [this]() {
+    connect(client, &TcpClient::connected, this, [this]() { start(); });
+    connect(client, &TcpClient::disconnected, this, [this]() {
         if (state != TERMINATE && state != PAUSE) {
             pause();
         }

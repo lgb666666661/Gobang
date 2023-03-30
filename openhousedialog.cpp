@@ -76,7 +76,7 @@ void OpenHouseDialog::sendBroadcast(double rand){
            QJsonDocument jsondocument;
            jsondocument.setObject(jsonobject);
            QByteArray dataarray=jsondocument.toJson();
-           i->writeDatagram(dataarray,QHostAddress::Broadcast,10125);
+           i->writeDatagram(dataarray,QHostAddress::Broadcast,10124);
        }
 }
 QList<QString> OpenHouseDialog::getIpListOfComputer() {
