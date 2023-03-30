@@ -13,7 +13,7 @@
 
 /**
  * @brief 无参构造函数。
- * 一般不使用，应该使用带new_game_mode的构造函数指定对局类型
+ * @details 一般不使用，应该使用带new_game_mode的构造函数指定对局类型
  * @param parent
  */
 ChessBoard::ChessBoard(QWidget *parent) :
