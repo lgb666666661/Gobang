@@ -15,11 +15,23 @@ OpenHouseDialog::~OpenHouseDialog()
 {
     delete ui;
 }
-
+void OpenHouseDialog::showGame(){
+   qDebug()<<"开始游戏";
+   time->stop();
+   this->hide();
+   rPVP->show();
+}
 void OpenHouseDialog::closeEvent(QCloseEvent *e){
+   this->hide();
    emit cancel();
 }
-void OpenHouseDialog::sendBroadcast(){
+void OpenHouseDialog::cancelSlot(){
+    delete rPVP;
+    this->hide();
+    emit cancel();
+}
+
+void OpenHouseDialog::sendBroadcast(double rand){
     QList<QString> ips = getIpListOfComputer();
        for (auto &ip: ips) {
            auto *s = new QUdpSocket(this);
@@ -34,11 +46,13 @@ void OpenHouseDialog::sendBroadcast(){
            QString b;
            if(s=="白棋"){
                b="0";
+               s="黑棋";
            }else if(s=="黑棋"){
                b="0";
+               s="白棋";
            }else{
-               b="1";
-                int rand =QRandomGenerator::global()->bounded(1.0);	//生成一个0和1.0之间的浮点数
+               b="1";        
+                    //生成一个0和1.0之间的浮点数
                 //产生十以内的随机数(0-9)
                 if(rand>=0.5){
                     s="白棋";
@@ -46,16 +60,25 @@ void OpenHouseDialog::sendBroadcast(){
                     s="黑棋";
                 }
            }
+           delete rPVP;
+           qDebug()<<"ghjk";
            jsonobject.insert("chesscolor",s);
            jsonobject.insert("israndom",b);
-           jsonobject.insert("port","10129");
+           if(s=="黑棋"){
+               rPVP=new Chessboard_Remote_PVP_Server (WHITE,nullptr, 0);
+            }else{
+               rPVP=new Chessboard_Remote_PVP_Server (BLACK,nullptr, 0);
+           }
+           connect(rPVP,&Chessboard_Remote_PVP_Server::gameStart,this,&OpenHouseDialog::showGame);
+           connect(rPVP,&Chessboard_Remote_PVP_Server::cancelToMain,this,&OpenHouseDialog::cancelSlot);
+           QString port=QString::number(rPVP->getPort());
+           jsonobject.insert("port",port);
            QJsonDocument jsondocument;
            jsondocument.setObject(jsonobject);
            QByteArray dataarray=jsondocument.toJson();
-           i->writeDatagram(dataarray,QHostAddress::Broadcast,10123);
+           i->writeDatagram(dataarray,QHostAddress::Broadcast,10124);
        }
 }
-
 QList<QString> OpenHouseDialog::getIpListOfComputer() {
     QList<QString> ret_list;
     QList<QNetworkInterface> interfaceList = QNetworkInterface::allInterfaces();
@@ -76,21 +99,15 @@ QList<QString> OpenHouseDialog::getIpListOfComputer() {
     }
     return ret_list;
 }
-
 void OpenHouseDialog::on_okButton_clicked()
-{
-    //此处缺少新建tcpSocket
-    sendBroadcast();
+{   rand=QRandomGenerator::global()->bounded(1.0);
+    sendBroadcast(rand);
     time->start(1000);
 }
-
 void OpenHouseDialog::upsenddata(){
     sendSockets.clear();
-    sendBroadcast();
-    time->setInterval(1000);
-    time->start();
+    sendBroadcast(rand);
 }
-
 
 void OpenHouseDialog::on_cancelButton_clicked()
 {

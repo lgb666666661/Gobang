@@ -9,6 +9,7 @@
 #include<QRandomGenerator>
 #include<QJsonDocument>
 #include<QTimer>
+#include"chessboard_remote_pvp.h"
 namespace Ui {
 class OpenHouseDialog;
 }
@@ -20,7 +21,7 @@ class OpenHouseDialog : public QDialog
 public:
     explicit OpenHouseDialog(QWidget *parent = nullptr,QString name ="");
     QList<QString> getIpListOfComputer();
-    void sendBroadcast();
+    void sendBroadcast(double rand);
     void closeEvent(QCloseEvent* e);
     ~OpenHouseDialog();
 signals:
@@ -29,10 +30,13 @@ signals:
 private slots:
     void on_okButton_clicked();
     void upsenddata();
-
+    void showGame();
+    void cancelSlot();
     void on_cancelButton_clicked();
 
 private:
+    double rand;
+    Chessboard_Remote_PVP_Server *rPVP=nullptr;
     QTimer *time;
     QString name;
     Ui::OpenHouseDialog *ui;

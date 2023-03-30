@@ -22,7 +22,7 @@ void MainWindow::on_netButton_clicked()
 }
 void MainWindow::backSlot(){
     netwindow->hide();
-    delete(netwindow);
+    delete netwindow;
     this->show();
 }
 

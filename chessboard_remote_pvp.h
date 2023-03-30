@@ -44,6 +44,7 @@ public:
     ~Chessboard_Remote_PVP_Abstract() override;
 
 signals:
+    void cancelToMain();
     ///@brief 当客户端想要连接服务器,但是服务器已经和另一个客户端建立连接了,会触发这个信号,表示拒绝连接
     void refuseLink();
 
