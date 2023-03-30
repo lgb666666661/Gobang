@@ -17,11 +17,19 @@
 namespace Ui { class NetWindow;
 }
 
+/**
+ * @class NetWindow
+ * @brief 接收信号类，可以选择房间加入
+ */
+
 class NetWindow : public QWidget
 {
     Q_OBJECT
 
 public:
+
+///@brief 无参构造函数，创建游戏主界面，并且进行监听广播，收到数据包后显示
+///@param parent
     explicit NetWindow(QWidget *parent = nullptr);
     void receiveBroadcast();
     void showIpAddress();

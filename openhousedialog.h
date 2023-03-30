@@ -13,7 +13,10 @@
 namespace Ui {
 class OpenHouseDialog;
 }
-
+/**
+ * @class OpenHouseDialog
+ * @brief 创建房间类，发送广播信号
+ */
 class OpenHouseDialog : public QDialog
 {
     Q_OBJECT
