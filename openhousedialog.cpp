@@ -122,7 +122,11 @@ QList<QString> OpenHouseDialog::getIpListOfComputer() {
  * @details 通过广播发送房间信息
  */
 void OpenHouseDialog::on_okButton_clicked()
-{   rand=QRandomGenerator::global()->bounded(1.0);
+{
+    if(!sendSockets.isEmpty()){
+        sendSockets.clear();
+    }
+    rand=QRandomGenerator::global()->bounded(1.0);
     sendBroadcast(rand);
     time->start(1000);
 }
