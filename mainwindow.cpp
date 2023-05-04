@@ -18,12 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     QScreen *deskScreen = QApplication::primaryScreen();
     if(deskScreen)
         {
-            availableSize = deskScreen->availableVirtualSize();
-            int availableWidth = availableSize.width();
-            int availableHeight = availableSize.height();
-
-            qDebug()<<availableWidth<<" "<<availableHeight;
+            availableSize = deskScreen->availableSize();
         }
+
 
     update();
 }
@@ -71,8 +68,13 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
+    // 最大化
+    localpvp_window->showMaximized();
     localpvp_window->move({0, 0});
-    localpvp_window->setFixedSize(availableSize);
+    int h1 = localpvp_window->geometry().y();
+    qDebug() << "localpvp 边框 = " << h1;
+    localpvp_window->setFixedSize(availableSize.width(),
+                                  availableSize.height() - h1);
 
     QFile f(":/resources/stylesheet.css");
     f.open(QIODevice::ReadOnly);
@@ -103,7 +105,12 @@ void MainWindow::on_pvpButton_2_clicked()
 {
     chessboard_fupan* a=new chessboard_fupan(nullptr,1);
     //this->close();
-    a->setFixedSize(availableSize);
-    a->show();
+    // 最大化
+    a->showMaximized();
+    a->move({0, 0});
+    int h1 = a->geometry().y();
+    qDebug() << "localpvp 边框 = " << h1;
+    a->setFixedSize(availableSize.width(),
+                                  availableSize.height() - h1);
 }
 
