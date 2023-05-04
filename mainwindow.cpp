@@ -18,29 +18,25 @@ MainWindow::MainWindow(QWidget *parent)
     QScreen *deskScreen = QApplication::primaryScreen();
     if(deskScreen)
         {
-            availableSize = deskScreen->availableVirtualSize();
-            int availableWidth = availableSize.width();
-            int availableHeight = availableSize.height();
-
-            qDebug()<<availableWidth<<" "<<availableHeight;
+            availableSize = deskScreen->availableSize();
         }
 
     update();
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
     delete ui;
     delete replayWindow;
 }
-
-void MainWindow::on_netButton_clicked() {
-    netwindow = new NetWindow();
-    connect(netwindow, &NetWindow::backToMain, this, &MainWindow::backSlot);
+void MainWindow::on_netButton_clicked()
+{
+    netwindow=new NetWindow();
+    connect(netwindow,&NetWindow::backToMain,this,&MainWindow::backSlot);
     this->close();
     netwindow->show();
 }
-
-void MainWindow::backSlot() {
+void MainWindow::backSlot(){
     netwindow->hide();
     delete netwindow;
     this->show();
@@ -68,20 +64,34 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::on_pvpButton_clicked() // 创建本地对局
 {
-    localpvp_window = new Chessboard_Local_PVP(nullptr,1);
+    open_local_pvp_dialog dialog(0);
+    dialog.setWindowFlag(Qt::FramelessWindowHint);
+    QString strQss = getQssString(QString(":/resources"
+                                          "/dialog_style.css"));
+    dialog.setStyleSheet(strQss);
+    connect(&dialog, &open_local_pvp_dialog::mode_chosen,
+            this, &MainWindow::slot_local_pvp_set_mode);
+    dialog.exec();
+    localpvp_window = new Chessboard_Local_PVP(nullptr,local_pvp_game_mode);
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
+    // 最大化
+    localpvp_window->showMaximized();
     localpvp_window->move({0, 0});
-    localpvp_window->setFixedSize(availableSize);
+    int h1 = localpvp_window->geometry().y();
+    qDebug() << "localpvp 边框 = " << h1;
+    localpvp_window->setFixedSize(availableSize.width(),
+                                  availableSize.height() - h1);
 
-    QFile f(":/resources/stylesheet.css");
-    f.open(QIODevice::ReadOnly);
-    QString strQss = f.readAll();
+    strQss = getQssString(QString(":/resources"
+                                              "/stylesheet.css"));
     localpvp_window->setStyleSheet(strQss);
-    f.close();
-
     localpvp_window->show();
+}
+
+void MainWindow::slot_local_pvp_set_mode(int game_mode) {
+    local_pvp_game_mode = game_mode;
 }
 
 void MainWindow::slot_back_from_localpvp() { // 从本地对局中返回

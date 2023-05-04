@@ -6,6 +6,8 @@
 #include"chessboard_local_pvp.h"
 #include"chessboard_fupan.h"
 #include "chessboard.h"
+#include "open_local_pvp_dialog.h"
+#include "ui_open_local_pvp_dialog.h"
 #include "replaywindow.h"
 #include <QMainWindow>
 QT_BEGIN_NAMESPACE
@@ -33,6 +35,8 @@ private slots:
 
     void on_pvpButton_2_clicked();
 
+    void slot_local_pvp_set_mode(int game_mode);
+
 private:
     NetWindow* netwindow=nullptr;
     Chessboard_Local_PVP* localpvp_window=nullptr;
@@ -42,6 +46,7 @@ private:
     QImage img2;
 
     QSize availableSize;
+    int local_pvp_game_mode;
 
 protected:
     void paintEvent(QPaintEvent *);

@@ -35,9 +35,9 @@ Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent, int new_game_mode) :
 
 void Chessboard_Local_PVP::resizeEvent(QResizeEvent *event) {
     rescale();
-    this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+2*GRIDSIZE});
+    this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+4*GRIDSIZE});
     this->ui->pushButton_2->move({STARTX + 20*GRIDSIZE, STARTY+6*GRIDSIZE});
-    this->ui->pushButton_3->move({STARTX + 20*GRIDSIZE, STARTY+10*GRIDSIZE});
+    this->ui->pushButton_3->move({STARTX + 20*GRIDSIZE, STARTY+8*GRIDSIZE});
     update();
 }
 

@@ -28,7 +28,9 @@ set(PROJECT_SOURCES
         openhousedialog.h openhousedialog.cpp openhousedialog.ui
         chessboard_remote_pvp.cpp chessboard_remote_pvp.h chessboard_remote_pvp.ui TcpServer.cpp TcpServer.h TcpClient.cpp TcpClient.h TcpAbstract.h
 	res.qrc
-        replaywindow.cpp replaywindow.h replaywindow.ui)
+        replaywindow.cpp replaywindow.h replaywindow.ui
+	open_local_pvp_dialog.h open_local_pvp_dialog.cpp open_local_pvp_dialog.ui
+    )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(GoBang

@@ -39,7 +39,6 @@ ChessBoard::ChessBoard(QWidget *parent) :
     img1 = QImage(":/resources/chessboard_inner.png");
     img2 = QImage(":/resources/welcome.jpg");
     img3 = QImage(":/resources/chessboard.png");
-
     // 画棋盘
     update();
 }
@@ -494,11 +493,9 @@ void ChessBoard::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing, true);
     // 画图片
     // 背景
-
     QRectF boarder2(0, 0, window_w, window_h);
     painter.drawImage(boarder2, img2);
     // 棋盘外层
-
     int tmp = 0.5 * GRIDSIZE;
     QRectF boarder3(STARTX - tmp,
                     STARTY - tmp,
@@ -506,7 +503,6 @@ void ChessBoard::paintEvent(QPaintEvent *) {
                     14 * GRIDSIZE + 2 * tmp);
     painter.drawImage(boarder3, img3);
     // 棋盘内层
-
     QRectF boarder1(STARTX, STARTY, 14 * GRIDSIZE, 14 * GRIDSIZE);
     painter.drawImage(boarder1, img1);
 //    for(int i = 0; i < 15; i++) {
