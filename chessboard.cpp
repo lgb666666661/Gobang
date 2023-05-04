@@ -26,10 +26,6 @@ ChessBoard::ChessBoard(QWidget *parent) :
     setWindowFlags(Qt::CustomizeWindowHint|
                    Qt::WindowCloseButtonHint|
                    Qt::WindowMinimizeButtonHint);
-    this->showMaximized();
-    int w = this->geometry().width();
-    int h = this->geometry().height();
-    this->setFixedSize(w, h);
 
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
@@ -62,10 +58,10 @@ ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     setWindowFlags(Qt::CustomizeWindowHint|
                    Qt::WindowCloseButtonHint|
                    Qt::WindowMinimizeButtonHint);
-    this->showMaximized();
-    int w = this->geometry().width();
-    int h = this->geometry().height();
-    this->setFixedSize(w, h);
+//    this->showMaximized();
+//    int w = this->geometry().width();
+//    int h = this->geometry().height();
+//    this->setFixedSize(w, h);
 
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);

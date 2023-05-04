@@ -41,6 +41,8 @@ class Chessboard_Local_PVP : public ChessBoard
 
     void resizeEvent(QResizeEvent *event) override; ///< 缩放事件
 
+    void closeEvent(QCloseEvent *event) override;  ///< 关闭事件
+
     Ui::Chessboard_Local_PVP *ui;
 signals:
     void back_from_local_pvp();

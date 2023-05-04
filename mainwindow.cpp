@@ -10,12 +10,19 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowFlags(Qt::CustomizeWindowHint|
                    Qt::WindowCloseButtonHint|
                    Qt::WindowMinimizeButtonHint);
-    this->showMaximized();
-    int w = this->geometry().width();
-    int h = this->geometry().height();
-    this->setFixedSize(w, h);
+
 
     img2 = QImage(":/resources/welcome.jpg");
+
+    QScreen *deskScreen = QApplication::primaryScreen();
+    if(deskScreen)
+        {
+            availableSize = deskScreen->availableVirtualSize();
+            int availableWidth = availableSize.width();
+            int availableHeight = availableSize.height();
+
+            qDebug()<<availableWidth<<" "<<availableHeight;
+        }
 
     update();
 }
@@ -63,6 +70,7 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
+    localpvp_window->setFixedSize(availableSize);
     localpvp_window->show();
 }
 
@@ -86,6 +94,7 @@ void MainWindow::on_pvpButton_2_clicked()
 {
     chessboard_fupan* a=new chessboard_fupan(nullptr,1);
     //this->close();
+    a->setFixedSize(availableSize);
     a->show();
 }
 

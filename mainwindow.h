@@ -38,8 +38,12 @@ private:
     Ui::MainWindow *ui;
     QImage img2;
 
+    QSize availableSize;
+
 protected:
     void paintEvent(QPaintEvent *);
+
+
 };
 #endif // MAINWINDOW_H
 

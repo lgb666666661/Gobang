@@ -41,6 +41,10 @@ void Chessboard_Local_PVP::resizeEvent(QResizeEvent *event) {
     update();
 }
 
+void Chessboard_Local_PVP::closeEvent(QCloseEvent *event) {
+    emit back_from_local_pvp();
+}
+
 Chessboard_Local_PVP::~Chessboard_Local_PVP()
 {
     delete ui;
