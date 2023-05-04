@@ -65,8 +65,10 @@ void ReplayWindow::select(int index) {
     fupan->showMaximized();
     fupan->move({0, 0});
     int h1 = fupan->geometry().y();
-    qDebug() << "localpvp 边框 = " << h1;
     fupan->setFixedSize(availableSize.width(),
                                   availableSize.height() - h1);
+    QString strQss = getQssString(QString(":/resources"
+                                  "/stylesheet.css"));
+    fupan->setStyleSheet(strQss);
     fupan->show();
 }

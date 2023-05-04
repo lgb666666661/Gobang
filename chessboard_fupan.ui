@@ -59,6 +59,7 @@
     </property>
     <property name="font">
      <font>
+      <family>楷体</family>
       <pointsize>28</pointsize>
      </font>
     </property>
@@ -87,6 +88,12 @@
       <width>61</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>楷体</family>
+      <pointsize>11</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>进度</string>
