@@ -1,17 +1,20 @@
 #include "netwindow.h"
 #include "ui_netwindow.h"
 
-
 NetWindow::NetWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NetWindow)
 {
+    for(auto sq:QNetworkInterface::allAddresses()){
+        address.push_back(convert_to_ipv4_addr(sq));
+     }
     ui->setupUi(this);
     receiveBroadcast();
     connect(&listenSocket, &QUdpSocket::readyRead, [this]() {
         do {
            QNetworkDatagram datagram=listenSocket.receiveDatagram();
-           if((datagramlist.empty()||!(datagramlist.contains(datagram)))&&datagram.senderAddress()!=QHostAddress::LocalHost)
+           QString qs=convert_to_ipv4_addr(datagram.senderAddress());
+           if((datagramlist.empty()||!(datagramlist.contains(datagram)))&&!address.contains(qs))
             {
                datagramlist.push_back(datagram);
                showIpAddress();
@@ -34,6 +37,13 @@ NetWindow::~NetWindow()
  * @brief NetWindow::showGame
  * @details 连接成功后，进入游戏画面
  */
+QString NetWindow::convert_to_ipv4_addr( const QHostAddress &addr)
+{
+    quint32  addr_origin = addr.toIPv4Address();
+    QHostAddress addr_host = QHostAddress(addr_origin);
+    QString  addr_str = addr_host.toString();
+    return addr_str;
+}
 void NetWindow::showGame(){
     time->stop();
     this->hide();

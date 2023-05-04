@@ -33,6 +33,7 @@ public:
     explicit NetWindow(QWidget *parent = nullptr);
     void receiveBroadcast();
     void showIpAddress();
+    QString convert_to_ipv4_addr( const QHostAddress &addr);
     void filterAddress();
     void closeEvent(QCloseEvent* e);
     ~NetWindow();
@@ -52,6 +53,7 @@ private:
     Chessboard_Remote_PVP_Client* rPVP2=nullptr;
     QTimer* time;
     quint16 port;
+    QList<QString> address;
     QList<UdpData> udpdatalist;
     QList<QNetworkDatagram> datagramlist;
     QList<QNetworkDatagram> currentDatagramlist;
