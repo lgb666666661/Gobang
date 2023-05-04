@@ -71,6 +71,7 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
+    localpvp_window->move({0, 0});
     localpvp_window->setFixedSize(availableSize);
 
     QFile f(":/resources/stylesheet.css");
