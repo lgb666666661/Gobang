@@ -38,9 +38,14 @@ private:
     openpvehouse* open_pve_house=nullptr;
     chessboard_fupan* chessboardFupan=nullptr;
     Ui::MainWindow *ui;
+    QImage img2;
+
+    QSize availableSize;
 
 protected:
     void paintEvent(QPaintEvent *);
+
+
 };
 #endif // MAINWINDOW_H
 

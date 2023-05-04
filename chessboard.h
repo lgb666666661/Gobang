@@ -158,6 +158,9 @@ protected:
      * 2 不能进行任何操作\n
      */
     int restrict_level = 0;
+
+    // 美化
+    QImage img1, img2, img3;
 };
 
 #endif // CHESSBOARD_H

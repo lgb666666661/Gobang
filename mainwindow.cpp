@@ -1,17 +1,30 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
-        : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
     ui->setupUi(this);
 
-    setWindowFlags(Qt::CustomizeWindowHint |
-                   Qt::WindowCloseButtonHint |
+    setWindowFlags(Qt::CustomizeWindowHint|
+                   Qt::WindowCloseButtonHint|
                    Qt::WindowMinimizeButtonHint);
-    setWindowState(Qt::WindowMaximized);
-//    int w = this->geometry().width();
-//    int h = this->geometry().height();
-//    this->setFixedSize(w, h);
+
+
+    img2 = QImage(":/resources/welcome.jpg");
+
+    QScreen *deskScreen = QApplication::primaryScreen();
+    if(deskScreen)
+        {
+            availableSize = deskScreen->availableVirtualSize();
+            int availableWidth = availableSize.width();
+            int availableHeight = availableSize.height();
+
+            qDebug()<<availableWidth<<" "<<availableHeight;
+        }
+
     update();
 }
 
@@ -40,7 +53,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing, true);
     // 画图片
     // 背景
-    QImage img2(":/resources/welcome.jpg");
+
     QRectF boarder2(0, 0, window_w, window_h);
     painter.drawImage(boarder2, img2);
     // 移动标签位置
@@ -55,15 +68,25 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::on_pvpButton_clicked() // 创建本地对局
 {
-    localpvp_window = new Chessboard_Local_PVP(nullptr, 1);
+    localpvp_window = new Chessboard_Local_PVP(nullptr,1);
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
+    localpvp_window->setFixedSize(availableSize);
+
+    QFile f(":/resources/stylesheet.css");
+    f.open(QIODevice::ReadOnly);
+    QString strQss = f.readAll();
+    localpvp_window->setStyleSheet(strQss);
+    f.close();
+
     localpvp_window->show();
 }
 
 void MainWindow::slot_back_from_localpvp() { // 从本地对局中返回
     localpvp_window->hide();
+    delete localpvp_window;
+    localpvp_window = 0;
     this->show();
 }
 
@@ -79,6 +102,7 @@ void MainWindow::on_pveButton_clicked() {
 void MainWindow::on_pvpButton_2_clicked() {
     delete chessboardFupan;
     chessboardFupan = new chessboard_fupan(nullptr, 1);
+    chessboardFupan->setFixedSize(availableSize);
     chessboardFupan->show();
 }
 

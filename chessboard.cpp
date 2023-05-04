@@ -26,10 +26,6 @@ ChessBoard::ChessBoard(QWidget *parent) :
     setWindowFlags(Qt::CustomizeWindowHint|
                    Qt::WindowCloseButtonHint|
                    Qt::WindowMinimizeButtonHint);
-    setWindowState(Qt::WindowMaximized);
-    int w = this->geometry().width();
-    int h = this->geometry().height();
-    this->setFixedSize(w, h);
 
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
@@ -39,6 +35,11 @@ ChessBoard::ChessBoard(QWidget *parent) :
     this->game_mode = 0;
     this->game_status = NOBODY_WINS;
     this->restrict_level = 0;
+    // 加载图片
+    img1 = QImage(":/resources/chessboard_inner.png");
+    img2 = QImage(":/resources/welcome.jpg");
+    img3 = QImage(":/resources/chessboard.png");
+
     // 画棋盘
     update();
 }
@@ -57,10 +58,10 @@ ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     setWindowFlags(Qt::CustomizeWindowHint|
                    Qt::WindowCloseButtonHint|
                    Qt::WindowMinimizeButtonHint);
-    this->showMaximized();
-    int w = this->geometry().width();
-    int h = this->geometry().height();
-    this->setFixedSize(w, h);
+//    this->showMaximized();
+//    int w = this->geometry().width();
+//    int h = this->geometry().height();
+//    this->setFixedSize(w, h);
 
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
@@ -70,6 +71,10 @@ ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     this->game_mode = new_game_mode;
     this->game_status = NOBODY_WINS;
     this->restrict_level = 0;
+    // 加载图片
+    img1 = QImage(":/resources/chessboard_inner.png");
+    img2 = QImage(":/resources/welcome.jpg");
+    img3 = QImage(":/resources/chessboard.png");
     // 画棋盘
     update();
 }
@@ -489,27 +494,27 @@ void ChessBoard::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing, true);
     // 画图片
     // 背景
-//    QImage img2(":/resources/welcome.jpg");
-//    QRectF boarder2(0, 0, window_w, window_h);
-//    painter.drawImage(boarder2, img2);
-//    // 棋盘外层
-//    QImage img3(":/resources/chessboard.png");
-//    int tmp = 0.5 * GRIDSIZE;
-//    QRectF boarder3(STARTX - tmp,
-//                    STARTY - tmp,
-//                    14 * GRIDSIZE + 2 * tmp,
-//                    14 * GRIDSIZE + 2 * tmp);
-//    painter.drawImage(boarder3, img3);
-//    // 棋盘内层
-//    QImage img1(":/resources/chessboard_inner.png");
-//    QRectF boarder1(STARTX, STARTY, 14 * GRIDSIZE, 14 * GRIDSIZE);
-//    painter.drawImage(boarder1, img1);
-    for(int i = 0; i < 15; i++) {
-        painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
-                         STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
-        painter.drawLine(STARTX, STARTY + i * GRIDSIZE,
-                         STARTX + 14 * GRIDSIZE, STARTY + i * GRIDSIZE);
-    }
+
+    QRectF boarder2(0, 0, window_w, window_h);
+    painter.drawImage(boarder2, img2);
+    // 棋盘外层
+
+    int tmp = 0.5 * GRIDSIZE;
+    QRectF boarder3(STARTX - tmp,
+                    STARTY - tmp,
+                    14 * GRIDSIZE + 2 * tmp,
+                    14 * GRIDSIZE + 2 * tmp);
+    painter.drawImage(boarder3, img3);
+    // 棋盘内层
+
+    QRectF boarder1(STARTX, STARTY, 14 * GRIDSIZE, 14 * GRIDSIZE);
+    painter.drawImage(boarder1, img1);
+//    for(int i = 0; i < 15; i++) {
+//        painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
+//                         STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
+//        painter.drawLine(STARTX, STARTY + i * GRIDSIZE,
+//                         STARTX + 14 * GRIDSIZE, STARTY + i * GRIDSIZE);
+//    }
 
     for(int i = 0; i < 15; i++) {
         for(int j = 0; j < 15; j++) {
