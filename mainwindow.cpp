@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
             availableSize = deskScreen->availableSize();
         }
 
-
     update();
 }
 
@@ -64,7 +63,11 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::on_pvpButton_clicked() // 创建本地对局
 {
-    localpvp_window = new Chessboard_Local_PVP(nullptr,1);
+    open_local_pvp_dialog dialog(0);
+    connect(&dialog, &open_local_pvp_dialog::mode_chosen,
+            this, &MainWindow::slot_local_pvp_set_mode);
+    dialog.exec();
+    localpvp_window = new Chessboard_Local_PVP(nullptr,local_pvp_game_mode);
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
@@ -83,6 +86,10 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
     f.close();
 
     localpvp_window->show();
+}
+
+void MainWindow::slot_local_pvp_set_mode(int game_mode) {
+    local_pvp_game_mode = game_mode;
 }
 
 void MainWindow::slot_back_from_localpvp() { // 从本地对局中返回
