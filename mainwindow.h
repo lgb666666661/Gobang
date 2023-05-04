@@ -31,9 +31,12 @@ private slots:
 
     void on_pvpButton_2_clicked();
 
-   private:
+private:
     NetWindow* netwindow;
     Ui::MainWindow *ui;
+
+protected:
+    void paintEvent(QPaintEvent *);
 };
 #endif // MAINWINDOW_H
 

@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    update();
 }
 
 MainWindow::~MainWindow()
@@ -25,7 +27,17 @@ void MainWindow::backSlot(){
     this->show();
 }
 
-
+void MainWindow::paintEvent(QPaintEvent *) {
+    int window_w = this->geometry().width();
+    int window_h = this->geometry().height();
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    // 画图片
+    // 背景
+    QImage img2(":/resources/welcome.jpg");
+    QRectF boarder2(0, 0, window_w, window_h);
+    painter.drawImage(boarder2, img2);
+}
 
 void MainWindow::on_pvpButton_clicked()
 {
