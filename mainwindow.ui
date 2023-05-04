@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-image:rgb(85, 255, 127)</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="pveButton">
     <property name="geometry">
@@ -51,6 +54,19 @@
     </property>
     <property name="text">
      <string>单机对战</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pvpButton_2">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>410</y>
+      <width>93</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>复盘</string>
     </property>
    </widget>
   </widget>

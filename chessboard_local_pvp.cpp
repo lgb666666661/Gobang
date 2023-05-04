@@ -43,6 +43,8 @@ void Chessboard_Local_PVP::mousePressEvent(QMouseEvent *event) {
         {
             set_restrict_level(2);
             auto dialog = new GameOver();
+            auto* temp=new chessboard_fupan(nullptr,1);
+            temp->save_date(this->record);
             QString s = "";
             if(game_status == BLACK_WINS) {
                 s.append("黑棋胜");

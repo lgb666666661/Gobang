@@ -88,8 +88,8 @@ protected:
 protected:
     Ui::ChessBoard *ui;
     // 超参数
-    int STARTX = this->height()/16;
-    int STARTY = this->height()/16;
+    int STARTX = 1.2 * this->height()/16;
+    int STARTY = 1.2 * this->height()/16;
     int GRIDSIZE = this->height()/16;
     int CHESSR = GRIDSIZE / 2 * 0.9; // 棋子半径
     int HINTR = GRIDSIZE / 8; // 落点提示半径

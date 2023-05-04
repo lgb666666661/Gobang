@@ -18,12 +18,17 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         chessboard.h chessboard.cpp chessboard.ui
+        chessboard_fupan.h chessboard_fupan.cpp chessboard_fupan.ui
         gameover.h gameover.cpp gameover.ui
         chessboard_local_pvp.h chessboard_local_pvp.cpp chessboard_local_pvp.ui
+        chessboard_pve.h chessboard_pve.cpp chessboard_pve.ui
         utils.h
+        openpvehouse.h openpvehouse.cpp openpvehouse.ui
         netwindow.h netwindow.cpp netwindow.ui
         openhousedialog.h openhousedialog.cpp openhousedialog.ui
-        chessboard_remote_pvp.cpp chessboard_remote_pvp.h chessboard_remote_pvp.ui TcpServer.cpp TcpServer.h TcpClient.cpp TcpClient.h TcpAbstract.h)
+        chessboard_remote_pvp.cpp chessboard_remote_pvp.h chessboard_remote_pvp.ui TcpServer.cpp TcpServer.h TcpClient.cpp TcpClient.h TcpAbstract.h
+	res.qrc
+    )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(GoBang

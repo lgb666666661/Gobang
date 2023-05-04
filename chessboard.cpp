@@ -463,14 +463,34 @@ int ChessBoard::__getCnt(int x, int y, const Point& dir, int depth){
 
 // 刷新
 void ChessBoard::paintEvent(QPaintEvent *) {
+    int window_w = this->geometry().width();
+    int window_h = this->geometry().height();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    for(int i = 0; i < 15; i++) {
-        painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
-                         STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
-        painter.drawLine(STARTX, STARTY + i * GRIDSIZE,
-                         STARTX + 14 * GRIDSIZE, STARTY + i * GRIDSIZE);
-    }
+    // 画图片
+    // 背景
+    QImage img2(":/resources/welcome.jpg");
+    QRectF boarder2(0, 0, window_w, window_h);
+    painter.drawImage(boarder2, img2);
+    // 棋盘外层
+    QImage img3(":/resources/chessboard.png");
+    int tmp = 0.5 * GRIDSIZE;
+    QRectF boarder3(STARTX - tmp,
+                    STARTY - tmp,
+                    14 * GRIDSIZE + 2 * tmp,
+                    14 * GRIDSIZE + 2 * tmp);
+    painter.drawImage(boarder3, img3);
+    // 棋盘内层
+    QImage img1(":/resources/chessboard_inner.png");
+    QRectF boarder1(STARTX, STARTY, 14 * GRIDSIZE, 14 * GRIDSIZE);
+    painter.drawImage(boarder1, img1);
+//    for(int i = 0; i < 15; i++) {
+//        painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
+//                         STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
+//        painter.drawLine(STARTX, STARTY + i * GRIDSIZE,
+//                         STARTX + 14 * GRIDSIZE, STARTY + i * GRIDSIZE);
+//    }
+
     for(int i = 0; i < 15; i++) {
         for(int j = 0; j < 15; j++) {
             if(chessboard[i][j] == BLACK) {
@@ -553,8 +573,8 @@ void ChessBoard::set_restrict_level(int level) {
 }
 
 void ChessBoard::resizeEvent(QResizeEvent *event) {
-    STARTX = this->height() / 16;
-    STARTY = this->height() / 16;
+    STARTX = 1.2 * this->height() / 16;
+    STARTY = 1.2 * this->height() / 16;
     GRIDSIZE = this->height() / 16;
     CHESSR = GRIDSIZE / 2 * 0.9;
     HINTR = GRIDSIZE / 8;
