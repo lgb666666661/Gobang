@@ -2,7 +2,7 @@
 #include "chessboard.h"
 #include "ui_gameover.h"
 #include "ui_chessboard_fupan.h"
-#include <fstream>"
+#include <fstream>
 
 chessboard_fupan::chessboard_fupan(QWidget *parent) :
                                                               ChessBoard(parent, 0),
@@ -11,6 +11,7 @@ chessboard_fupan::chessboard_fupan(QWidget *parent) :
     ui->setupUi(this);
     this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+7*GRIDSIZE});
     this->ui->pushButton_2->move({STARTX + 20*GRIDSIZE, STARTY+14*GRIDSIZE});
+
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
 }

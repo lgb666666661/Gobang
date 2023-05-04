@@ -26,6 +26,7 @@ private slots:
     void backSlot();
 
     void on_pvpButton_clicked();
+    void slot_back_from_localpvp();
 
     void on_pveButton_clicked();
 
@@ -33,6 +34,7 @@ private slots:
 
 private:
     NetWindow* netwindow;
+    Chessboard_Local_PVP* localpvp_window;
     Ui::MainWindow *ui;
 
 protected:

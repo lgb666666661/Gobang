@@ -63,6 +63,8 @@ public:
     void clear(); ///< 清空棋盘 @return 重置所有信息
     int get_game_status() {return game_status;} ///< 得到对局状态 @return @ref game_status
     void change_turn(); ///< 交换行棋权 @return 改变 @ref turn
+    void rescale(); ///< 缩放
+    void save_data(vector<Chess> chess_data);
 
     /**
      * @brief 设置对棋盘的控制权限
@@ -81,6 +83,7 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
     // 落子
     void mousePressEvent(QMouseEvent *event) override =0;
+
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

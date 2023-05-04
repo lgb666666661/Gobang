@@ -10,6 +10,7 @@
 #include "chessboard.h"
 #include "ui_chessboard.h"
 #include "ui_gameover.h"
+#include <fstream>
 
 /**
  * @brief 无参构造函数。
@@ -21,6 +22,15 @@ ChessBoard::ChessBoard(QWidget *parent) :
     ui(new Ui::ChessBoard)
 {
     ui->setupUi(this);
+
+    setWindowFlags(Qt::CustomizeWindowHint|
+                   Qt::WindowCloseButtonHint|
+                   Qt::WindowMinimizeButtonHint);
+    this->showMaximized();
+    int w = this->geometry().width();
+    int h = this->geometry().height();
+    this->setFixedSize(w, h);
+
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
     qDebug() << this->centralWidget()->hasMouseTracking();
@@ -43,6 +53,15 @@ ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     ui(new Ui::ChessBoard)
 {
     ui->setupUi(this);
+
+    setWindowFlags(Qt::CustomizeWindowHint|
+                   Qt::WindowCloseButtonHint|
+                   Qt::WindowMinimizeButtonHint);
+    this->showMaximized();
+    int w = this->geometry().width();
+    int h = this->geometry().height();
+    this->setFixedSize(w, h);
+
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
     qDebug() << this->centralWidget()->hasMouseTracking();
@@ -99,6 +118,18 @@ void ChessBoard::clear() { // 清空
     _checkStatus();
     update();
     turn = BLACK;
+}
+
+void ChessBoard::save_data(vector<Chess> chess_data)//把对局数据保存到文件中
+{
+    ofstream ofs;
+    ofs.open("fupandata.txt",ios::out|ios::trunc);//文件写，如果存在则清空再写；
+    int len=chess_data.size();
+    for(int i=0;i<len;i++)
+    {
+        ofs<<chess_data[i].color<<" "<<chess_data[i].x<<" "<<chess_data[i].y<<endl;
+    }
+    ofs.close();
 }
 
 void ChessBoard::_checkStatus() { // 检查当前对局状态
@@ -463,6 +494,7 @@ int ChessBoard::__getCnt(int x, int y, const Point& dir, int depth){
 
 // 刷新
 void ChessBoard::paintEvent(QPaintEvent *) {
+
     int window_w = this->geometry().width();
     int window_h = this->geometry().height();
     QPainter painter(this);
@@ -540,7 +572,7 @@ void ChessBoard::paintEvent(QPaintEvent *) {
 void ChessBoard::mouseMoveEvent(QMouseEvent *event) {
     if(restrict_level == 2) return;
 
-//    qDebug() << event->pos();
+    qDebug() << event->pos();
     int curx = event->pos().x();
     int cury = event->pos().y();
 
@@ -572,14 +604,16 @@ void ChessBoard::set_restrict_level(int level) {
     restrict_level = level;
 }
 
-void ChessBoard::resizeEvent(QResizeEvent *event) {
+void ChessBoard::rescale() {
     STARTX = 1.2 * this->height() / 16;
     STARTY = 1.2 * this->height() / 16;
     GRIDSIZE = this->height() / 16;
     CHESSR = GRIDSIZE / 2 * 0.9;
     HINTR = GRIDSIZE / 8;
     HINTR2 = GRIDSIZE / 9;
-    this->update();
 }
 
-
+void ChessBoard::resizeEvent(QResizeEvent *event) {
+    rescale();
+    this->update();
+}

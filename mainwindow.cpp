@@ -7,6 +7,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setWindowFlags(Qt::CustomizeWindowHint|
+                   Qt::WindowCloseButtonHint|
+                   Qt::WindowMinimizeButtonHint);
+    this->showMaximized();
+    int w = this->geometry().width();
+    int h = this->geometry().height();
+    this->setFixedSize(w, h);
+
     update();
 }
 
@@ -37,13 +45,28 @@ void MainWindow::paintEvent(QPaintEvent *) {
     QImage img2(":/resources/welcome.jpg");
     QRectF boarder2(0, 0, window_w, window_h);
     painter.drawImage(boarder2, img2);
+    // 移动标签位置
+    int tmp = window_h / 8;
+    int startx = window_w * 0.7;
+    int starty = window_h * 0.3;
+    this->ui->pvpButton->move({startx, starty});
+    this->ui->netButton->move({startx, starty + 1 * tmp});
+    this->ui->pveButton->move({startx, starty + 2 * tmp});
+    this->ui->pvpButton_2->move({startx, starty + 3 * tmp});
 }
 
-void MainWindow::on_pvpButton_clicked()
+void MainWindow::on_pvpButton_clicked() // 创建本地对局
 {
-    Chessboard_Local_PVP* a=new Chessboard_Local_PVP(nullptr,1);
-    //this->close();
-    a->show();
+    localpvp_window = new Chessboard_Local_PVP(nullptr,1);
+    connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
+            this, &MainWindow::slot_back_from_localpvp);
+    this->close();
+    localpvp_window->show();
+}
+
+void MainWindow::slot_back_from_localpvp() { // 从本地对局中返回
+    localpvp_window->hide();
+    this->show();
 }
 
 

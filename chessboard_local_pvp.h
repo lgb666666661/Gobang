@@ -39,10 +39,15 @@ class Chessboard_Local_PVP : public ChessBoard
      */
     void mousePressEvent(QMouseEvent *event);
 
+    void resizeEvent(QResizeEvent *event) override; ///< 缩放事件
+
     Ui::Chessboard_Local_PVP *ui;
-   private slots:
+signals:
+    void back_from_local_pvp();
+private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
 };
 
 #endif // CHESSBOARD_LOCAL_PVP_H
