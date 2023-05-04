@@ -4,6 +4,8 @@ QPushButton {
     background-color: #f0f0f0;
     min-width: 80px;
     min-height: 50px;
+    font-family: "楷体";
+    font-size: 20px
 }
 QPushButton:pressed {
     background-color: #d0d0d0;

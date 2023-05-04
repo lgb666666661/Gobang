@@ -39,7 +39,6 @@ ChessBoard::ChessBoard(QWidget *parent) :
     img1 = QImage(":/resources/chessboard_inner.png");
     img2 = QImage(":/resources/welcome.jpg");
     img3 = QImage(":/resources/chessboard.png");
-
     // 画棋盘
     update();
 }

@@ -4,8 +4,8 @@
  */
 #ifndef UTILS_H
 #define UTILS_H
-
-
+#include <QFile>
+#include <QString>
 
 /**
  * @brief 颜色宏
@@ -76,5 +76,13 @@ struct Chess {
     int y; ///< @brief y值
     int color; ///< @brief 棋子颜色，见 @ref Chess_color
 };
+
+inline QString getQssString(const QString& s) {
+    QFile f(s);
+    f.open(QIODevice::ReadOnly);
+    QString strQss = f.readAll();
+    f.close();
+    return strQss;
+}
 
 #endif  //UTILS_H

@@ -64,6 +64,10 @@ void MainWindow::paintEvent(QPaintEvent *) {
 void MainWindow::on_pvpButton_clicked() // 创建本地对局
 {
     open_local_pvp_dialog dialog(0);
+    dialog.setWindowFlag(Qt::FramelessWindowHint);
+    QString strQss = getQssString(QString(":/resources"
+                                          "/dialog_style.css"));
+    dialog.setStyleSheet(strQss);
     connect(&dialog, &open_local_pvp_dialog::mode_chosen,
             this, &MainWindow::slot_local_pvp_set_mode);
     dialog.exec();
@@ -79,12 +83,9 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
     localpvp_window->setFixedSize(availableSize.width(),
                                   availableSize.height() - h1);
 
-    QFile f(":/resources/stylesheet.css");
-    f.open(QIODevice::ReadOnly);
-    QString strQss = f.readAll();
+    strQss = getQssString(QString(":/resources"
+                                              "/stylesheet.css"));
     localpvp_window->setStyleSheet(strQss);
-    f.close();
-
     localpvp_window->show();
 }
 

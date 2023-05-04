@@ -17,7 +17,9 @@ int main(int argc, char *argv[])
 
     QFile f(":/resources/stylesheet.css");
     f.open(QIODevice::ReadOnly);
-    QString strQss = f.readAll();
+    QString strQss = getQssString(QString(":/resources"
+                                          "/stylesheet.css"));
+
     mainWindow.setStyleSheet(strQss);
     f.close();
 

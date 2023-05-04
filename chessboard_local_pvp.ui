@@ -56,7 +56,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>返回主菜单</string>
+     <string>退出</string>
     </property>
    </widget>
   </widget>

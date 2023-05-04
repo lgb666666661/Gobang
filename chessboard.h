@@ -85,6 +85,8 @@ public:
     void mousePressEvent(QMouseEvent *event) override =0;
 
 
+
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 

@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QSize>
+#include <QString>
+#include "utils.h"
 #include"chessboard_pve.h"
 namespace Ui {
 class openpvehouse;

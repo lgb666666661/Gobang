@@ -25,6 +25,8 @@ void openpvehouse::on_okpushButton_clicked()
     int forbid=this->ui->forbiddencomboBox->currentIndex();
     chessboard_pve* a=new chessboard_pve(nullptr,forbid);
     // 最大化
+    QString strQss = getQssString(":/resources/stylesheet.css");
+    a->setStyleSheet(strQss);
     a->showMaximized();
     a->move({0, 0});
     int h1 = a->geometry().y();
