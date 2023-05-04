@@ -6,6 +6,7 @@
 #include"chessboard_local_pvp.h"
 #include"chessboard_fupan.h"
 #include "chessboard.h"
+#include "replaywindow.h"
 #include <QMainWindow>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,7 +37,7 @@ private:
     NetWindow* netwindow=nullptr;
     Chessboard_Local_PVP* localpvp_window=nullptr;
     openpvehouse* open_pve_house=nullptr;
-    chessboard_fupan* chessboardFupan=nullptr;
+    ReplayWindow *replayWindow= nullptr;
     Ui::MainWindow *ui;
     QImage img2;
 

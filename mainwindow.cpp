@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete chessboardFupan;
+    delete replayWindow;
 }
 
 void MainWindow::on_netButton_clicked() {
@@ -72,6 +72,7 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp,
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
+    localpvp_window->move({0, 0});
     localpvp_window->setFixedSize(availableSize);
 
     QFile f(":/resources/stylesheet.css");
@@ -100,9 +101,8 @@ void MainWindow::on_pveButton_clicked() {
 
 
 void MainWindow::on_pvpButton_2_clicked() {
-    delete chessboardFupan;
-    chessboardFupan = new chessboard_fupan(nullptr, 1);
-    chessboardFupan->setFixedSize(availableSize);
-    chessboardFupan->show();
+    delete replayWindow;
+    replayWindow=new ReplayWindow();
+    replayWindow->show();
 }
 

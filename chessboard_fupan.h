@@ -37,8 +37,8 @@ public:
     void mousePressEvent(QMouseEvent *event) override;
 
     Ui::chessboard_fupan *ui;
-    static void save_data(const vector<Chess>& chess_data);//把对局数据保存到文件中
-    void load_data();//把对局复盘展示
+    static void save_data(const vector<Chess>& chess_data,const QString &win_message);//把对局数据保存到文件中
+    void load_data(const QJsonObject & object);//把对局复盘展示
     int count=0;
 private:
     vector<Chess> chess_data;

@@ -63,7 +63,6 @@ void Chessboard_Local_PVP::mousePressEvent(QMouseEvent *event) {
         {
             set_restrict_level(2);
             auto dialog = new GameOver();
-            chessboard_fupan::save_data(this->record);
             QString s = "";
             if(game_status == BLACK_WINS) {
                 s.append("黑棋胜");
@@ -74,6 +73,7 @@ void Chessboard_Local_PVP::mousePressEvent(QMouseEvent *event) {
                 if(value == 2) s.append("四四禁手");
                 if(value == 3) s.append("三三禁手");
             }
+            chessboard_fupan::save_data(this->record,s);
             dialog->ui->label->setText(s);
             dialog->exec();
         }

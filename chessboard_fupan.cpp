@@ -4,7 +4,12 @@
 #include "ui_chessboard_fupan.h"
 
 #include <fstream>
+#include <QJsonArray>
 #include <filesystem>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QDateTime>
 
 chessboard_fupan::chessboard_fupan(QWidget *parent) :
         ChessBoard(parent, 0),
@@ -12,7 +17,6 @@ chessboard_fupan::chessboard_fupan(QWidget *parent) :
     ui->setupUi(this);
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
-    load_data();
 }
 
 
@@ -22,13 +26,15 @@ chessboard_fupan::chessboard_fupan(QWidget *parent, int new_game_mode) :
     ui->setupUi(this);
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
-    this->ui->next->show();
-    this->ui->last->show();
 
     connect(this->ui->next, &QPushButton::clicked, this, &chessboard_fupan::next);
     connect(this->ui->last, &QPushButton::clicked, this, &chessboard_fupan::last);
+
+    this->ui->next->move({STARTX + 20 * GRIDSIZE, STARTY + 4 * GRIDSIZE});
+    this->ui->last->move({STARTX + 20 * GRIDSIZE, STARTY + 6 * GRIDSIZE});
+    this->ui->next->show();
+    this->ui->last->show();
     restrict_level = 2;
-    load_data();
     check();
 
 }
@@ -41,38 +47,60 @@ chessboard_fupan::~chessboard_fupan() {
     delete ui;
 }
 
-void chessboard_fupan::save_data(const vector<Chess> &chess_data)//把对局数据保存到文件中
+void chessboard_fupan::save_data(const vector<Chess> &chess_data, const QString &win_message)//把对局数据保存到文件中
 {
-
     if (!filesystem::exists("./data")) {
         filesystem::create_directory("./data");
     }
-    ofstream ofs{"./data/fupandata.txt", ios::out};
-    if (ofs.is_open()) {
-        for (auto &i: chess_data) {
-            ofs << i.color << " " << i.x << " " << i.y << endl;
+    QFile file{"./data/data.json"};
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+    QJsonArray objectArray;
+    QString jsonString{file.readAll()};
+    file.close();
+    if (!jsonString.isEmpty()) {
+        QJsonDocument document;
+        QJsonParseError err;
+        document = QJsonDocument::fromJson(jsonString.toUtf8(), &err);
+        if (err.error != QJsonParseError::NoError) {
+            qDebug() << "Parse json " << jsonString.toUtf8() << " error: " << err.error;
+            return;
         }
+        objectArray = document.array();
+    }
+    if (!file.open(QIODevice::WriteOnly | QFile::Truncate)) {
+        return;
     }
 
-    ofs.close();
+    QJsonObject object;
+    object.insert("win_message", win_message);
+    QJsonArray chessArray;
+    for (auto &i: chess_data) {
+        QJsonObject chess;
+        chess.insert("x", i.x);
+        chess.insert("y", i.y);
+        chess.insert("color", i.color);
+        chessArray.push_back(chess);
+    }
+    object.insert("chess", chessArray);
+    object.insert("time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    objectArray.push_back(object);
+
+    file.write(QString(QJsonDocument(objectArray).toJson(QJsonDocument::Compact)).toUtf8());
+    file.close();
 }
 
-void chessboard_fupan::load_data()//把对局复盘展示
+void chessboard_fupan::load_data(const QJsonObject & object)//把对局复盘展示
 {
-    ifstream ifs;
-    ifs.open("./data/fupandata.txt", ios::in);
-    if (ifs.good()) {
-        if (ifs.is_open()) {
-            while (!ifs.eof()) {
-                Chess temp{};
-                ifs >> temp.color;
-                ifs >> temp.x;
-                ifs >> temp.y;
-                chess_data.push_back(temp);
-            }
-            chess_data.pop_back();
-        }
+    QJsonArray jsonArray =  object.value("chess").toArray();
+    for(auto i:jsonArray){
+        QJsonObject o=i.toObject();
+        Chess tmp{o.value("x").toInt(),o.value("y").toInt(),o.value("color").toInt()};
+        chess_data.emplace_back(tmp);
     }
+    ui->winInfo->setText(object.value("win_message").toString());
+    check();
 
 }
 
