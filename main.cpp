@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QFile>
 #include "chessboard.h"
 #include "chessboard_remote_pvp.h"
 #include "chessboard_local_pvp.h"
@@ -9,7 +10,17 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+
+
     MainWindow mainWindow;
+
+    QFile f(":/resources/stylesheet.css");
+    f.open(QIODevice::ReadOnly);
+    QString strQss = f.readAll();
+    mainWindow.setStyleSheet(strQss);
+    f.close();
+
     mainWindow.showMaximized();
     int w = 1024, h = 768;
     QScreen *deskScreen = QApplication::primaryScreen();

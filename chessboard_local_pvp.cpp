@@ -8,9 +8,9 @@ Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent) :
 {
     ui->setupUi(this);
     rescale();
-    this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+7*GRIDSIZE});
-    this->ui->pushButton_2->move({STARTX + 20*GRIDSIZE, STARTY+14*GRIDSIZE});
-    this->ui->pushButton_3->move({STARTX + 20*GRIDSIZE, STARTY+21*GRIDSIZE});
+    this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+4*GRIDSIZE});
+    this->ui->pushButton_2->move({STARTX + 20*GRIDSIZE, STARTY+6*GRIDSIZE});
+    this->ui->pushButton_3->move({STARTX + 20*GRIDSIZE, STARTY+8*GRIDSIZE});
 
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
@@ -24,9 +24,9 @@ Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent, int new_game_mode) :
     ui->setupUi(this);
 
     rescale();
-    this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+2*GRIDSIZE});
+    this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+4*GRIDSIZE});
     this->ui->pushButton_2->move({STARTX + 20*GRIDSIZE, STARTY+6*GRIDSIZE});
-    this->ui->pushButton_3->move({STARTX + 20*GRIDSIZE, STARTY+10*GRIDSIZE});
+    this->ui->pushButton_3->move({STARTX + 20*GRIDSIZE, STARTY+8*GRIDSIZE});
     update();
 
     this->centralWidget()->setMouseTracking(true);

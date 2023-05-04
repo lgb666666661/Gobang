@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -71,6 +72,13 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
             this, &MainWindow::slot_back_from_localpvp);
     this->close();
     localpvp_window->setFixedSize(availableSize);
+
+    QFile f(":/resources/stylesheet.css");
+    f.open(QIODevice::ReadOnly);
+    QString strQss = f.readAll();
+    localpvp_window->setStyleSheet(strQss);
+    f.close();
+
     localpvp_window->show();
 }
 
