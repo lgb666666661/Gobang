@@ -66,6 +66,8 @@ void MainWindow::on_pvpButton_clicked() // 创建本地对局
 
 void MainWindow::slot_back_from_localpvp() { // 从本地对局中返回
     localpvp_window->hide();
+    delete localpvp_window;
+    localpvp_window = 0;
     this->show();
 }
 
