@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     int h = this->geometry().height();
     this->setFixedSize(w, h);
 
+    img2 = QImage(":/resources/welcome.jpg");
+
     update();
 }
 
@@ -42,7 +44,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing, true);
     // 画图片
     // 背景
-    QImage img2(":/resources/welcome.jpg");
+
     QRectF boarder2(0, 0, window_w, window_h);
     painter.drawImage(boarder2, img2);
     // 移动标签位置

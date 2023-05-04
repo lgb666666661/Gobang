@@ -36,6 +36,7 @@ private:
     NetWindow* netwindow;
     Chessboard_Local_PVP* localpvp_window;
     Ui::MainWindow *ui;
+    QImage img2;
 
 protected:
     void paintEvent(QPaintEvent *);
