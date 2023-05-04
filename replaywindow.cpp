@@ -17,9 +17,6 @@ ReplayWindow::ReplayWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     load();
-    connect(ui->no,&QPushButton::clicked,[this](){
-        this->close();
-    });
     connect(ui->listView,&QListView::clicked,[this](const QModelIndex &index){
         select(index.row());
     });
@@ -59,5 +56,17 @@ void ReplayWindow::select(int index) {
     delete fupan;
     fupan=new chessboard_fupan(nullptr,0);
     fupan->load_data(array[index].toObject());
+    QScreen *deskScreen = QApplication::primaryScreen();
+    QSize availableSize;
+    if(deskScreen)
+    {
+        availableSize = deskScreen->availableSize();
+    }
+    fupan->showMaximized();
+    fupan->move({0, 0});
+    int h1 = fupan->geometry().y();
+    qDebug() << "localpvp 边框 = " << h1;
+    fupan->setFixedSize(availableSize.width(),
+                                  availableSize.height() - h1);
     fupan->show();
 }

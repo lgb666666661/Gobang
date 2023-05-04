@@ -20,7 +20,7 @@
       <x>60</x>
       <y>70</y>
       <width>231</width>
-      <height>341</height>
+      <height>401</height>
      </rect>
     </property>
    </widget>
@@ -38,32 +38,6 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="yes">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>450</y>
-      <width>75</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>确定</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="no">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>450</y>
-      <width>75</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>取消</string>
     </property>
    </widget>
   </widget>

@@ -26,14 +26,14 @@ chessboard_fupan::chessboard_fupan(QWidget *parent, int new_game_mode) :
     ui->setupUi(this);
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
-
+    this->ui->next->move({STARTX + 37*GRIDSIZE, STARTY+14*GRIDSIZE});
+    this->ui->last->move({STARTX + 37*GRIDSIZE, STARTY+18*GRIDSIZE});
+    this->ui->winInfo->move({STARTX + 37*GRIDSIZE, STARTY+10*GRIDSIZE});
+    this->ui->label->move({STARTX + 37*GRIDSIZE, STARTY+21*GRIDSIZE});
+    this->ui->progressBar->move({STARTX + 37*GRIDSIZE, STARTY+22*GRIDSIZE});
     connect(this->ui->next, &QPushButton::clicked, this, &chessboard_fupan::next);
     connect(this->ui->last, &QPushButton::clicked, this, &chessboard_fupan::last);
 
-    this->ui->next->move({STARTX + 20 * GRIDSIZE, STARTY + 4 * GRIDSIZE});
-    this->ui->last->move({STARTX + 20 * GRIDSIZE, STARTY + 6 * GRIDSIZE});
-    this->ui->next->show();
-    this->ui->last->show();
     restrict_level = 2;
     check();
 
@@ -99,6 +99,7 @@ void chessboard_fupan::load_data(const QJsonObject & object)//把对局复盘展
         Chess tmp{o.value("x").toInt(),o.value("y").toInt(),o.value("color").toInt()};
         chess_data.emplace_back(tmp);
     }
+    ui->progressBar->setRange(0,(int)chess_data.size());
     ui->winInfo->setText(object.value("win_message").toString());
     check();
 
@@ -131,5 +132,6 @@ void chessboard_fupan::last() // 撤销
 void chessboard_fupan::check() {
     this->ui->last->setDisabled(this->count == 0);
     this->ui->next->setDisabled(this->count == chess_data.size());
+    this->ui->progressBar->setValue(this->count);
 }
 
