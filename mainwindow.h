@@ -33,8 +33,10 @@ private slots:
     void on_pvpButton_2_clicked();
 
 private:
-    NetWindow* netwindow;
-    Chessboard_Local_PVP* localpvp_window;
+    NetWindow* netwindow=nullptr;
+    Chessboard_Local_PVP* localpvp_window=nullptr;
+    openpvehouse* open_pve_house=nullptr;
+    chessboard_fupan* chessboardFupan=nullptr;
     Ui::MainWindow *ui;
 
 protected:

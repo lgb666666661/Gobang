@@ -15,12 +15,13 @@ class chessboard_fupan : public ChessBoard
 {
     Q_OBJECT
 
-   public:
+public:
     /**
      * @brief 无参构造函数。
      * 一般不使用，应该使用带new_game_mode的构造函数指定对局类型。
      */
     explicit chessboard_fupan(QWidget *parent = nullptr);
+
     /**
      * @brief 可以指定有无禁手的构造函数。
      * @param parent
@@ -32,16 +33,19 @@ class chessboard_fupan : public ChessBoard
      */
     explicit chessboard_fupan(QWidget *parent = nullptr,
                                   int new_game_mode = 0);
-    ~chessboard_fupan();
-    void mousePressEvent(QMouseEvent *event);
-    int i=0;
+    ~chessboard_fupan() override;
+    void mousePressEvent(QMouseEvent *event) override;
+
     Ui::chessboard_fupan *ui;
-    void save_date(vector<Chess> chess_data);//把对局数据保存到文件中
-    vector<Chess> show_fupan();//把对局复盘展示
+    static void save_data(const vector<Chess>& chess_data);//把对局数据保存到文件中
+    void load_data();//把对局复盘展示
     int count=0;
-   private slots:
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
+private:
+    vector<Chess> chess_data;
+    void check();
+private slots:
+    void next();
+    void last();
 };
 
 #endif // chessboard_fupan_H

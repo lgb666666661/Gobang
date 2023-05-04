@@ -2,7 +2,7 @@
 #include "ui_openpvehouse.h"
 
 openpvehouse::openpvehouse(QWidget *parent) :
-                                              QWidget(parent),
+                                              QMainWindow(parent),
                                               ui(new Ui::openpvehouse)
 {
     ui->setupUi(this);

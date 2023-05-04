@@ -2,8 +2,8 @@
 #include"chessboard.h"
 #include "ui_gameover.h"
 #include "ui_chessboard_pve.h"
-#define INT_MIN -100000
-#define INT_MAX 100000
+#define MY_INT_MIN (-100000)
+#define MY_INT_MAX 100000
 chessboard_pve::chessboard_pve(QWidget *parent) :
                                                               ChessBoard(parent, 0),
                                                               ui(new Ui::chessboard_pve)
@@ -27,10 +27,10 @@ chessboard_pve::~chessboard_pve()
     delete ui;
 }
 void chessboard_pve::alpha_beta() {
-    int best_score = INT_MIN;
+    int best_score = MY_INT_MIN;
     pair<int, int> best_move;
-    int alpha = INT_MIN;
-    int beta = INT_MAX;
+    int alpha = MY_INT_MIN;
+    int beta = MY_INT_MAX;
 
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
@@ -60,7 +60,7 @@ int chessboard_pve::max_value(int alpha, int beta, int depth) {
         return heuristic(1);
     }
 
-    int score = INT_MIN;
+    int score = MY_INT_MIN;
 
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
@@ -85,7 +85,7 @@ int chessboard_pve::min_value(int alpha, int beta, int depth) {
         return heuristic( -1);
     }
 
-    int score = INT_MAX;
+    int score = MY_INT_MAX;
 
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
@@ -158,7 +158,7 @@ int chessboard_pve::heuristic( int player) {
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 15; ++j) {
             if (consecutive[i][j] >= 5) {
-                return INT_MAX;
+                return MY_INT_MAX;
             } else if (consecutive[i][j] == 4) {
                 score += 100000;
             } else if (consecutive[i][j] == 3) {
@@ -232,7 +232,7 @@ void chessboard_pve::mousePressEvent(QMouseEvent *event) {
             set_restrict_level(2);
             auto dialog = new GameOver();
             chessboard_fupan* temp=new chessboard_fupan(nullptr,1);
-            temp->save_date(this->record);
+            temp->save_data(this->record);
             QString s = "";
             if(game_status == BLACK_WINS) {
                 s.append("黑棋胜");

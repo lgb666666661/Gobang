@@ -2,14 +2,22 @@
 <ui version="4.0">
  <class>chessboard_fupan</class>
  <widget class="QWidget" name="chessboard_fupan">
-  <property name="windowTitle">
-   <string>Form</string>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>840</width>
+    <height>651</height>
+   </rect>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <property name="windowTitle">
+   <string>复盘</string>
+  </property>
+  <widget class="QPushButton" name="next">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>280</y>
+     <x>570</x>
+     <y>240</y>
      <width>80</width>
      <height>30</height>
     </rect>
@@ -18,17 +26,17 @@
     <string>下一步</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="last">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>390</y>
+     <x>570</x>
+     <y>330</y>
      <width>80</width>
      <height>30</height>
     </rect>
    </property>
    <property name="text">
-    <string>撤销</string>
+    <string>上一步</string>
    </property>
   </widget>
  </widget>
