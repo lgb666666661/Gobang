@@ -49,6 +49,9 @@ QPushButton {
 QPushButton:hover {
     background-color: #fdcb6e;
 }
+QPushButton:disabled {
+    background-color: rgba(253, 203, 110, 0.25);
+}
 
 QComboBox {
     background-color: #fdcb6e;
@@ -59,4 +62,10 @@ QLabel {
     font-size: 20px;
     font-weight: bold;
     font-family: "楷体";
+}
+#returnButton{
+    color: rgba(0, 0, 0, 0.4);
+}
+#returnButton:hover{
+    color: #000000;
 }

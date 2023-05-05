@@ -18,7 +18,7 @@ QMainWindow QPushButton:disabled {
 } */
 
 QTestEdit {
-    background-color: rgba(253, 203, 110. 0.3);
+    background-color: rgba(253, 203, 110, 0.3);
 }
 
 QGroupBox {
