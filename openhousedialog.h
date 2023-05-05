@@ -9,6 +9,7 @@
 #include<QRandomGenerator>
 #include<QJsonDocument>
 #include<QTimer>
+#include<QMessageBox>
 #include"chessboard_remote_pvp.h"
 namespace Ui {
 class OpenHouseDialog;
