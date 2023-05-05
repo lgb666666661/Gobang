@@ -7,10 +7,10 @@ openpvehouse::openpvehouse(QWidget *parent)
     ui->setupUi(this);
 
     QString strQss =
-            getQssString(QString(":/resources"
-                                 "/dialog_style.css"));
-        this->setWindowFlag(Qt::FramelessWindowHint);
-        this->setStyleSheet(strQss);
+        getQssString(QString(":/resources"
+                             "/dialog_style.css"));
+    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setStyleSheet(strQss);
 
     QScreen *deskScreen = QApplication::primaryScreen();
     if (deskScreen) {

@@ -38,11 +38,11 @@ class Chessboard_Remote_PVP_Abstract : public ChessBoard {
                                             int new_game_mode = 0);
 
     ///@brief 鼠标事件,根据鼠标的预选位置(棋盘上的红点)下棋,调用@ref send
-    ///发送落子的信息
+    /// 发送落子的信息
     void mousePressEvent(QMouseEvent *event) override;
 
     ///@brief
-    ///设置棋盘是否能落子,如果在能落或不能落的状态之间切换成功,会更新步时和局时的计数器以及悔棋按钮的可触发性,以及更新本轮落子的Label
+    /// 设置棋盘是否能落子,如果在能落或不能落的状态之间切换成功,会更新步时和局时的计数器以及悔棋按钮的可触发性,以及更新本轮落子的Label
     ///@param level @see restrict_level
     void set_restrict_level(int level) override;
 
@@ -53,7 +53,7 @@ class Chessboard_Remote_PVP_Abstract : public ChessBoard {
     ///@brief 当用户点击左上角关闭按钮触发这个信号,用于返回主菜单
     void cancelToMain();
     ///@brief
-    ///当客户端想要连接服务器,但是服务器已经和另一个客户端建立连接了,会触发这个信号,表示拒绝连接
+    /// 当客户端想要连接服务器,但是服务器已经和另一个客户端建立连接了,会触发这个信号,表示拒绝连接
     void refuseLink();
 
     ///@brief 对局开始会触发这个信号,一个对局只能触发一次
@@ -71,8 +71,8 @@ class Chessboard_Remote_PVP_Abstract : public ChessBoard {
     bool isReconnected = false;   ///< 指示是否为重连的棋局
 
     ///@brief 关闭事件,会调用@ref
-    ///setActiveExit来指示当前为主动关闭,不用重连,也会使用 @ref
-    ///exit给棋局对方发一个终止信息
+    /// setActiveExit来指示当前为主动关闭,不用重连,也会使用 @ref
+    /// exit给棋局对方发一个终止信息
     void closeEvent(QCloseEvent *event) override;
     ///@brief 在界面显示对方的聊天信息
     void peerMessage(const QString &s);
@@ -159,10 +159,10 @@ class Chessboard_Remote_PVP_Server : public Chessboard_Remote_PVP_Abstract {
     ///@brief 发送信息的函数 @see Chessboard_Remote_PVP_Abstract::send()
     void send(const QString &s) override;
     ///@brief 调用@ref TcpAbstract::stop() @see
-    ///Chessboard_Remote_PVP_Abstract::exit()
+    /// Chessboard_Remote_PVP_Abstract::exit()
     void exit() override;
     ///@brief 调用@ref TcpAbstract::setActiveExit() @see
-    ///Chessboard_Remote_PVP_Abstract::setActiveExit()
+    /// Chessboard_Remote_PVP_Abstract::setActiveExit()
     void setActiveExit() override;
 
    public:
@@ -193,10 +193,10 @@ class Chessboard_Remote_PVP_Client : public Chessboard_Remote_PVP_Abstract {
     ///@brief 发送信息的函数 @see Chessboard_Remote_PVP_Abstract::send()
     void send(const QString &s) override;
     ///@brief 调用@ref TcpAbstract::stop() @see
-    ///Chessboard_Remote_PVP_Abstract::exit()
+    /// Chessboard_Remote_PVP_Abstract::exit()
     void exit() override;
     ///@brief 调用@ref TcpAbstract::setActiveExit() @see
-    ///Chessboard_Remote_PVP_Abstract::setActiveExit()
+    /// Chessboard_Remote_PVP_Abstract::setActiveExit()
     void setActiveExit() override;
 
    public:

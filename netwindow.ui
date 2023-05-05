@@ -1,221 +1,223 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NetWindow</class>
- <widget class="QWidget" name="NetWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>789</width>
-    <height>578</height>
-   </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>789</width>
-    <height>578</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>789</width>
-    <height>578</height>
-   </size>
-  </property>
-  <property name="windowTitle">
-   <string>开房间</string>
-  </property>
-  <property name="autoFillBackground">
-   <bool>false</bool>
-  </property>
-  <widget class="QListWidget" name="addressListWidget">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>60</y>
-     <width>256</width>
-     <height>461</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgba(253, 203, 110, 0.3);
-                                                        font-size:20px;
-                                                        font-color:#00FF00;
-                                                        text-align: center;
-border:1px solid rgba(0,0,0,0.3);
-border-radius: 9px;</string>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>150</y>
-     <width>241</width>
-     <height>161</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>楷体</family>
-     <pointsize>12</pointsize>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">#groupBox {
-border: 2px solid gray;
-    border-radius: 6px;
-}</string>
-   </property>
-   <property name="title">
-    <string>过滤</string>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QWidget" name="widget_2" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1">
-       <item>
-        <widget class="QWidget" name="widget_3" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QLabel" name="label_2">
+    <class>NetWindow</class>
+    <widget class="QWidget" name="NetWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>789</width>
+                <height>578</height>
+            </rect>
+        </property>
+        <property name="minimumSize">
+            <size>
+                <width>789</width>
+                <height>578</height>
+            </size>
+        </property>
+        <property name="maximumSize">
+            <size>
+                <width>789</width>
+                <height>578</height>
+            </size>
+        </property>
+        <property name="windowTitle">
+            <string>开房间</string>
+        </property>
+        <property name="autoFillBackground">
+            <bool>false</bool>
+        </property>
+        <widget class="QListWidget" name="addressListWidget">
+            <property name="geometry">
+                <rect>
+                    <x>70</x>
+                    <y>60</y>
+                    <width>256</width>
+                    <height>461</height>
+                </rect>
+            </property>
             <property name="styleSheet">
-             <string notr="true"/>
+                <string notr="true">background-color:rgba(253, 203, 110, 0.3);
+                    font-size:20px;
+                    font-color:#00FF00;
+                    text-align: center;
+                    border:1px solid rgba(0,0,0,0.3);
+                    border-radius: 9px;
+                </string>
+            </property>
+        </widget>
+        <widget class="QGroupBox" name="groupBox">
+            <property name="geometry">
+                <rect>
+                    <x>430</x>
+                    <y>150</y>
+                    <width>241</width>
+                    <height>161</height>
+                </rect>
+            </property>
+            <property name="font">
+                <font>
+                    <family>楷体</family>
+                    <pointsize>12</pointsize>
+                    <bold>true</bold>
+                </font>
+            </property>
+            <property name="styleSheet">
+                <string notr="true">#groupBox {
+                    border: 2px solid gray;
+                    border-radius: 6px;
+                    }
+                </string>
+            </property>
+            <property name="title">
+                <string>过滤</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                    <widget class="QWidget" name="widget_2" native="true">
+                        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1">
+                            <item>
+                                <widget class="QWidget" name="widget_3" native="true">
+                                    <layout class="QHBoxLayout" name="horizontalLayout">
+                                        <item>
+                                            <widget class="QLabel" name="label_2">
+                                                <property name="styleSheet">
+                                                    <string notr="true"/>
+                                                </property>
+                                                <property name="text">
+                                                    <string>先后手：</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QComboBox" name="colorCombolBox">
+                                                <property name="sizePolicy">
+                                                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                                        <horstretch>0</horstretch>
+                                                        <verstretch>0</verstretch>
+                                                    </sizepolicy>
+                                                </property>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>随机</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>白棋</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>黑棋</string>
+                                                    </property>
+                                                </item>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+                            <item>
+                                <widget class="QWidget" name="widget" native="true">
+                                    <layout class="QHBoxLayout" name="horizontalLayout_2">
+                                        <item>
+                                            <widget class="QLabel" name="label">
+                                                <property name="styleSheet">
+                                                    <string notr="true"/>
+                                                </property>
+                                                <property name="text">
+                                                    <string>禁手：</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QComboBox" name="forbiddenCombolBox">
+                                                <property name="enabled">
+                                                    <bool>true</bool>
+                                                </property>
+                                                <property name="sizePolicy">
+                                                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                                        <horstretch>0</horstretch>
+                                                        <verstretch>0</verstretch>
+                                                    </sizepolicy>
+                                                </property>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>有禁手</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>无禁手</string>
+                                                    </property>
+                                                </item>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+                        </layout>
+                    </widget>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QPushButton" name="openHouseButton">
+            <property name="geometry">
+                <rect>
+                    <x>490</x>
+                    <y>410</y>
+                    <width>101</width>
+                    <height>51</height>
+                </rect>
             </property>
             <property name="text">
-             <string>先后手：</string>
+                <string>开房间</string>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="colorCombolBox">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>随机</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>白棋</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>黑棋</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
         </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_3">
+            <property name="geometry">
+                <rect>
+                    <x>70</x>
+                    <y>20</y>
+                    <width>69</width>
+                    <height>20</height>
+                </rect>
+            </property>
             <property name="styleSheet">
-             <string notr="true"/>
+                <string notr="true">background-color: rgba(253, 203,110, 0.3);</string>
             </property>
             <property name="text">
-             <string>禁手：</string>
+                <string>房间：</string>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="forbiddenCombolBox">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>有禁手</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>无禁手</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
         </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QPushButton" name="openHouseButton">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>410</y>
-     <width>101</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>开房间</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>20</y>
-     <width>69</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgba(253, 203,110, 0.3);</string>
-   </property>
-   <property name="text">
-    <string>房间：</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="name">
-   <property name="geometry">
-    <rect>
-     <x>600</x>
-     <y>20</y>
-     <width>113</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>20</y>
-     <width>69</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgba(253, 203,110, 0.3);</string>
-   </property>
-   <property name="text">
-    <string>用户名：</string>
-   </property>
-  </widget>
- </widget>
- <resources/>
- <connections/>
+        <widget class="QLineEdit" name="name">
+            <property name="geometry">
+                <rect>
+                    <x>600</x>
+                    <y>20</y>
+                    <width>113</width>
+                    <height>20</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QLabel" name="label_4">
+            <property name="geometry">
+                <rect>
+                    <x>510</x>
+                    <y>20</y>
+                    <width>69</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="styleSheet">
+                <string notr="true">background-color: rgba(253, 203,110, 0.3);</string>
+            </property>
+            <property name="text">
+                <string>用户名：</string>
+            </property>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

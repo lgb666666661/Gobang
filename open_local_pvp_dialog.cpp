@@ -20,9 +20,7 @@ void open_local_pvp_dialog::on_pushButton_clicked() {
     emit mode_chosen(this->ui->comboBox->currentIndex());
 }
 
-void open_local_pvp_dialog::on_pushButton_2_clicked()
-{
+void open_local_pvp_dialog::on_pushButton_2_clicked() {
     this->hide();
     emit return_to_mainwindow();
 }
-

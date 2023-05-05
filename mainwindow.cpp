@@ -63,11 +63,11 @@ void MainWindow::on_pvpButton_clicked()  // 创建本地对局
     dialog.setWindowFlag(Qt::FramelessWindowHint);
     int flag = 0;
     connect(&dialog, &open_local_pvp_dialog::return_to_mainwindow,
-            [&]() {flag = 1;});
+            [&]() { flag = 1; });
     connect(&dialog, &open_local_pvp_dialog::mode_chosen, this,
             &MainWindow::slot_local_pvp_set_mode);
     dialog.exec();
-    if(flag) return;
+    if (flag) return;
     localpvp_window = new Chessboard_Local_PVP(nullptr, local_pvp_game_mode);
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp, this,
             &MainWindow::slot_back_from_localpvp);

@@ -15,7 +15,7 @@ OpenHouseDialog::OpenHouseDialog(QWidget *parent, QString name)
     QString strQss =
         getQssString(QString(":/resources"
                              "/dialog_style.css"));
-//    this->setWindowFlag(Qt::FramelessWindowHint);
+    //    this->setWindowFlag(Qt::FramelessWindowHint);
     this->setStyleSheet(strQss);
 
     time = new QTimer();

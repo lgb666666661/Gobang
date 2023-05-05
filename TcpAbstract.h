@@ -84,7 +84,7 @@ class TcpAbstract : public QObject {
         send(QString(QJsonDocument(object).toJson(QJsonDocument::Compact)));
     }
     ///@brief 检查心跳，如果对方没有心跳 调用setConnected(false) @ref
-    ///setConnected
+    /// setConnected
     void checkHeartbeat() {
         if (haveHeartbeat) {
             haveHeartbeat = false;
@@ -96,7 +96,7 @@ class TcpAbstract : public QObject {
    public:
     ///@brief 发送字符串给对方
     ///@param s 一定为JOSN格式并且具有"type"字段 否则对方不会处理,@see
-    ///handleMessage
+    /// handleMessage
     virtual bool send(const QString &s) = 0;
 
     ///@brief 主动停止服务器/客户端,会调用setActiveExit,不会触发重连
