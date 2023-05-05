@@ -18,8 +18,10 @@ class open_local_pvp_dialog : public QDialog {
     Ui::open_local_pvp_dialog *ui;
    signals:
     void mode_chosen(int game_mode);
+    void return_to_mainwindow();
    private slots:
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 
 #endif  // OPEN_LOCAL_PVP_DIALOG_H

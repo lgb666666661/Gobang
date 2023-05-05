@@ -29,7 +29,6 @@ MainWindow::~MainWindow() {
 void MainWindow::on_netButton_clicked() {
     netwindow = new NetWindow();
     connect(netwindow, &NetWindow::backToMain, this, &MainWindow::backSlot);
-    this->close();
     netwindow->show();
 }
 void MainWindow::backSlot() {
@@ -62,13 +61,13 @@ void MainWindow::on_pvpButton_clicked()  // 创建本地对局
 {
     open_local_pvp_dialog dialog(0);
     dialog.setWindowFlag(Qt::FramelessWindowHint);
-    QString strQss =
-        getQssString(QString(":/resources"
-                             "/dialog_style.css"));
-    dialog.setStyleSheet(strQss);
+    int flag = 0;
+    connect(&dialog, &open_local_pvp_dialog::return_to_mainwindow,
+            [&]() {flag = 1;});
     connect(&dialog, &open_local_pvp_dialog::mode_chosen, this,
             &MainWindow::slot_local_pvp_set_mode);
     dialog.exec();
+    if(flag) return;
     localpvp_window = new Chessboard_Local_PVP(nullptr, local_pvp_game_mode);
     connect(localpvp_window, &Chessboard_Local_PVP::back_from_local_pvp, this,
             &MainWindow::slot_back_from_localpvp);
@@ -80,11 +79,6 @@ void MainWindow::on_pvpButton_clicked()  // 创建本地对局
     qDebug() << "localpvp 边框 = " << h1;
     localpvp_window->setFixedSize(availableSize.width(),
                                   availableSize.height() - h1);
-
-    strQss =
-        getQssString(QString(":/resources"
-                             "/stylesheet.css"));
-    localpvp_window->setStyleSheet(strQss);
     localpvp_window->show();
 }
 

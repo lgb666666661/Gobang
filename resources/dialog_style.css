@@ -2,12 +2,17 @@ QDialog {
     background-color: #FFDEAD;
 }
 
+QMainWindow {
+    background-color: #FFDEAD;
+}
+
 QDialog QPushButton {
     background-color: #f6b93b;
     color: white;
     border: none;
     padding: 5px 10px;
-    font-size: 14px;
+    font-size: 20px;
+    font-family: "楷体";
 }
 
 QDialog QPushButton:hover {
@@ -20,5 +25,38 @@ QDialog QComboBox {
 
 QDialog QLabel {
     color: #222f3e;
-    font-size: 17px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "楷体";
+}
+
+#NetWindow{
+    border-image: url(":/resources/welcome1.jpg");
+    background-repeat: no-repeat;
+}
+
+
+
+QPushButton {
+    background-color: #f6b93b;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-family: "楷体";
+}
+
+QPushButton:hover {
+    background-color: #fdcb6e;
+}
+
+QComboBox {
+    background-color: #fdcb6e;
+}
+
+QLabel {
+    color: #222f3e;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "楷体";
 }

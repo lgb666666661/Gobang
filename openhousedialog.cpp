@@ -11,6 +11,13 @@ OpenHouseDialog::OpenHouseDialog(QWidget *parent, QString name)
     : QDialog(parent), ui(new Ui::OpenHouseDialog) {
     this->name = name;
     ui->setupUi(this);
+
+    QString strQss =
+        getQssString(QString(":/resources"
+                             "/dialog_style.css"));
+//    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setStyleSheet(strQss);
+
     time = new QTimer();
     connect(time, &QTimer::timeout, this, &OpenHouseDialog::upsenddata);
 }
