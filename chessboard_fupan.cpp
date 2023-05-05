@@ -110,6 +110,10 @@ void chessboard_fupan::load_data(const QJsonObject & object)//把对局复盘展
     ui->progressBar->setRange(0,(int)chess_data.size());
     ui->winInfo->setText(object.value("win_message").toString());
     check();
+    if(chess_data.empty()){
+        ui->progressBar->setRange(0,1);
+        ui->progressBar->setValue(1);
+    }
 
 }
 
