@@ -7,20 +7,19 @@ namespace Ui {
 class open_local_pvp_dialog;
 }
 
-class open_local_pvp_dialog : public QDialog
-{
+class open_local_pvp_dialog : public QDialog {
     Q_OBJECT
 
-public:
+   public:
     explicit open_local_pvp_dialog(QWidget *parent = nullptr);
     ~open_local_pvp_dialog();
 
-public:
+   public:
     Ui::open_local_pvp_dialog *ui;
-signals:
+   signals:
     void mode_chosen(int game_mode);
-private slots:
+   private slots:
     void on_pushButton_clicked();
 };
 
-#endif // OPEN_LOCAL_PVP_DIALOG_H
+#endif  // OPEN_LOCAL_PVP_DIALOG_H

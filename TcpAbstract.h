@@ -21,14 +21,17 @@ class TcpAbstract : public QObject {
    protected:
     bool isConnected = false;  ///< 目前的状态是否是连接状态
     QHostAddress *peerAddress = nullptr;  ///< 对方的ip地址
-    bool haveHeartbeat = false;///< 对方的心跳
-    QTimer heartbeatSendTimer;///< 心跳发送计时器，每隔半秒发送一次心跳包
-    QTimer heartbeatCheckTimer;///< 检查心跳的计时器，每隔一秒检查一次对方的心跳
-    bool isActiveExit=false;///< 指示用户是否主动终止了游戏,用户终止游戏时不会再尝试重连
+    bool haveHeartbeat = false;           ///< 对方的心跳
+    QTimer heartbeatSendTimer;  ///< 心跳发送计时器，每隔半秒发送一次心跳包
+    QTimer
+        heartbeatCheckTimer;  ///< 检查心跳的计时器，每隔一秒检查一次对方的心跳
+    bool isActiveExit =
+        false;  ///< 指示用户是否主动终止了游戏,用户终止游戏时不会再尝试重连
 
-
-     /// @brief 设置isConnected是否连接,连接发送@ref connected 信号，不连接发送@ref disconnected 信号
-     /// @param b 是否连接 b为false时，停止发送心跳包，在@ref isActiveExit为false时调用@ref handleDisconnect尝试重连
+    /// @brief 设置isConnected是否连接,连接发送@ref connected
+    /// 信号，不连接发送@ref disconnected 信号
+    /// @param b 是否连接 b为false时，停止发送心跳包，在@ref
+    /// isActiveExit为false时调用@ref handleDisconnect尝试重连
     void setConnected(bool b) {
         if (b) {
             isConnected = true;
@@ -36,17 +39,17 @@ class TcpAbstract : public QObject {
         } else {
             isConnected = false;
             emit disconnected();
-            //停止心跳包
+            // 停止心跳包
             heartbeatCheckTimer.stop();
             heartbeatSendTimer.stop();
 
-            if(!isActiveExit){ //不是用户主动结束的游戏,尝试重连
+            if (!isActiveExit) {  // 不是用户主动结束的游戏,尝试重连
                 handleDisconnect();
             }
         }
     };
     ///< @brief处理重连情况的纯虚函数
-    virtual void handleDisconnect()=0;
+    virtual void handleDisconnect() = 0;
 
     /// @brief 处理接收到的消息
     /// 如果为心跳包，设置haveHeartbeat为true，其他消息则转发为systemDo或userDo信号
@@ -80,7 +83,8 @@ class TcpAbstract : public QObject {
         object.insert("type", "heart");
         send(QString(QJsonDocument(object).toJson(QJsonDocument::Compact)));
     }
-    ///@brief 检查心跳，如果对方没有心跳 调用setConnected(false) @ref setConnected
+    ///@brief 检查心跳，如果对方没有心跳 调用setConnected(false) @ref
+    ///setConnected
     void checkHeartbeat() {
         if (haveHeartbeat) {
             haveHeartbeat = false;
@@ -90,18 +94,16 @@ class TcpAbstract : public QObject {
     }
 
    public:
-
     ///@brief 发送字符串给对方
-    ///@param s 一定为JOSN格式并且具有"type"字段 否则对方不会处理,@see handleMessage
+    ///@param s 一定为JOSN格式并且具有"type"字段 否则对方不会处理,@see
+    ///handleMessage
     virtual bool send(const QString &s) = 0;
 
     ///@brief 主动停止服务器/客户端,会调用setActiveExit,不会触发重连
     virtual void stop() = 0;
 
     /// @brief 设置是自己主动结束的,使重连不被触发
-    void setActiveExit(){
-        isActiveExit=true;
-    }
+    void setActiveExit() { isActiveExit = true; }
 
     ~TcpAbstract() override { delete peerAddress; };
    signals:

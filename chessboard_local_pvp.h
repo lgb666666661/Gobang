@@ -1,8 +1,9 @@
 #ifndef CHESSBOARD_LOCAL_PVP_H
 #define CHESSBOARD_LOCAL_PVP_H
+#include <QMainWindow>
+
 #include "chessboard.h"
 #include "chessboard_fupan.h"
-#include <QMainWindow>
 
 namespace Ui {
 class Chessboard_Local_PVP;
@@ -11,8 +12,7 @@ class Chessboard_Local_PVP;
 /**
  * @brief 本地双人对战的棋盘类
  */
-class Chessboard_Local_PVP : public ChessBoard
-{
+class Chessboard_Local_PVP : public ChessBoard {
     Q_OBJECT
 
    public:
@@ -39,18 +39,17 @@ class Chessboard_Local_PVP : public ChessBoard
      */
     void mousePressEvent(QMouseEvent *event);
 
-    void resizeEvent(QResizeEvent *event) override; ///< 缩放事件
+    void resizeEvent(QResizeEvent *event) override;  ///< 缩放事件
 
     void closeEvent(QCloseEvent *event) override;  ///< 关闭事件
 
     Ui::Chessboard_Local_PVP *ui;
-signals:
+   signals:
     void back_from_local_pvp();
-private slots:
+   private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_3_clicked();
 };
 
-#endif // CHESSBOARD_LOCAL_PVP_H
-
+#endif  // CHESSBOARD_LOCAL_PVP_H

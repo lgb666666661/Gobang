@@ -1,17 +1,17 @@
 #ifndef OPENPVEHOUSE_H
 #define OPENPVEHOUSE_H
 
-#include <QWidget>
 #include <QSize>
 #include <QString>
+#include <QWidget>
+
+#include "chessboard_pve.h"
 #include "utils.h"
-#include"chessboard_pve.h"
 namespace Ui {
 class openpvehouse;
 }
 
-class openpvehouse : public QMainWindow
-{
+class openpvehouse : public QMainWindow {
     Q_OBJECT
 
    public:
@@ -28,4 +28,4 @@ class openpvehouse : public QMainWindow
     QSize availableSize;
 };
 
-#endif // OPENPVEHOUSE_H
+#endif  // OPENPVEHOUSE_H

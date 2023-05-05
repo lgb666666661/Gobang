@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>800</width>
-    <height>600</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>主菜单</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">background-image:rgb(85, 255, 127)</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pveButton">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>310</y>
-      <width>93</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>AI对战</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="netButton">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>220</y>
-      <width>93</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>联机对战</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pvpButton">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>120</y>
-      <width>93</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>单机对战</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pvpButton_2">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>400</y>
-      <width>93</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>复盘</string>
-    </property>
-   </widget>
-  </widget>
- </widget>
- <resources/>
- <connections/>
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>800</width>
+                <height>600</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>主菜单</string>
+        </property>
+        <property name="styleSheet">
+            <string notr="true">background-image:rgb(85, 255, 127)</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QPushButton" name="pveButton">
+                <property name="geometry">
+                    <rect>
+                        <x>570</x>
+                        <y>310</y>
+                        <width>93</width>
+                        <height>29</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>AI对战</string>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="netButton">
+                <property name="geometry">
+                    <rect>
+                        <x>570</x>
+                        <y>220</y>
+                        <width>93</width>
+                        <height>29</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>联机对战</string>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="pvpButton">
+                <property name="geometry">
+                    <rect>
+                        <x>570</x>
+                        <y>120</y>
+                        <width>93</width>
+                        <height>29</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>单机对战</string>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="pvpButton_2">
+                <property name="geometry">
+                    <rect>
+                        <x>570</x>
+                        <y>400</y>
+                        <width>93</width>
+                        <height>29</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>复盘</string>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

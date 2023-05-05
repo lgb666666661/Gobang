@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GameOver</class>
- <widget class="QDialog" name="GameOver">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>371</width>
-    <height>339</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>提示</string>
-  </property>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>240</y>
-     <width>91</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>OK</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>90</y>
-     <width>141</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
- </widget>
- <resources/>
- <connections/>
+    <class>GameOver</class>
+    <widget class="QDialog" name="GameOver">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>371</width>
+                <height>339</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>提示</string>
+        </property>
+        <widget class="QPushButton" name="pushButton">
+            <property name="geometry">
+                <rect>
+                    <x>140</x>
+                    <y>240</y>
+                    <width>91</width>
+                    <height>31</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>OK</string>
+            </property>
+        </widget>
+        <widget class="QLabel" name="label">
+            <property name="geometry">
+                <rect>
+                    <x>100</x>
+                    <y>90</y>
+                    <width>141</width>
+                    <height>81</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string/>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignCenter</set>
+            </property>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

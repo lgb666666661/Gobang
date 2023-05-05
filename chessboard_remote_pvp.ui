@@ -1,534 +1,564 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Chessboard_Remote_PVP_Abstract</class>
- <widget class="QMainWindow" name="Chessboard_Remote_PVP_Abstract">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1064</width>
-    <height>731</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>联机对战</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">QMainWindow QPushButton {
-    background-color: #f6b93b;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 17px;
-}
+    <class>Chessboard_Remote_PVP_Abstract</class>
+    <widget class="QMainWindow" name="Chessboard_Remote_PVP_Abstract">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1064</width>
+                <height>731</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>联机对战</string>
+        </property>
+        <property name="styleSheet">
+            <string notr="true">QMainWindow QPushButton {
+                background-color: #f6b93b;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                font-size: 17px;
+                }
 
-QMainWindow QPushButton:hover {
-    background-color: #fdcb6e;
-}
+                QMainWindow QPushButton:hover {
+                background-color: #fdcb6e;
+                }
 
-QMainWindow QPushButton:disabled {
-    background-color: rgba(161, 155, 144, 0.862);
-}
+                QMainWindow QPushButton:disabled {
+                background-color: rgba(161, 155, 144, 0.862);
+                }
 
-QTestEdit {
-    background-color: #fdcb6e;
-}
+                QTestEdit {
+                background-color: #fdcb6e;
+                }
 
-QGroupBox {
-    border: 3px;
-    border-radius: 3px;
-    border-color: rgba(0, 0, 0, 0.5);
-}
+                QGroupBox {
+                border: 3px;
+                border-radius: 3px;
+                border-color: rgba(0, 0, 0, 0.5);
+                }
 
-QDialog QLabel {
-    color: #222f3e;
-    font-size: 17px;
-}
-</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="10,4,1">
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Preferred</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QWidget" name="rightWidget" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,20">
-       <property name="rightMargin">
-        <number>20</number>
-       </property>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,9,1,1">
-          <item>
-           <widget class="QWidget" name="widget_4" native="true">
-            <property name="font">
-             <font>
-              <underline>true</underline>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QGroupBox {
-    border: 2px solid rgba(0, 0, 0, 0.5);
-    border-radius: 9px;
-}
-
-QLabel {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-}</string>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QGroupBox" name="myChessColorGroupBox">
-               <property name="font">
-                <font>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">font-size: 17px;
-background-color: rgba(253, 203, 110, 0.1)</string>
-               </property>
-               <property name="title">
-                <string>黑棋方</string>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                QDialog QLabel {
+                color: #222f3e;
+                font-size: 17px;
+                }
+            </string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="10,4,1">
                 <item>
-                 <widget class="QWidget" name="widget_6" native="true">
-                  <property name="font">
-                   <font>
-                    <pointsize>-1</pointsize>
-                    <underline>true</underline>
-                   </font>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_4">
-                   <item>
-                    <widget class="QLabel" name="linkLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">\</string>
-                     </property>
-                     <property name="text">
-                      <string>连接状态:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="forbidLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>开局规则:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="myLocalTimeLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>你的总局时:0分0秒</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="peerLocalTimeLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>对方的总局时:0分0秒</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_9">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>局时限制:10分钟</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
+                    <spacer name="horizontalSpacer">
+                        <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>QSizePolicy::Preferred</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                            <size>
+                                <width>40</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
                 </item>
                 <item>
-                 <widget class="QWidget" name="widget_5" native="true">
-                  <property name="font">
-                   <font>
-                    <pointsize>-1</pointsize>
-                    <underline>true</underline>
-                   </font>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_5">
-                   <item>
-                    <widget class="QLabel" name="resultLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>对局结果:</string>
-                     </property>
+                    <widget class="QWidget" name="rightWidget" native="true">
+                        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,20">
+                            <property name="rightMargin">
+                                <number>20</number>
+                            </property>
+                            <item>
+                                <spacer name="verticalSpacer">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>20</width>
+                                            <height>40</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
+                            <item>
+                                <widget class="QWidget" name="widget" native="true">
+                                    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,9,1,1">
+                                        <item>
+                                            <widget class="QWidget" name="widget_4" native="true">
+                                                <property name="font">
+                                                    <font>
+                                                        <underline>true</underline>
+                                                    </font>
+                                                </property>
+                                                <property name="styleSheet">
+                                                    <string notr="true">QGroupBox {
+                                                        border: 2px solid rgba(0, 0, 0, 0.5);
+                                                        border-radius: 9px;
+                                                        }
+
+                                                        QLabel {
+                                                        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+                                                        }
+                                                    </string>
+                                                </property>
+                                                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                                                    <item>
+                                                        <widget class="QGroupBox" name="myChessColorGroupBox">
+                                                            <property name="font">
+                                                                <font>
+                                                                    <pointsize>-1</pointsize>
+                                                                    <bold>true</bold>
+                                                                </font>
+                                                            </property>
+                                                            <property name="styleSheet">
+                                                                <string notr="true">font-size: 17px;
+                                                                    background-color: rgba(253, 203, 110, 0.1)
+                                                                </string>
+                                                            </property>
+                                                            <property name="title">
+                                                                <string>黑棋方</string>
+                                                            </property>
+                                                            <layout class="QHBoxLayout" name="horizontalLayout_4">
+                                                                <item>
+                                                                    <widget class="QWidget" name="widget_6"
+                                                                            native="true">
+                                                                        <property name="font">
+                                                                            <font>
+                                                                                <pointsize>-1</pointsize>
+                                                                                <underline>true</underline>
+                                                                            </font>
+                                                                        </property>
+                                                                        <layout class="QVBoxLayout"
+                                                                                name="verticalLayout_4">
+                                                                            <item>
+                                                                                <widget class="QLabel" name="linkLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="styleSheet">
+                                                                                        <string notr="true">\</string>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>连接状态:</string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel"
+                                                                                        name="forbidLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>开局规则:</string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel"
+                                                                                        name="myLocalTimeLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>你的总局时:0分0秒
+                                                                                        </string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel"
+                                                                                        name="peerLocalTimeLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>对方的总局时:0分0秒
+                                                                                        </string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel" name="label_9">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>局时限制:10分钟</string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                        </layout>
+                                                                    </widget>
+                                                                </item>
+                                                                <item>
+                                                                    <widget class="QWidget" name="widget_5"
+                                                                            native="true">
+                                                                        <property name="font">
+                                                                            <font>
+                                                                                <pointsize>-1</pointsize>
+                                                                                <underline>true</underline>
+                                                                            </font>
+                                                                        </property>
+                                                                        <layout class="QVBoxLayout"
+                                                                                name="verticalLayout_5">
+                                                                            <item>
+                                                                                <widget class="QLabel"
+                                                                                        name="resultLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>对局结果:</string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel"
+                                                                                        name="currentColorLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>本轮落子:</string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel"
+                                                                                        name="myStepTimeLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>你的本轮步时:0分0秒
+                                                                                        </string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel"
+                                                                                        name="peerStepTimeLabel">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>对方的本轮步时:0分0秒
+                                                                                        </string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                            <item>
+                                                                                <widget class="QLabel" name="label_10">
+                                                                                    <property name="font">
+                                                                                        <font>
+                                                                                            <pointsize>-1</pointsize>
+                                                                                            <underline>false</underline>
+                                                                                        </font>
+                                                                                    </property>
+                                                                                    <property name="text">
+                                                                                        <string>步时限制:2分钟</string>
+                                                                                    </property>
+                                                                                </widget>
+                                                                            </item>
+                                                                        </layout>
+                                                                    </widget>
+                                                                </item>
+                                                            </layout>
+                                                        </widget>
+                                                    </item>
+                                                </layout>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QTextEdit" name="logEdit">
+                                                <property name="palette">
+                                                    <palette>
+                                                        <active>
+                                                            <colorrole role="Button">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="76">
+                                                                        <red>253</red>
+                                                                        <green>203</green>
+                                                                        <blue>110</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Text">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="255">
+                                                                        <red>0</red>
+                                                                        <green>0</green>
+                                                                        <blue>127</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Base">
+                                                                <brush brushstyle="NoBrush">
+                                                                    <color alpha="255">
+                                                                        <red>0</red>
+                                                                        <green>0</green>
+                                                                        <blue>0</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Window">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="76">
+                                                                        <red>253</red>
+                                                                        <green>203</green>
+                                                                        <blue>110</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                        </active>
+                                                        <inactive>
+                                                            <colorrole role="Button">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="76">
+                                                                        <red>253</red>
+                                                                        <green>203</green>
+                                                                        <blue>110</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Text">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="255">
+                                                                        <red>0</red>
+                                                                        <green>0</green>
+                                                                        <blue>0</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Base">
+                                                                <brush brushstyle="NoBrush">
+                                                                    <color alpha="255">
+                                                                        <red>0</red>
+                                                                        <green>0</green>
+                                                                        <blue>0</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Window">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="76">
+                                                                        <red>253</red>
+                                                                        <green>203</green>
+                                                                        <blue>110</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                        </inactive>
+                                                        <disabled>
+                                                            <colorrole role="Button">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="76">
+                                                                        <red>253</red>
+                                                                        <green>203</green>
+                                                                        <blue>110</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Text">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="255">
+                                                                        <red>120</red>
+                                                                        <green>120</green>
+                                                                        <blue>120</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Base">
+                                                                <brush brushstyle="NoBrush">
+                                                                    <color alpha="255">
+                                                                        <red>0</red>
+                                                                        <green>0</green>
+                                                                        <blue>0</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                            <colorrole role="Window">
+                                                                <brush brushstyle="SolidPattern">
+                                                                    <color alpha="76">
+                                                                        <red>253</red>
+                                                                        <green>203</green>
+                                                                        <blue>110</blue>
+                                                                    </color>
+                                                                </brush>
+                                                            </colorrole>
+                                                        </disabled>
+                                                    </palette>
+                                                </property>
+                                                <property name="styleSheet">
+                                                    <string notr="true">background-color:rgba(253, 203, 110, 0.3);
+                                                        font-size:20px;
+                                                        font-color:#00FF00;
+                                                        text-align: center;
+                                                    </string>
+                                                </property>
+                                                <property name="html">
+                                                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot;
+                                                        &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+                                                        &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot;
+                                                        content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style
+                                                        type=&quot;text/css&quot;&gt;
+                                                        p, li { white-space: pre-wrap; }
+                                                        &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;
+                                                        font-family:'Microsoft YaHei UI'; font-size:20px;
+                                                        font-weight:400; font-style:normal;&quot;&gt;
+                                                        &lt;p style=&quot; margin-top:0px; margin-bottom:0px;
+                                                        margin-left:0px; margin-right:0px; -qt-block-indent:0;
+                                                        text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20px;&quot;&gt;我的&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+                                                    </string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QWidget" name="widget_3" native="true">
+                                                <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1">
+                                                    <item>
+                                                        <widget class="QTextEdit" name="textEdit">
+                                                            <property name="styleSheet">
+                                                                <string notr="true">background-color:rgba(253, 203, 110,
+                                                                    0.8);
+                                                                    font-size:20px;
+                                                                    font-color:#00FF00;
+                                                                    text-align: center;
+                                                                </string>
+                                                            </property>
+                                                        </widget>
+                                                    </item>
+                                                    <item>
+                                                        <widget class="QWidget" name="widget_2" native="true">
+                                                            <layout class="QVBoxLayout" name="verticalLayout_3">
+                                                                <item>
+                                                                    <widget class="QPushButton" name="repentButton">
+                                                                        <property name="text">
+                                                                            <string>悔棋</string>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                                <item>
+                                                                    <widget class="QPushButton" name="sendButton">
+                                                                        <property name="text">
+                                                                            <string>发送</string>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                            </layout>
+                                                        </widget>
+                                                    </item>
+                                                </layout>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QWidget" name="widget_7" native="true">
+                                                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                                                    <item>
+                                                        <spacer name="horizontalSpacer_3">
+                                                            <property name="orientation">
+                                                                <enum>Qt::Horizontal</enum>
+                                                            </property>
+                                                            <property name="sizeHint" stdset="0">
+                                                                <size>
+                                                                    <width>40</width>
+                                                                    <height>20</height>
+                                                                </size>
+                                                            </property>
+                                                        </spacer>
+                                                    </item>
+                                                    <item>
+                                                        <widget class="QLabel" name="timeLabel">
+                                                            <property name="font">
+                                                                <font>
+                                                                    <pointsize>13</pointsize>
+                                                                    <bold>true</bold>
+                                                                    <underline>true</underline>
+                                                                </font>
+                                                            </property>
+                                                            <property name="styleSheet">
+                                                                <string notr="true">background-color: rgba(253, 203,
+                                                                    110, 0.3)
+                                                                </string>
+                                                            </property>
+                                                            <property name="text">
+                                                                <string>总时长:0分0秒</string>
+                                                            </property>
+                                                            <property name="alignment">
+                                                                <set>Qt::AlignCenter</set>
+                                                            </property>
+                                                        </widget>
+                                                    </item>
+                                                    <item>
+                                                        <spacer name="horizontalSpacer_4">
+                                                            <property name="orientation">
+                                                                <enum>Qt::Horizontal</enum>
+                                                            </property>
+                                                            <property name="sizeHint" stdset="0">
+                                                                <size>
+                                                                    <width>40</width>
+                                                                    <height>20</height>
+                                                                </size>
+                                                            </property>
+                                                        </spacer>
+                                                    </item>
+                                                </layout>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+                        </layout>
                     </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="currentColorLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>本轮落子:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="myStepTimeLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>你的本轮步时:0分0秒</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="peerStepTimeLabel">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>对方的本轮步时:0分0秒</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_10">
-                     <property name="font">
-                      <font>
-                       <pointsize>-1</pointsize>
-                       <underline>false</underline>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>步时限制:2分钟</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
                 </item>
-               </layout>
-              </widget>
-             </item>
+                <item>
+                    <spacer name="horizontalSpacer_2">
+                        <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                            <size>
+                                <width>40</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </item>
             </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QTextEdit" name="logEdit">
-            <property name="palette">
-             <palette>
-              <active>
-               <colorrole role="Button">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="76">
-                  <red>253</red>
-                  <green>203</green>
-                  <blue>110</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Text">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>0</red>
-                  <green>0</green>
-                  <blue>127</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Base">
-                <brush brushstyle="NoBrush">
-                 <color alpha="255">
-                  <red>0</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Window">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="76">
-                  <red>253</red>
-                  <green>203</green>
-                  <blue>110</blue>
-                 </color>
-                </brush>
-               </colorrole>
-              </active>
-              <inactive>
-               <colorrole role="Button">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="76">
-                  <red>253</red>
-                  <green>203</green>
-                  <blue>110</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Text">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>0</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Base">
-                <brush brushstyle="NoBrush">
-                 <color alpha="255">
-                  <red>0</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Window">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="76">
-                  <red>253</red>
-                  <green>203</green>
-                  <blue>110</blue>
-                 </color>
-                </brush>
-               </colorrole>
-              </inactive>
-              <disabled>
-               <colorrole role="Button">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="76">
-                  <red>253</red>
-                  <green>203</green>
-                  <blue>110</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Text">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>120</red>
-                  <green>120</green>
-                  <blue>120</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Base">
-                <brush brushstyle="NoBrush">
-                 <color alpha="255">
-                  <red>0</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Window">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="76">
-                  <red>253</red>
-                  <green>203</green>
-                  <blue>110</blue>
-                 </color>
-                </brush>
-               </colorrole>
-              </disabled>
-             </palette>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color:rgba(253, 203, 110, 0.3);
-font-size:20px;
-font-color:#00FF00;
-text-align: center;</string>
-            </property>
-            <property name="html">
-             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei UI'; font-size:20px; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20px;&quot;&gt;我的&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QWidget" name="widget_3" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1">
-             <item>
-              <widget class="QTextEdit" name="textEdit">
-               <property name="styleSheet">
-                <string notr="true">background-color:rgba(253, 203, 110, 0.8);
-font-size:20px;
-font-color:#00FF00;
-text-align: center;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_2" native="true">
-               <layout class="QVBoxLayout" name="verticalLayout_3">
-                <item>
-                 <widget class="QPushButton" name="repentButton">
-                  <property name="text">
-                   <string>悔棋</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="sendButton">
-                  <property name="text">
-                   <string>发送</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QWidget" name="widget_7" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="timeLabel">
-               <property name="font">
-                <font>
-                 <pointsize>13</pointsize>
-                 <bold>true</bold>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgba(253, 203, 110, 0.3)</string>
-               </property>
-               <property name="text">
-                <string>总时长:0分0秒</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
         </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
- </widget>
- <resources/>
- <connections/>
+        <widget class="QStatusBar" name="statusBar"/>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

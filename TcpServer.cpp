@@ -3,10 +3,11 @@
 //
 
 #include "TcpServer.h"
+
 #include <iostream>
 
 TcpServer::TcpServer() {
-    //启动服务器
+    // 启动服务器
     while (!server.listen(QHostAddress::Any, port)) {
         port++;
     }
@@ -16,20 +17,20 @@ TcpServer::TcpServer() {
     connect(&heartbeatCheckTimer, &QTimer::timeout,
             [this]() { checkHeartbeat(); });
 
-    //有新连接时
+    // 有新连接时
     connect(&server, &QTcpServer::newConnection, this, [this]() {
         QTcpSocket *socket = server.nextPendingConnection();
         if (socket != nullptr) {
-            //如果有新的连接,但却不是对手的ip地址,拒绝他
+            // 如果有新的连接,但却不是对手的ip地址,拒绝他
             if (peerAddress != nullptr &&
                 (*peerAddress) != socket->peerAddress()) {
-                //拒绝新连接
+                // 拒绝新连接
                 QJsonObject object;
                 object.insert("type", "system");
                 object.insert("do", "refuse");
 
-                socket->write(QJsonDocument(object).toJson(
-                        QJsonDocument::Compact));
+                socket->write(
+                    QJsonDocument(object).toJson(QJsonDocument::Compact));
                 socket->close();
                 return;
             }
@@ -48,7 +49,7 @@ TcpServer::TcpServer() {
                 // todo 写入日志
                 setConnected(false);
             });
-            //设置连接成功
+            // 设置连接成功
             setConnected(true);
         }
     });
@@ -72,6 +73,4 @@ void TcpServer::stop() {
     sendSocket->close();
 }
 
-void TcpServer::handleDisconnect() {
-    sendSocket->close();
-}
+void TcpServer::handleDisconnect() { sendSocket->close(); }

@@ -6,20 +6,20 @@
 #define GOBANG_TCPCLIENT_H
 
 #include <QTcpSocket>
-#include "TcpAbstract.h"
 #include <QTimer>
+
+#include "TcpAbstract.h"
 ///@class TcpClient
 ///@brief Tcp客户端类
 class TcpClient : public TcpAbstract {
-
-private:
-    QTcpSocket socket;///< 用于通信的socket
-    int socketPort{};///< 保存对方的端口号
-protected:
+   private:
+    QTcpSocket socket;  ///< 用于通信的socket
+    int socketPort{};   ///< 保存对方的端口号
+   protected:
     ///@brief 断开上一份连接，尝试重连
     void handleDisconnect() override;
 
-public:
+   public:
     TcpClient(const QHostAddress &address, int port);
 
     ///@brief 向对方发送终止游戏的信息，关闭tcp连接
@@ -31,5 +31,4 @@ public:
     bool send(const QString &s) override;
 };
 
-
-#endif //GOBANG_TCPCLIENT_H
+#endif  // GOBANG_TCPCLIENT_H

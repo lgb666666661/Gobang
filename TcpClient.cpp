@@ -8,7 +8,7 @@
 
 TcpClient::TcpClient(const QHostAddress &address, int port) : socketPort(port) {
     connect(&socket, &QTcpSocket::connected, [this]() {
-        //设置连接成功
+        // 设置连接成功
         setConnected(true);
         peerAddress = new QHostAddress(socket.peerAddress());
         heartbeatSendTimer.start(500);
@@ -25,7 +25,6 @@ TcpClient::TcpClient(const QHostAddress &address, int port) : socketPort(port) {
     connect(&heartbeatCheckTimer, &QTimer::timeout,
             [this]() { checkHeartbeat(); });
     socket.connectToHost(address, port);
-
 }
 
 bool TcpClient::send(const QString &s) {

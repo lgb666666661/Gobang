@@ -1,30 +1,30 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
-#include"netwindow.h"
-#include"openpvehouse.h"
-#include"chessboard_local_pvp.h"
-#include"chessboard_fupan.h"
+
 #include "chessboard.h"
+#include "chessboard_fupan.h"
+#include "chessboard_local_pvp.h"
+#include "netwindow.h"
 #include "open_local_pvp_dialog.h"
-#include "ui_open_local_pvp_dialog.h"
+#include "openpvehouse.h"
 #include "replaywindow.h"
-#include <QMainWindow>
+#include "ui_open_local_pvp_dialog.h"
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
 ///@brief 主界面类
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
+   public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
-private slots:
+   private slots:
     void on_netButton_clicked();
     void backSlot();
 
@@ -37,21 +37,18 @@ private slots:
 
     void slot_local_pvp_set_mode(int game_mode);
 
-private:
-    NetWindow* netwindow=nullptr;
-    Chessboard_Local_PVP* localpvp_window=nullptr;
-    openpvehouse* open_pve_house=nullptr;
-    ReplayWindow *replayWindow= nullptr;
+   private:
+    NetWindow *netwindow = nullptr;
+    Chessboard_Local_PVP *localpvp_window = nullptr;
+    openpvehouse *open_pve_house = nullptr;
+    ReplayWindow *replayWindow = nullptr;
     Ui::MainWindow *ui;
     QImage img2;
 
     QSize availableSize;
     int local_pvp_game_mode;
 
-protected:
+   protected:
     void paintEvent(QPaintEvent *);
-
-
 };
-#endif // MAINWINDOW_H
-
+#endif  // MAINWINDOW_H
