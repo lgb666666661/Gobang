@@ -61,6 +61,8 @@ Chessboard_Remote_PVP_Abstract::Chessboard_Remote_PVP_Abstract(Chess_color color
                 send(QString(QJsonDocument(object).toJson(QJsonDocument::Compact)));
                 gameOver();
                 win(info);
+            },[this]() {
+                systemMessage("你的局时快要达到限制了,请快落子");
             }};
     peerLocalTime = new Time{0, "对方的总局时", ui->peerLocalTimeLabel};
     myStepTime = new Time{
