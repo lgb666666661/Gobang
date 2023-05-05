@@ -8,6 +8,7 @@
 #include "chessboard.h"
 #include "open_local_pvp_dialog.h"
 #include "ui_open_local_pvp_dialog.h"
+#include "replaywindow.h"
 #include <QMainWindow>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,8 +38,10 @@ private slots:
     void slot_local_pvp_set_mode(int game_mode);
 
 private:
-    NetWindow* netwindow;
-    Chessboard_Local_PVP* localpvp_window;
+    NetWindow* netwindow=nullptr;
+    Chessboard_Local_PVP* localpvp_window=nullptr;
+    openpvehouse* open_pve_house=nullptr;
+    ReplayWindow *replayWindow= nullptr;
     Ui::MainWindow *ui;
     QImage img2;
 

@@ -10,7 +10,7 @@ namespace Ui {
 class openpvehouse;
 }
 
-class openpvehouse : public QWidget
+class openpvehouse : public QMainWindow
 {
     Q_OBJECT
 

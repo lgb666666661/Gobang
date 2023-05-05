@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete replayWindow;
 }
 void MainWindow::on_netButton_clicked()
 {
@@ -101,24 +102,17 @@ void MainWindow::slot_back_from_localpvp() { // 从本地对局中返回
 }
 
 
-void MainWindow::on_pveButton_clicked()
-{
-    openpvehouse* a=new openpvehouse();
-    //this->close();
-    a->show();
+void MainWindow::on_pveButton_clicked() {
+
+    delete open_pve_house;
+    open_pve_house = new openpvehouse(this);
+    open_pve_house->show();
 }
 
 
-void MainWindow::on_pvpButton_2_clicked()
-{
-    chessboard_fupan* a=new chessboard_fupan(nullptr,1);
-    //this->close();
-    // 最大化
-    a->showMaximized();
-    a->move({0, 0});
-    int h1 = a->geometry().y();
-    qDebug() << "localpvp 边框 = " << h1;
-    a->setFixedSize(availableSize.width(),
-                                  availableSize.height() - h1);
+void MainWindow::on_pvpButton_2_clicked() {
+    delete replayWindow;
+    replayWindow=new ReplayWindow();
+    replayWindow->show();
 }
 

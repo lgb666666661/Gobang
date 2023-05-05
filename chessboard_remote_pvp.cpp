@@ -11,6 +11,7 @@
 #include <QMessageBox>
 
 #include "ui_Chessboard_Remote_PVP.h"
+#include "chessboard_fupan.h"
 
 Chessboard_Remote_PVP_Abstract::~Chessboard_Remote_PVP_Abstract() {
     delete ui;
@@ -266,6 +267,8 @@ void Chessboard_Remote_PVP_Abstract::systemDo(const QJsonObject &order) {
 }
 
 void Chessboard_Remote_PVP_Abstract::win(const QString &info) {
+
+    chessboard_fupan::save_data(this->record,info);
     if (info.contains("黑棋")) {
         ui->resultLabel->setText(QString("对局结果:") + "黑棋胜");
     } else {
