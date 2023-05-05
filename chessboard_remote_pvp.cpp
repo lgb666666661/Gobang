@@ -36,6 +36,7 @@ Chessboard_Remote_PVP_Abstract::Chessboard_Remote_PVP_Abstract(Chess_color color
           ui(new Ui::Chessboard_Remote_PVP_Abstract),
           myChessColor(color) {
     ui->setupUi(this);
+    this->setWindowIcon(QIcon(":/resources/dialogIcon.ico"));
 
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);

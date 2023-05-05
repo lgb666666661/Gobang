@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowIcon(QIcon(":/resources/dialogIcon.ico"));
 
     setWindowFlags(Qt::CustomizeWindowHint|
                    Qt::WindowCloseButtonHint|

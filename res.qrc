@@ -9,5 +9,6 @@
         <file>resources/wuziqi.png</file>
         <file>resources/dialogIcon.png</file>
         <file>resources/appIcon.jpeg</file>
+        <file>resources/dialogIcon.ico</file>
     </qresource>
 </RCC>

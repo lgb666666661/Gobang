@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>本地对战</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>resources/dialogIcon.ico</normaloff>resources/dialogIcon.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">

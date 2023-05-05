@@ -1,0 +1,29 @@
+QMainWindow QPushButton {
+    background-color: #f6b93b;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+QMainWindow QPushButton:hover {
+    background-color: rgba(253, 203, 110, 0.8);
+}
+
+QMainWindow QPushButton:disabled {
+    background-color: rgba(161, 155, 144, 0.862);
+}
+QTestEdit {
+    background-color: #fdcb6e;
+}
+
+QGroupBox {
+    border: 3px solid rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+}
+
+QDialog QLabel {
+    color: #222f3e;
+    font-size: 17px;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.5);
+}

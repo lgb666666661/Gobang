@@ -24,6 +24,8 @@ chessboard_fupan::chessboard_fupan(QWidget *parent, int new_game_mode) :
         ChessBoard(parent, new_game_mode),
         ui(new Ui::chessboard_fupan) {
     ui->setupUi(this);
+    this->setWindowIcon(QIcon(":/resources/dialogIcon.ico"));
+
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
 
