@@ -11,7 +11,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QStringListModel>
+#include <QPushButton>
 
+#include "qdialog.h"
 #include "ui_ReplayWindow.h"
 
 ReplayWindow::ReplayWindow(QWidget *parent)
@@ -21,13 +23,16 @@ ReplayWindow::ReplayWindow(QWidget *parent)
     QString strQss =
         getQssString(QString(":/resources"
                              "/dialog_style.css"));
-//    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setWindowFlag(Qt::FramelessWindowHint);
     this->setStyleSheet(strQss);
 
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     load();
     connect(ui->listView, &QListView::clicked,
             [this](const QModelIndex &index) { select(index.row()); });
+    connect(ui->returnButton,&QPushButton::clicked,[this](){
+        this->close();
+    });
 }
 
 ReplayWindow::~ReplayWindow() { delete ui; }

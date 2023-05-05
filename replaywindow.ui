@@ -1,47 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>ReplayWindow</class>
-    <widget class="QMainWindow" name="ReplayWindow">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>346</width>
-                <height>512</height>
-            </rect>
-        </property>
-        <property name="windowTitle">
-            <string>ReplayWindow</string>
-        </property>
-        <widget class="QWidget" name="centralwidget">
-            <widget class="QListView" name="listView">
-                <property name="geometry">
-                    <rect>
-                        <x>60</x>
-                        <y>70</y>
-                        <width>231</width>
-                        <height>401</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLabel" name="label">
-                <property name="geometry">
-                    <rect>
-                        <x>120</x>
-                        <y>30</y>
-                        <width>91</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>复盘记录</string>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                </property>
-            </widget>
-        </widget>
-    </widget>
-    <resources/>
-    <connections/>
+ <class>ReplayWindow</class>
+ <widget class="QMainWindow" name="ReplayWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>349</width>
+    <height>519</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ReplayWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QListView" name="listView">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>70</y>
+      <width>231</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="itemAlignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>30</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>楷体</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>复盘记录</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="returnButton">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>480</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>楷体</family>
+      <pointsize>14</pointsize>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string>返回</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>
