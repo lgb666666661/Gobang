@@ -462,6 +462,7 @@ void Chessboard_Remote_PVP_Server::setActiveExit() { server->setActiveExit(); }
 
 void Chessboard_Remote_PVP_Client::initNetWork() {
     client = new TcpClient(QHostAddress(hostAddress), port);
+
     connect(client, &TcpClient::connected, this, [this]() { start(); });
     connect(client, &TcpClient::disconnected, this, [this]() {
         if (linkState != TERMINATE && linkState != PAUSE) {

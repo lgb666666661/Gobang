@@ -12,6 +12,11 @@ OpenHouseDialog::OpenHouseDialog(QWidget *parent, QString name)
     this->name = name;
     ui->setupUi(this);
 
+    QScreen *deskScreen = QApplication::primaryScreen();
+        if (deskScreen) {
+            availableSize = deskScreen->availableSize();
+        }
+
     QString strQss =
         getQssString(QString(":/resources"
                              "/dialog_style.css"));
@@ -30,7 +35,13 @@ OpenHouseDialog::~OpenHouseDialog() { delete ui; }
 void OpenHouseDialog::showGame() {
     time->stop();
     this->hide();
-    rPVP->show();
+    rPVP->showMaximized();
+        rPVP->move({0, 0});
+        int h1 = rPVP->geometry().y();
+        qDebug() << "localpvp 边框 = " << h1;
+        rPVP->setFixedSize(availableSize.width(),
+                                      availableSize.height() - h1);
+        rPVP->show();
 }
 
 void OpenHouseDialog::closeEvent(QCloseEvent *e) {

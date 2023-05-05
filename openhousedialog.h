@@ -10,6 +10,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QUdpSocket>
+#include <QSize>
 
 #include "chessboard_remote_pvp.h"
 namespace Ui {
@@ -45,6 +46,7 @@ class OpenHouseDialog : public QDialog {
     QString name;
     Ui::OpenHouseDialog *ui;
     QList<QUdpSocket *> sendSockets;
+    QSize availableSize;
 };
 
 #endif  // OPENHOUSEDIALOG_H

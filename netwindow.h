@@ -12,6 +12,7 @@
 #include <QUdpSocket>
 #include <QWidget>
 #include <iostream>
+#include <QSize>
 
 #include "openhousedialog.h"
 #include "utils.h"
@@ -60,6 +61,7 @@ class NetWindow : public QMainWindow {
     QList<QNetworkDatagram> currentDatagramlist;
     QUdpSocket listenSocket;
     OpenHouseDialog* openhousedialog = nullptr;
+    QSize availableSize;
 };
 
 #endif  // NETWINDOW_H

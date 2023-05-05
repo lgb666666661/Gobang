@@ -9,6 +9,11 @@ NetWindow::NetWindow(QWidget *parent)
     }
     ui->setupUi(this);
 
+    QScreen *deskScreen = QApplication::primaryScreen();
+    if (deskScreen) {
+        availableSize = deskScreen->availableSize();
+    }
+
     QString strQss =
         getQssString(QString(":/resources"
                              "/netwindow.css"));
@@ -52,6 +57,12 @@ QString NetWindow::convert_to_ipv4_addr(const QHostAddress &addr) {
 void NetWindow::showGame() {
     time->stop();
     this->hide();
+    rPVP2->showMaximized();
+    rPVP2->move({0, 0});
+    int h1 = rPVP2->geometry().y();
+    qDebug() << "localpvp 边框 = " << h1;
+    rPVP2->setFixedSize(availableSize.width(),
+                                  availableSize.height() - h1);
     rPVP2->show();
 }
 /**
