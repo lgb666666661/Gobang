@@ -30,6 +30,7 @@ set(PROJECT_SOURCES
         res.qrc
         replaywindow.cpp replaywindow.h replaywindow.ui
         open_local_pvp_dialog.h open_local_pvp_dialog.cpp open_local_pvp_dialog.ui
+        logo.rc
         )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
