@@ -22,6 +22,14 @@ Chessboard_Remote_PVP_Abstract::~Chessboard_Remote_PVP_Abstract() {
     delete time;
 }
 
+void Chessboard_Remote_PVP_Abstract::resizeEvent(QResizeEvent *event) {
+    rescale();
+
+
+
+    update();
+}
+
 Chessboard_Remote_PVP_Abstract::Chessboard_Remote_PVP_Abstract(Chess_color color,
                                                                QWidget *parent, int new_game_mode)
         : ChessBoard(parent, new_game_mode),

@@ -135,6 +135,8 @@ private:
     virtual void startMessage() = 0;
     ///@brief 调用@ref TcpAbstract::stop()
     virtual void exit() = 0;
+protected:
+    void resizeEvent(QResizeEvent *event) override; ///< 缩放事件
 };
 
 ///@class Chessboard_Remote_PVP_Server

@@ -35,6 +35,7 @@ public:
                                   int new_game_mode = 0);
     ~chessboard_fupan() override;
     void mousePressEvent(QMouseEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override; ///< 缩放事件
 
     Ui::chessboard_fupan *ui;
     static void save_data(const vector<Chess>& chess_data,const QString &win_message);//把对局数据保存到文件中

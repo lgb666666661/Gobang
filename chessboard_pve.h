@@ -42,6 +42,7 @@ class chessboard_pve : public ChessBoard
      * @brief 本地PVP对局中的鼠标点击事件。
      */
     void mousePressEvent(QMouseEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
     Ui::chessboard_pve *ui;
     //int last_x,last_y;

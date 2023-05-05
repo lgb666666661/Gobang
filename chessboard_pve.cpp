@@ -19,6 +19,10 @@ chessboard_pve::chessboard_pve(QWidget *parent, int new_game_mode) :
                                                                                  ui(new Ui::chessboard_pve)
 {
     ui->setupUi(this);
+
+    rescale();
+
+
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
 }
@@ -219,6 +223,14 @@ void chessboard_pve::easyai(int last_x,int last_y)
 
 
 }
+
+void chessboard_pve::resizeEvent(QResizeEvent *event) {
+    rescale();
+    this->ui->pushButton->move({STARTX + 20*GRIDSIZE, STARTY+5*GRIDSIZE});
+    this->ui->pushButton_2->move({STARTX + 20*GRIDSIZE, STARTY+8*GRIDSIZE});
+    update();
+}
+
 void chessboard_pve::mousePressEvent(QMouseEvent *event) {
      if(nearx >= 0 && neary >= 0) {  /// 若预选落点没有在棋盘内，退出
         int x=nearx,y=neary;

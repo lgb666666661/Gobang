@@ -26,11 +26,7 @@ chessboard_fupan::chessboard_fupan(QWidget *parent, int new_game_mode) :
     ui->setupUi(this);
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
-    this->ui->next->move({STARTX + 37*GRIDSIZE, STARTY+14*GRIDSIZE});
-    this->ui->last->move({STARTX + 37*GRIDSIZE, STARTY+18*GRIDSIZE});
-    this->ui->winInfo->move({STARTX + 37*GRIDSIZE, STARTY+10*GRIDSIZE});
-    this->ui->label->move({STARTX + 37*GRIDSIZE, STARTY+21*GRIDSIZE});
-    this->ui->progressBar->move({STARTX + 37*GRIDSIZE, STARTY+22*GRIDSIZE});
+
     connect(this->ui->next, &QPushButton::clicked, this, &chessboard_fupan::next);
     connect(this->ui->last, &QPushButton::clicked, this, &chessboard_fupan::last);
 
@@ -41,6 +37,16 @@ chessboard_fupan::chessboard_fupan(QWidget *parent, int new_game_mode) :
 
 void chessboard_fupan::mousePressEvent(QMouseEvent *event) {
 
+}
+
+void chessboard_fupan::resizeEvent(QResizeEvent *event) {
+    rescale();
+    this->ui->winInfo->move({STARTX + 20*GRIDSIZE, STARTY+3*GRIDSIZE});
+    this->ui->next->move({STARTX + 20*GRIDSIZE, STARTY+5*GRIDSIZE});
+    this->ui->last->move({STARTX + 20*GRIDSIZE, STARTY+7*GRIDSIZE});
+    this->ui->label->move({STARTX + 20*GRIDSIZE, STARTY+9*GRIDSIZE});
+    this->ui->progressBar->move({STARTX + 20*GRIDSIZE, STARTY+int(9.5*GRIDSIZE)});
+    update();
 }
 
 chessboard_fupan::~chessboard_fupan() {
