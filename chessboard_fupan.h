@@ -1,17 +1,17 @@
-#ifndef CHESSBOARD_LOCAL_PVP_H
-#define CHESSBOARD_LOCAL_PVP_H
+#ifndef chessboard_fupan_H
+#define chessboard_fupan_H
 #include "chessboard.h"
-#include "chessboard_fupan.h"
+
 #include <QMainWindow>
 
 namespace Ui {
-class Chessboard_Local_PVP;
+class chessboard_fupan;
 }
 
 /**
  * @brief 本地双人对战的棋盘类
  */
-class Chessboard_Local_PVP : public ChessBoard
+class chessboard_fupan : public ChessBoard
 {
     Q_OBJECT
 
@@ -20,7 +20,7 @@ class Chessboard_Local_PVP : public ChessBoard
      * @brief 无参构造函数。
      * 一般不使用，应该使用带new_game_mode的构造函数指定对局类型。
      */
-    explicit Chessboard_Local_PVP(QWidget *parent = nullptr);
+    explicit chessboard_fupan(QWidget *parent = nullptr);
     /**
      * @brief 可以指定有无禁手的构造函数。
      * @param parent
@@ -30,27 +30,19 @@ class Chessboard_Local_PVP : public ChessBoard
      * 见 @ref game_mode
      * @return 构造一个 @ref game_mode = new_game_mode的新对象
      */
-    explicit Chessboard_Local_PVP(QWidget *parent = nullptr,
+    explicit chessboard_fupan(QWidget *parent = nullptr,
                                   int new_game_mode = 0);
-    ~Chessboard_Local_PVP();
-
-    /**
-     * @brief 本地PVP对局中的鼠标点击事件。
-     */
+    ~chessboard_fupan();
     void mousePressEvent(QMouseEvent *event);
-
-    void resizeEvent(QResizeEvent *event) override; ///< 缩放事件
-
-    void closeEvent(QCloseEvent *event) override;  ///< 关闭事件
-
-    Ui::Chessboard_Local_PVP *ui;
-signals:
-    void back_from_local_pvp();
-private slots:
+    int i=0;
+    Ui::chessboard_fupan *ui;
+    void save_date(vector<Chess> chess_data);//把对局数据保存到文件中
+    vector<Chess> show_fupan();//把对局复盘展示
+    int count=0;
+   private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
-    void on_pushButton_3_clicked();
 };
 
-#endif // CHESSBOARD_LOCAL_PVP_H
+#endif // chessboard_fupan_H
 

@@ -63,6 +63,8 @@ public:
     void clear(); ///< 清空棋盘 @return 重置所有信息
     int get_game_status() {return game_status;} ///< 得到对局状态 @return @ref game_status
     void change_turn(); ///< 交换行棋权 @return 改变 @ref turn
+    void rescale(); ///< 缩放
+    void save_data(vector<Chess> chess_data);
 
     /**
      * @brief 设置对棋盘的控制权限
@@ -82,14 +84,17 @@ public:
     // 落子
     void mousePressEvent(QMouseEvent *event) override =0;
 
+
+
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
 protected:
     Ui::ChessBoard *ui;
     // 超参数
-    int STARTX = this->height()/16;
-    int STARTY = this->height()/16;
+    int STARTX = 1.2 * this->height()/16;
+    int STARTY = 1.2 * this->height()/16;
     int GRIDSIZE = this->height()/16;
     int CHESSR = GRIDSIZE / 2 * 0.9; // 棋子半径
     int HINTR = GRIDSIZE / 8; // 落点提示半径
@@ -156,6 +161,9 @@ protected:
      * 2 不能进行任何操作\n
      */
     int restrict_level = 0;
+
+    // 美化
+    QImage img1, img2, img3;
 };
 
 #endif // CHESSBOARD_H

@@ -10,6 +10,7 @@
 #include "chessboard.h"
 #include "ui_chessboard.h"
 #include "ui_gameover.h"
+#include <fstream>
 
 /**
  * @brief 无参构造函数。
@@ -21,6 +22,11 @@ ChessBoard::ChessBoard(QWidget *parent) :
     ui(new Ui::ChessBoard)
 {
     ui->setupUi(this);
+
+    setWindowFlags(Qt::CustomizeWindowHint|
+                   Qt::WindowCloseButtonHint|
+                   Qt::WindowMinimizeButtonHint);
+
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
     qDebug() << this->centralWidget()->hasMouseTracking();
@@ -29,6 +35,10 @@ ChessBoard::ChessBoard(QWidget *parent) :
     this->game_mode = 0;
     this->game_status = NOBODY_WINS;
     this->restrict_level = 0;
+    // 加载图片
+    img1 = QImage(":/resources/chessboard_inner.png");
+    img2 = QImage(":/resources/welcome.jpg");
+    img3 = QImage(":/resources/chessboard.png");
     // 画棋盘
     update();
 }
@@ -43,6 +53,15 @@ ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     ui(new Ui::ChessBoard)
 {
     ui->setupUi(this);
+
+    setWindowFlags(Qt::CustomizeWindowHint|
+                   Qt::WindowCloseButtonHint|
+                   Qt::WindowMinimizeButtonHint);
+//    this->showMaximized();
+//    int w = this->geometry().width();
+//    int h = this->geometry().height();
+//    this->setFixedSize(w, h);
+
     this->centralWidget()->setMouseTracking(true);
     this->setMouseTracking(true);
     qDebug() << this->centralWidget()->hasMouseTracking();
@@ -51,6 +70,10 @@ ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     this->game_mode = new_game_mode;
     this->game_status = NOBODY_WINS;
     this->restrict_level = 0;
+    // 加载图片
+    img1 = QImage(":/resources/chessboard_inner.png");
+    img2 = QImage(":/resources/welcome.jpg");
+    img3 = QImage(":/resources/chessboard.png");
     // 画棋盘
     update();
 }
@@ -99,6 +122,18 @@ void ChessBoard::clear() { // 清空
     _checkStatus();
     update();
     turn = BLACK;
+}
+
+void ChessBoard::save_data(vector<Chess> chess_data)//把对局数据保存到文件中
+{
+    ofstream ofs;
+    ofs.open("fupandata.txt",ios::out|ios::trunc);//文件写，如果存在则清空再写；
+    int len=chess_data.size();
+    for(int i=0;i<len;i++)
+    {
+        ofs<<chess_data[i].color<<" "<<chess_data[i].x<<" "<<chess_data[i].y<<endl;
+    }
+    ofs.close();
 }
 
 void ChessBoard::_checkStatus() { // 检查当前对局状态
@@ -463,14 +498,32 @@ int ChessBoard::__getCnt(int x, int y, const Point& dir, int depth){
 
 // 刷新
 void ChessBoard::paintEvent(QPaintEvent *) {
+
+    int window_w = this->geometry().width();
+    int window_h = this->geometry().height();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    for(int i = 0; i < 15; i++) {
-        painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
-                         STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
-        painter.drawLine(STARTX, STARTY + i * GRIDSIZE,
-                         STARTX + 14 * GRIDSIZE, STARTY + i * GRIDSIZE);
-    }
+    // 画图片
+    // 背景
+    QRectF boarder2(0, 0, window_w, window_h);
+    painter.drawImage(boarder2, img2);
+    // 棋盘外层
+    int tmp = 0.5 * GRIDSIZE;
+    QRectF boarder3(STARTX - tmp,
+                    STARTY - tmp,
+                    14 * GRIDSIZE + 2 * tmp,
+                    14 * GRIDSIZE + 2 * tmp);
+    painter.drawImage(boarder3, img3);
+    // 棋盘内层
+    QRectF boarder1(STARTX, STARTY, 14 * GRIDSIZE, 14 * GRIDSIZE);
+    painter.drawImage(boarder1, img1);
+//    for(int i = 0; i < 15; i++) {
+//        painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
+//                         STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
+//        painter.drawLine(STARTX, STARTY + i * GRIDSIZE,
+//                         STARTX + 14 * GRIDSIZE, STARTY + i * GRIDSIZE);
+//    }
+
     for(int i = 0; i < 15; i++) {
         for(int j = 0; j < 15; j++) {
             if(chessboard[i][j] == BLACK) {
@@ -520,7 +573,7 @@ void ChessBoard::paintEvent(QPaintEvent *) {
 void ChessBoard::mouseMoveEvent(QMouseEvent *event) {
     if(restrict_level == 2) return;
 
-//    qDebug() << event->pos();
+    qDebug() << event->pos();
     int curx = event->pos().x();
     int cury = event->pos().y();
 
@@ -552,14 +605,16 @@ void ChessBoard::set_restrict_level(int level) {
     restrict_level = level;
 }
 
-void ChessBoard::resizeEvent(QResizeEvent *event) {
-    STARTX = this->height() / 16;
-    STARTY = this->height() / 16;
+void ChessBoard::rescale() {
+    STARTX = 1.2 * this->height() / 16;
+    STARTY = 1.2 * this->height() / 16;
     GRIDSIZE = this->height() / 16;
     CHESSR = GRIDSIZE / 2 * 0.9;
     HINTR = GRIDSIZE / 8;
     HINTR2 = GRIDSIZE / 9;
-    this->update();
 }
 
-
+void ChessBoard::resizeEvent(QResizeEvent *event) {
+    rescale();
+    this->update();
+}

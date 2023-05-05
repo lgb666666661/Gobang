@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/welcome.jpg</file>
+        <file>resources/chessboard_inner.png</file>
+        <file>resources/test.png</file>
+        <file>resources/chessboard.png</file>
+        <file>resources/stylesheet.css</file>
+        <file>resources/dialog_style.css</file>
+    </qresource>
+</RCC>
