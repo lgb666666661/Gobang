@@ -129,6 +129,8 @@ void OpenHouseDialog::on_okButton_clicked()
     rand=QRandomGenerator::global()->bounded(1.0);
     sendBroadcast(rand);
     time->start(1000);
+    QMessageBox::information(this,"提示框","创建房间成功，等待进入房间！",QMessageBox::Ok);
+    ui->okButton->setDisabled(true);
 }
 /**
  * @brief OpenHouseDialog::upsenddata
