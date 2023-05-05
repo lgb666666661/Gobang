@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>选项</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">

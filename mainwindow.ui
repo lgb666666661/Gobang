@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>主菜单</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-image:rgb(85, 255, 127)</string>

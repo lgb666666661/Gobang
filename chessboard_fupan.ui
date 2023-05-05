@@ -2,8 +2,16 @@
 <ui version="4.0">
  <class>chessboard_fupan</class>
  <widget class="QWidget" name="chessboard_fupan">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>700</height>
+   </rect>
+  </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>复盘</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">

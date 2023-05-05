@@ -163,7 +163,7 @@ protected:
     int restrict_level = 0;
 
     // 美化
-    QImage img1, img2, img3;
+    QImage img1, img2, img3, img4;
 };
 
 #endif // CHESSBOARD_H

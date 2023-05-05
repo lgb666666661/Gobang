@@ -6,5 +6,8 @@
         <file>resources/chessboard.png</file>
         <file>resources/stylesheet.css</file>
         <file>resources/dialog_style.css</file>
+        <file>resources/wuziqi.png</file>
+        <file>resources/dialogIcon.png</file>
+        <file>resources/appIcon.jpeg</file>
     </qresource>
 </RCC>

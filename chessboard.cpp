@@ -39,6 +39,7 @@ ChessBoard::ChessBoard(QWidget *parent) :
     img1 = QImage(":/resources/chessboard_inner.png");
     img2 = QImage(":/resources/welcome.jpg");
     img3 = QImage(":/resources/chessboard.png");
+    img4 = QImage(":/resources/wuziqi.png");
     // 画棋盘
     update();
 }
@@ -74,6 +75,7 @@ ChessBoard::ChessBoard(QWidget *parent, int new_game_mode) :
     img1 = QImage(":/resources/chessboard_inner.png");
     img2 = QImage(":/resources/welcome.jpg");
     img3 = QImage(":/resources/chessboard.png");
+    img4 = QImage(":/resources/wuziqi.png");
     // 画棋盘
     update();
 }
@@ -517,6 +519,10 @@ void ChessBoard::paintEvent(QPaintEvent *) {
     // 棋盘内层
     QRectF boarder1(STARTX, STARTY, 14 * GRIDSIZE, 14 * GRIDSIZE);
     painter.drawImage(boarder1, img1);
+    // "五子棋"logo
+    QRectF boarder4(STARTX + 17 * GRIDSIZE, STARTY - GRIDSIZE,
+                    7 * GRIDSIZE, 5 * GRIDSIZE);
+    painter.drawImage(boarder4, img4);
 //    for(int i = 0; i < 15; i++) {
 //        painter.drawLine(STARTX + i * GRIDSIZE, STARTY,
 //                         STARTX + i * GRIDSIZE, STARTY + 14 * GRIDSIZE);
