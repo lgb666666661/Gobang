@@ -2,11 +2,19 @@
 
 #include "ui_netwindow.h"
 
-NetWindow::NetWindow(QWidget *parent) : QWidget(parent), ui(new Ui::NetWindow) {
+NetWindow::NetWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::NetWindow) {
     for (auto sq : QNetworkInterface::allAddresses()) {
         address.push_back(convert_to_ipv4_addr(sq));
     }
     ui->setupUi(this);
+
+    QString strQss =
+        getQssString(QString(":/resources"
+                             "/netwindow.css"));
+//    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setStyleSheet(strQss);
+
+
     receiveBroadcast();
     connect(&listenSocket, &QUdpSocket::readyRead, [this]() {
         do {

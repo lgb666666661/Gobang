@@ -13,8 +13,12 @@ QMainWindow QPushButton:hover {
 QMainWindow QPushButton:disabled {
     background-color: rgba(161, 155, 144, 0.862);
 }
-QTestEdit {
+/* QTestEdit {
     background-color: #fdcb6e;
+} */
+
+QTestEdit {
+    background-color: rgba(253, 203, 110. 0.3);
 }
 
 QGroupBox {

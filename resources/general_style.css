@@ -1,0 +1,21 @@
+QWidget QPushButton {
+    background-color: #f6b93b;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+QWidget QPushButton:hover {
+    background-color: rgba(253, 203, 110, 0.8);
+}
+
+QWidget QPushButton:disabled {
+    background-color: rgba(161, 155, 144, 0.862);
+}
+
+QWidget QLabel {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "楷体";
+}

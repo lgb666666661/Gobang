@@ -19,6 +19,13 @@
 ReplayWindow::ReplayWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::ReplayWindow) {
     ui->setupUi(this);
+
+    QString strQss =
+        getQssString(QString(":/resources"
+                             "/dialog_style.css"));
+//    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setStyleSheet(strQss);
+
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     load();
     connect(ui->listView, &QListView::clicked,
@@ -70,9 +77,5 @@ void ReplayWindow::select(int index) {
     fupan->move({0, 0});
     int h1 = fupan->geometry().y();
     fupan->setFixedSize(availableSize.width(), availableSize.height() - h1);
-    QString strQss =
-        getQssString(QString(":/resources"
-                             "/stylesheet.css"));
-    fupan->setStyleSheet(strQss);
     fupan->show();
 }

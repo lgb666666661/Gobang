@@ -24,7 +24,7 @@ class NetWindow;
  * @brief 接收信号类，可以选择房间加入
  */
 
-class NetWindow : public QWidget {
+class NetWindow : public QMainWindow {
     Q_OBJECT
 
    public:

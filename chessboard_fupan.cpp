@@ -22,6 +22,12 @@ chessboard_fupan::chessboard_fupan(QWidget *parent)
 chessboard_fupan::chessboard_fupan(QWidget *parent, int new_game_mode)
     : ChessBoard(parent, new_game_mode), ui(new Ui::chessboard_fupan) {
     ui->setupUi(this);
+
+    QString strQss =
+        getQssString(QString(":/resources"
+                             "/stylesheet.css"));
+    this->setStyleSheet(strQss);
+
     this->setWindowIcon(QIcon(":/resources/dialogIcon.ico"));
 
     this->centralWidget()->setMouseTracking(true);

@@ -6,6 +6,12 @@
 Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent)
     : ChessBoard(parent, 0), ui(new Ui::Chessboard_Local_PVP) {
     ui->setupUi(this);
+
+    QString strQss =
+        getQssString(QString(":/resources"
+                             "/stylesheet.css"));
+    this->setStyleSheet(strQss);
+
     rescale();
     this->ui->pushButton->move({STARTX + 20 * GRIDSIZE, STARTY + 4 * GRIDSIZE});
     this->ui->pushButton_2->move(
@@ -20,6 +26,11 @@ Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent)
 Chessboard_Local_PVP::Chessboard_Local_PVP(QWidget *parent, int new_game_mode)
     : ChessBoard(parent, new_game_mode), ui(new Ui::Chessboard_Local_PVP) {
     ui->setupUi(this);
+
+    QString strQss =
+        getQssString(QString(":/resources"
+                             "/stylesheet.css"));
+    this->setStyleSheet(strQss);
 
     this->setWindowIcon(QIcon(":/resources/dialogIcon.ico"));
     rescale();

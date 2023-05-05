@@ -1,0 +1,30 @@
+
+QMainWindow {
+    border-image:url(:/resources/welcome1.jpg);
+    background-repeat:no-repeat;
+}
+
+
+QPushButton {
+    background-color: rgba(246, 185, 59, 0.5);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-family: "楷体";
+}
+
+QPushButton:hover {
+    background-color: #fdcb6e;
+}
+
+QComboBox {
+    background-color: #fdcb6e;
+}
+
+QLabel {
+    color: #222f3e;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "楷体";
+}
