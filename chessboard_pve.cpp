@@ -204,28 +204,34 @@ void chessboard_pve::easyai(int last_x, int last_y) {
         int my_x = record[Size - 2].x;
         int my_y = record[Size - 2].y;
 
-        for (int i = 0; i < 8; i++) {  // 遍历八个方向，检测自己是否有连四
-            int x = my_x + dx[i];
-            int y = my_y + dy[i];
+        for(int k = 1;k < 6;k++){
+            for (int i = 0; i < 8; i++) {  // 遍历八个方向，检测自己是否有连四
+                int x = my_x + k*dx[i];
+                int y = my_y + k*dy[i];
 
-            if (x >= 0 && x < 15 && y >= 0 && y < 15 &&
-                chessboard[x][y] == 0) {  // 如果该位置为空位
-                int cnt = 0;
-                for (int j = -4; j < 0; j++) {  // 沿着该方向判断
+                if (x >= 0 && x < 15 && y >= 0 && y < 15 &&
+                    chessboard[x][y] == 0) {  // 如果该位置为空位
+                    int cnt = 0;
+                    for (int j = -4; j < 0; j++) {  // 沿着该方向判断
 
-                    int nx = x + j * dx[i];
-                    int ny = y + j * dy[i];
+                        int nx = x + j * dx[i];
+                        int ny = y + j * dy[i];
 
-                    if (nx >= 0 && nx < 15 && ny >= 0 && ny < 15) {
-                        if (chessboard[nx][ny] == -1)
-                            cnt++;
-                        else
-                            cnt = 0;
+                        if (nx >= 0 && nx < 15 && ny >= 0 && ny < 15) {
+                            if (chessboard[nx][ny] == -1)
+                                cnt++;
+                            else
+                                cnt = 0;
+                        }
+
+                        if (cnt == 4){
+                            chess({x, y}, -1);
+                            return;
+                        }
                     }
-
-                    if (cnt == 4) chess({x, y}, -1);
                 }
             }
+
         }
     }
 
