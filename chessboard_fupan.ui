@@ -1,106 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>chessboard_fupan</class>
-    <widget class="QWidget" name="chessboard_fupan">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>1448</width>
-                <height>735</height>
-            </rect>
-        </property>
-        <property name="windowTitle">
-            <string>复盘</string>
-        </property>
-        <widget class="QWidget" name="widget_2" native="true">
-            <property name="geometry">
-                <rect>
-                    <x>-10</x>
-                    <y>-60</y>
-                    <width>1451</width>
-                    <height>781</height>
-                </rect>
-            </property>
-            <widget class="QPushButton" name="last">
-                <property name="geometry">
-                    <rect>
-                        <x>1220</x>
-                        <y>360</y>
-                        <width>80</width>
-                        <height>30</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>上一步</string>
-                </property>
-            </widget>
-            <widget class="QPushButton" name="next">
-                <property name="geometry">
-                    <rect>
-                        <x>1330</x>
-                        <y>360</y>
-                        <width>80</width>
-                        <height>30</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>下一步</string>
-                </property>
-            </widget>
-            <widget class="QLabel" name="winInfo">
-                <property name="geometry">
-                    <rect>
-                        <x>990</x>
-                        <y>180</y>
-                        <width>421</width>
-                        <height>111</height>
-                    </rect>
-                </property>
-                <property name="font">
-                    <font>
-                        <family>楷体</family>
-                        <pointsize>28</pointsize>
-                    </font>
-                </property>
-                <property name="text">
-                    <string>winInfo</string>
-                </property>
-            </widget>
-            <widget class="QProgressBar" name="progressBar">
-                <property name="geometry">
-                    <rect>
-                        <x>1230</x>
-                        <y>480</y>
-                        <width>171</width>
-                        <height>41</height>
-                    </rect>
-                </property>
-                <property name="value">
-                    <number>24</number>
-                </property>
-            </widget>
-            <widget class="QLabel" name="label">
-                <property name="geometry">
-                    <rect>
-                        <x>1230</x>
-                        <y>450</y>
-                        <width>61</width>
-                        <height>21</height>
-                    </rect>
-                </property>
-                <property name="font">
-                    <font>
-                        <family>楷体</family>
-                        <pointsize>11</pointsize>
-                    </font>
-                </property>
-                <property name="text">
-                    <string>进度</string>
-                </property>
-            </widget>
-        </widget>
-    </widget>
-    <resources/>
-    <connections/>
+ <class>chessboard_fupan</class>
+ <widget class="QWidget" name="chessboard_fupan">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1532</width>
+    <height>735</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>复盘</string>
+  </property>
+  <widget class="QWidget" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>-60</y>
+     <width>1541</width>
+     <height>781</height>
+    </rect>
+   </property>
+   <widget class="QPushButton" name="last">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>360</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>上一步</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="next">
+    <property name="geometry">
+     <rect>
+      <x>1330</x>
+      <y>360</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>下一步</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="winInfo">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>180</y>
+      <width>421</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>楷体</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>winInfo</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>1230</x>
+      <y>480</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QProgressBar {   border: 2px solid grey;   border-radius: 5px; }QProgressBar::chunk {   background-color: rgba(253,203,110,0.9);   width: 20px;}QProgressBar {   border: 2px solid grey;   border-radius: 5px;   text-align: center;}</string>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>1230</x>
+      <y>450</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>楷体</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>进度</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>
