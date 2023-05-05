@@ -53,7 +53,7 @@ void chessboard_fupan::save_data(const vector<Chess> &chess_data, const QString 
         filesystem::create_directory("./data");
     }
     QFile file{"./data/data.json"};
-    if (!file.open(QIODevice::ReadOnly)) {
+    if (!file.open(QIODevice::ReadWrite)) {
         return;
     }
     QJsonArray objectArray;
