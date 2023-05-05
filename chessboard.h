@@ -64,7 +64,6 @@ public:
     int get_game_status() {return game_status;} ///< 得到对局状态 @return @ref game_status
     void change_turn(); ///< 交换行棋权 @return 改变 @ref turn
     void rescale(); ///< 缩放
-    void save_data(vector<Chess> chess_data);
 
     /**
      * @brief 设置对棋盘的控制权限

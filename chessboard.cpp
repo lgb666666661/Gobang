@@ -126,18 +126,6 @@ void ChessBoard::clear() { // 清空
     turn = BLACK;
 }
 
-void ChessBoard::save_data(vector<Chess> chess_data)//把对局数据保存到文件中
-{
-    ofstream ofs;
-    ofs.open("fupandata.txt",ios::out|ios::trunc);//文件写，如果存在则清空再写；
-    int len=chess_data.size();
-    for(int i=0;i<len;i++)
-    {
-        ofs<<chess_data[i].color<<" "<<chess_data[i].x<<" "<<chess_data[i].y<<endl;
-    }
-    ofs.close();
-}
-
 void ChessBoard::_checkStatus() { // 检查当前对局状态
     if(game_mode == 0) __checkStatus1();
     else __checkStatus2();
@@ -612,9 +600,11 @@ void ChessBoard::set_restrict_level(int level) {
 }
 
 void ChessBoard::rescale() {
+    qDebug() << "window height = " << this->height();
     STARTX = 1.2 * this->height() / 16;
     STARTY = 1.2 * this->height() / 16;
     GRIDSIZE = this->height() / 16;
+    qDebug() << "GRIDSIZE = " << GRIDSIZE;
     CHESSR = GRIDSIZE / 2 * 0.9;
     HINTR = GRIDSIZE / 8;
     HINTR2 = GRIDSIZE / 9;
