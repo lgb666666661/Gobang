@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <functional>
 
+#include "TcpAbstract.h"
 #include "TcpClient.h"
 #include "TcpServer.h"
 #include "chessboard.h"
@@ -151,7 +152,7 @@ class Chessboard_Remote_PVP_Abstract : public ChessBoard {
 class Chessboard_Remote_PVP_Server : public Chessboard_Remote_PVP_Abstract {
    protected:
    private:
-    TcpServer *server = nullptr;  ///< Tcp服务器
+    TcpAbstract *server = nullptr;  ///< Tcp服务器
     ///@brief 初始化服务器与棋盘类的信号连接
     void initNetWork();
     ///@brief 打印开局信息 @see Chessboard_Remote_PVP_Abstract::startMessage()
@@ -183,7 +184,7 @@ class Chessboard_Remote_PVP_Server : public Chessboard_Remote_PVP_Abstract {
 class Chessboard_Remote_PVP_Client : public Chessboard_Remote_PVP_Abstract {
    protected:
    private:
-    TcpClient *client = nullptr;  ///< Tcp客户端
+    TcpAbstract *client = nullptr;  ///< Tcp客户端
     QHostAddress hostAddress;     ///< Tcp服务器的ip地址
     int port;                     ///< Tcp服务器的端口号
     ///@brief 初始化服务器与棋盘类的信号连接

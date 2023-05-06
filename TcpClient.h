@@ -26,6 +26,7 @@ class TcpClient : public TcpAbstract {
     ///@note 这是主动断开连接不会触发重连
     void stop() override;
 
+    int getServerPort() override{ return socketPort; }
     ///@brief 向对方发送信息
     ///@param s JSON格式信息
     bool send(const QString &s) override;

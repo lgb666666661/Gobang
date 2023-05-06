@@ -63,7 +63,7 @@ bool TcpServer::send(const QString &s) {
     return false;
 }
 
-int TcpServer::getPort() const { return port; }
+int TcpServer::getServerPort() {return port;}
 
 void TcpServer::stop() {
     QJsonObject object;

@@ -28,7 +28,7 @@ class TcpServer : public TcpAbstract {
     void stop() override;
 
     ///@brief 得到服务器启动的端口号
-    int getPort() const;
+    int getServerPort() override;
     ///@brief 向对方发送信息
     ///@param s JSON格式信息
     bool send(const QString &s) override;

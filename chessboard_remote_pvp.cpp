@@ -444,7 +444,7 @@ Chessboard_Remote_PVP_Server::Chessboard_Remote_PVP_Server(Chess_color color,
     initNetWork();
 }
 
-int Chessboard_Remote_PVP_Server::getPort() { return server->getPort(); }
+int Chessboard_Remote_PVP_Server::getPort() { return server->getServerPort(); }
 
 void Chessboard_Remote_PVP_Server::startMessage() {
     if (!isReconnected) {

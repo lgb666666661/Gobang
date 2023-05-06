@@ -102,6 +102,8 @@ class TcpAbstract : public QObject {
     ///@brief 主动停止服务器/客户端,会调用setActiveExit,不会触发重连
     virtual void stop() = 0;
 
+    virtual int getServerPort()=0;
+
     /// @brief 设置是自己主动结束的,使重连不被触发
     void setActiveExit() { isActiveExit = true; }
 
